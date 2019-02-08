@@ -20,7 +20,7 @@ var (
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:    "deploy <symbol> <name> <decimals>",
+		Use:    "deploy <name> <symbol> <decimals>",
 		Short:  "Deploys a new t0ken contract",
 		Args:   cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc(2, 8)),
 		PreRun: cli.ConnectWithKeyStore,
