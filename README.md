@@ -33,8 +33,8 @@ url: http://some_ethereum_node_url:8545
 t0ken: 0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78
 ```
 
-A more extensive configuration, which includes keystore addresses when performing transactions.
-The `keystoreAddressAliases` section allows you to alias an address by name:
+A more extensive configuration, including keystore addresses for performing transactions, and
+a `keystoreAddressAliases` section allowing you to alias addresses by name:
 
 eg.
 ```sh
@@ -55,7 +55,7 @@ t0ken: 0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78
 ```
 
 ## License
-This project is licensed under the [Apache 2.0][apache 2.0] license.
+This project is licensed under the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) license.
 
 ## Links
  - [tZERO's Website](https://www.tzero.com/)
