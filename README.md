@@ -17,7 +17,7 @@ To build from source, you'll want to have [Go](https://golang.org/) 1.11.5+ inst
 Next, you should be able to do a `go install`:
 
 ```bash
-% go install github.com/tzero-dev/go-t0ken/cmd/t0ken
+% go get github.com/tzero-dev/go-t0ken/...
 ```
 
 ## License
