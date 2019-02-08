@@ -11,9 +11,9 @@ but don't want to spend a lot of ramp up time with all of the related tooling.
 
 ## Installation
 
-Download a binary for your OS from the [releases]{https://github.com/tZERO-dev/go-t0ken/releases} page, and place the binary somewhere within your path.
+Download a binary for your OS from the [releases](https://github.com/tZERO-dev/go-t0ken/releases) page, and place the binary somewhere within your path.
 
-To build from source, you'll want to have [Go]{https://golang.org/} 1.11.5+ installed.  
+To build from source, you'll want to have [Go](https://golang.org/) 1.11.5+ installed.  
 Next, you should be able to do a `go install`:
 
 ```bash
