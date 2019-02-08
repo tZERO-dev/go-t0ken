@@ -26,12 +26,12 @@ var (
 		PreRun: cli.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Get the token data args
-			symbol := args[0]
-			name := args[1]
+			name := args[0]
+			symbol := args[1]
 			decimals, err := strconv.ParseInt(args[2], 10, 8)
 
 			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := erc20.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, symbol, name, uint8(decimals))
+			addr, tx, _, err := erc20.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransaction(cmd, tx)
