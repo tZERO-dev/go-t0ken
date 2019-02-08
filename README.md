@@ -20,6 +20,40 @@ Next, you should be able to do a `go install`:
 % go get github.com/tzero-dev/go-t0ken/...
 ```
 
+## Configuration
+
+To avoid passing in repetitious flags for your Ethereum node URL, contract address, etc., you can place them
+into `t0ken.yaml`, which will be read from `CWD` for each run.
+
+
+Here's a minimal configuration:
+
+```yaml
+url: http://some_ethereum_node_url:8545
+t0ken: 0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78
+```
+
+A more extensive configuration, which includes keystore addresses when performing transactions.
+The `keystoreAddressAliases` section allows you to alias an address by name:
+
+eg.
+```sh
+% t0ken token issueTokens 500 --keystoreAddress 0x0000000000000000000000000000000000000000
+  becomes
+% t0ken token issueTokens 500 --keystoreAddress issuer
+```
+
+```yaml
+url: http://some_ethereum_node_url:8545
+keystore: ./keystore
+keystoreAddress: 0x0000000000000000000000000000000000000000
+keystoreAddressAliases:
+  issuer: 0x0000000000000000000000000000000000000000
+  owner: 0x0000000000000000000000000000000000000000
+
+t0ken: 0x5bd5B4e1a2c9B12812795E7217201B78C8C10b78
+```
+
 ## License
 This project is licensed under the [Apache 2.0][apache 2.0] license.
 
