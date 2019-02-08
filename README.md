@@ -16,7 +16,7 @@ Download a binary for your OS from the [releases]{https://github.com/tZERO-dev/g
 To build from source, you'll want to have [Go]{https://golang.org/} 1.11.5+ installed.  
 Next, you should be able to do a `go install`:
 
-```golang
+```bash
 % go install github.com/tzero-dev/go-t0ken/cmd/t0ken
 ```
 
