@@ -1,8 +1,6 @@
-package token
+package custodian
 
 import (
-	"strconv"
-
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
@@ -11,57 +9,52 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	"github.com/tzero-dev/go-t0ken/contracts/registry"
 )
 
 var (
 	Command = &cobra.Command{
-		Use:   "token",
-		Short: "T0ken utilities",
+		Use:   "custodian",
+		Short: "Custodian utilities",
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:    "deploy <name> <symbol> <decimals>",
-		Short:  "Deploys a new t0ken contract",
-		Args:   cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc("decimals", 2, 8)),
+		Use:    "deploy",
+		Short:  "Deploys a new custodian registry contract",
+		Args:   cobra.NoArgs,
 		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
-			// Get the token data args
-			name := args[0]
-			symbol := args[1]
-			decimals, err := strconv.ParseInt(args[2], 10, 8)
-
-			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := erc20.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
+			// Deploy the custodian using for the symbol/name/decimals
+			addr, tx, _, err := registry.DeployCustodian(cli.Conn.Opts, cli.Conn.Client)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransaction(cmd, tx)
 		},
 	}
 
-	contractKey  = "t0ken"
-	callSession  *erc20.T0kenCallerSession
-	transSession *erc20.T0kenTransactorSession
+	contractKey  = "custodianRegistry"
+	callSession  *registry.CustodianCallerSession
+	transSession *registry.CustodianTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return erc20.NewT0kenCaller(addr, caller)
+	return registry.NewCustodianCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return erc20.NewT0kenTransactor(addr, transactor)
+	return registry.NewCustodianTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*erc20.T0kenCaller)
-	callSession = &erc20.T0kenCallerSession{caller, callOpts}
+	caller := o.(*registry.CustodianCaller)
+	callSession = &registry.CustodianCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*erc20.T0kenTransactor)
-	transSession = &erc20.T0kenTransactorSession{transactor, transactOpts}
+	transactor := o.(*registry.CustodianTransactor)
+	transSession = &registry.CustodianTransactorSession{transactor, transactOpts}
 }
 
 func init() {

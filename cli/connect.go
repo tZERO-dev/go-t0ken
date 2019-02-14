@@ -51,3 +51,37 @@ func ConnectWithKeyStore(cmd *cobra.Command, args []string) {
 	}
 	CheckErr(cmd, err)
 }
+
+func NewConnection(cmd *cobra.Command, args []string) (*connection.Connection, error) {
+	url := viper.GetString("url")
+	if url == "" {
+		return nil, errors.New("missing 'url' flag or configuration value")
+	}
+	return connection.New(url)
+}
+
+func NewKeystoreConnection(cmd *cobra.Command, args []string) (*connection.Connection, error) {
+	conn, err := NewConnection(cmd, args)
+	if err != nil {
+		return conn, err
+	}
+
+	keystore, keystoreAddress := viper.GetString("keystore"), viper.GetString("keystoreAddress")
+	if keystore == "" || keystoreAddress == "" {
+		return conn, errors.New("missing one, or both of, 'keystore' and 'keystoreAddress' flags or configuration values")
+	}
+
+	// Get keystore address and password
+	var password string
+	addr, err := getAddress()
+	if err == nil {
+		password, err = console.Stdin.PromptPassword("Password: ")
+	}
+	if err != nil {
+		return conn, err
+	}
+
+	// Set the transactor to the given keystore address/password
+	err = conn.SetTransactorFromKeyStore(addr, password)
+	return conn, err
+}

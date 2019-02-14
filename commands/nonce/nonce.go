@@ -3,9 +3,7 @@ package nonce
 import (
 	"context"
 
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 
 	"github.com/tzero-dev/go-t0ken/cli"
 )
@@ -48,7 +46,9 @@ func Get() (uint64, error) {
 	if nonce > 0 {
 		return nonce, nil
 	}
-	return cli.Conn.PendingNonceAt(context.Background(), common.HexToAddress(viper.GetString("keystoreAddress")))
+	//return cli.Conn.PendingNonceAt(context.Background(), common.HexToAddress(viper.GetString("keystoreAddress")))
+	n, err := cli.Conn.PendingNonceAt(context.Background(), cli.Conn.Opts.From)
+	return n, err
 }
 
 // Flag adds the 'nonce' flag to the given command.

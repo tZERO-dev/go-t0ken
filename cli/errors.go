@@ -1,7 +1,9 @@
 package cli
 
 import (
+	"math/big"
 	"os"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
@@ -28,5 +30,27 @@ func CheckAddressGetter(cmd *cobra.Command) func(common.Address, error) {
 	return func(addr common.Address, err error) {
 		CheckErr(cmd, err)
 		cmd.Println(addr.String())
+	}
+}
+
+func CheckAccreditationGetter(cmd *cobra.Command) func(*big.Int, error) {
+	return func(accreditation *big.Int, err error) {
+		CheckErr(cmd, err)
+		t := time.Unix(accreditation.Int64(), 0).UTC()
+		cmd.Printf(" date: %s\nepoch: %s\n", t, accreditation)
+	}
+}
+
+func CheckCountryGetter(cmd *cobra.Command) func([2]byte, error) {
+	return func(country [2]byte, err error) {
+		CheckErr(cmd, err)
+		cmd.Println(string(country[:]))
+	}
+}
+
+func CheckHashGetter(cmd *cobra.Command) func([32]byte, error) {
+	return func(hash [32]byte, err error) {
+		CheckErr(cmd, err)
+		cmd.Printf("0x%x\n", hash[:])
 	}
 }

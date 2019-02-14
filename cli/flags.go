@@ -4,16 +4,24 @@ import (
 	"errors"
 
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 // FlagOrConfigAddress returns the address of the given flag, when set, or the matching address for the given key, within the config file.
-func FlagOrConfigAddress(flag, configKey string) (common.Address, error) {
-	s := viper.GetString(flag)
+func FlagOrConfigAddress(cmd *cobra.Command, flag, configKey string) (common.Address, error) {
+	// Get the flag or config value
+	s, err := cmd.Flags().GetString(flag)
 	if s == "" {
 		s = viper.GetString(configKey)
 	}
-	err := IsAddress(s)
+	// If neither the flag or config exists, and we have an error
+	if s == "" && err != nil {
+		return common.Address{}, err
+	}
+
+	// Convert to an address
+	err = IsAddress(s)
 	if err != nil {
 		return common.Address{}, err
 	}
