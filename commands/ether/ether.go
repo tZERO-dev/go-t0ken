@@ -23,7 +23,7 @@ var SendCommand = &cobra.Command{
 	Use:    "send <address> <ether>",
 	Short:  "sends an <address> <ether>",
 	PreRun: cli.ConnectWithKeyStore,
-	Args:   cli.ChainArgs(cobra.ExactArgs(2), cli.AddressArgFunc(0), cli.BigFloatArgFunc(1)),
+	Args:   cli.ChainArgs(cobra.ExactArgs(2), cli.AddressArgFunc("address", 0), cli.BigFloatArgFunc("ether", 1)),
 	Run: func(cmd *cobra.Command, args []string) {
 		to := common.HexToAddress(args[0])
 		wei := getAmount(args[1])
@@ -45,7 +45,7 @@ var SendCommand = &cobra.Command{
 
 var BalanceCommand = &cobra.Command{
 	Use:    "balance [address]",
-	Short:  "gets the balance of the <address>",
+	Short:  "gets the balance of the [address]",
 	PreRun: cli.Connect,
 	Args:   cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {

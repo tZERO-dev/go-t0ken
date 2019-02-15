@@ -19,23 +19,28 @@ func PrintTransFn(cmd *cobra.Command) func(*types.Transaction, error) {
 func PrintTransaction(cmd *cobra.Command, tx *types.Transaction) {
 	cost := units.ConvertInt(tx.Cost(), units.Wei, units.Ether)
 	price := units.ConvertInt(tx.GasPrice(), units.Wei, units.Gwei)
+	used := tx.Gas()
+	limit := Conn.Opts.GasLimit
+	limitStr := string(limit)
+	percent := uint64(0)
+	if limit > 0 {
+		percent = used / limit
+	} else {
+		limitStr = "~"
+	}
 
 	cmd.Printf(`
 Transaction: %s
        Cost: %s Ether
-   Gas Used: %d
+  Gas Limit: %s
+   Gas Used: %d (%d%%)
   Gas Price: %s Gwei
       Nonce: %d
 `,
 		tx.Hash().String(),
 		cost.Text('f', 9),
-		tx.Gas(),
+		limitStr,
+		used, percent,
 		price.Text('f', 4),
 		tx.Nonce())
-
-	/*cmd.Println(conn.Opts.GasLimit)
-	data := t.Data()
-	for i := range data {
-		cmd.Print(string(data[i]))
-	}*/
 }

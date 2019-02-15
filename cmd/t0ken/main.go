@@ -7,13 +7,18 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/tzero-dev/go-t0ken/commands/broker"
+	"github.com/tzero-dev/go-t0ken/commands/compliance"
+	"github.com/tzero-dev/go-t0ken/commands/custodian"
 	"github.com/tzero-dev/go-t0ken/commands/ether"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
+	"github.com/tzero-dev/go-t0ken/commands/investor"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
+	"github.com/tzero-dev/go-t0ken/commands/storage"
 	"github.com/tzero-dev/go-t0ken/commands/token"
 )
 
-const VERSION = "0.0.1"
+const VERSION = "0.0.2"
 
 var configFile string
 
@@ -72,10 +77,40 @@ func main() {
 	rootCmd.AddCommand(ether.Command)
 
 	// Token
+	token.Command.AddCommand(token.DeployCommand)
 	token.Command.AddCommand(token.GetterCommands...)
 	token.Command.AddCommand(token.SetterCommands...)
-	token.Command.AddCommand(token.DeployCommand)
 	rootCmd.AddCommand(token.Command)
+
+	// Token-Compliance
+	compliance.Command.AddCommand(compliance.DeployCommand)
+	compliance.Command.AddCommand(compliance.GetterCommands...)
+	compliance.Command.AddCommand(compliance.SetterCommands...)
+	rootCmd.AddCommand(compliance.Command)
+
+	// Registry, Storage
+	storage.Command.AddCommand(storage.DeployCommand)
+	storage.Command.AddCommand(storage.GetterCommands...)
+	storage.Command.AddCommand(storage.SetterCommands...)
+	rootCmd.AddCommand(storage.Command)
+
+	// Registry, Custodian
+	custodian.Command.AddCommand(custodian.DeployCommand)
+	custodian.Command.AddCommand(custodian.GetterCommands...)
+	custodian.Command.AddCommand(custodian.SetterCommands...)
+	rootCmd.AddCommand(custodian.Command)
+
+	// Registry, Broker-Dealer
+	broker.Command.AddCommand(broker.DeployCommand)
+	broker.Command.AddCommand(broker.GetterCommands...)
+	broker.Command.AddCommand(broker.SetterCommands...)
+	rootCmd.AddCommand(broker.Command)
+
+	// Registry, Investor
+	investor.Command.AddCommand(investor.DeployCommand)
+	investor.Command.AddCommand(investor.GetterCommands...)
+	investor.Command.AddCommand(investor.SetterCommands...)
+	rootCmd.AddCommand(investor.Command)
 
 	err := rootCmd.Execute()
 	if err != nil {
