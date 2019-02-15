@@ -21,10 +21,11 @@ var (
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:    "deploy <name> <symbol> <decimals>",
-		Short:  "Deploys a new t0ken contract",
-		Args:   cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc("decimals", 2, 8)),
-		PreRun: connectTransactor,
+		Use:     "deploy <name> <symbol> <decimals>",
+		Short:   "Deploys a new t0ken contract",
+		Example: "t0ken token deploy --keystoreAddress owner",
+		Args:    cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc("decimals", 2, 8)),
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Get the token data args
 			name := args[0]

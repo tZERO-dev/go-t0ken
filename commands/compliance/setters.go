@@ -55,20 +55,22 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "setMaxRules <limit>",
-		Short:  "Sets the maximum number of compliance rules to <limit>",
-		Args:   cli.UintArgFunc("limit", 0, 8),
-		PreRun: connectTransactor,
+		Use:     "setMaxRules <limit>",
+		Short:   "Sets the maximum number of compliance rules to <limit>",
+		Example: "t0ken compliance setMaxRules 25 --keystoreAddress admin",
+		Args:    cli.UintArgFunc("limit", 0, 8),
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			limit, _ := strconv.ParseInt(args[0], 10, 8)
 			cli.PrintTransFn(cmd)(transSession.SetMaxRules(uint8(limit)))
 		},
 	},
 	&cobra.Command{
-		Use:    "setRules <kind> [address args]",
-		Short:  "Sets the <kind> rules to [address args]",
-		Args:   cli.UintArgFunc("kind", 0, 8),
-		PreRun: connectTransactor,
+		Use:     "setRules <kind> [address args]",
+		Short:   "Sets the <kind> rules to [address args]",
+		Example: "t0ken compliance setRules 4 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36--keystoreAddress admin",
+		Args:    cli.UintArgFunc("kind", 0, 8),
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Read in all rule address args
 			var rules []common.Address
@@ -87,10 +89,11 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "setStorage <address>",
-		Short:  "Sets the storage contract to <address>",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectTransactor,
+		Use:     "setStorage <address>",
+		Short:   "Sets the storage contract to <address>",
+		Example: "t0ken compliance setStorage 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.PrintTransFn(cmd)(transSession.SetStorage(addr))

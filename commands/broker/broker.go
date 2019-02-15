@@ -19,10 +19,11 @@ var (
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:    "deploy",
-		Short:  "Deploys a new broker-dealer registry contract",
-		Args:   cobra.NoArgs,
-		PreRun: connectTransactor,
+		Use:     "deploy",
+		Short:   "Deploys a new broker-dealer registry contract",
+		Example: "t0ken broker deploy --keystoreAddress owner",
+		Args:    cobra.NoArgs,
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Deploy the broker-dealer using for the symbol/name/decimals
 			addr, tx, _, err := registry.DeployBrokerDealer(cli.Conn.Opts, cli.Conn.Client)

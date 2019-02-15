@@ -19,10 +19,11 @@ var (
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:    "deploy",
-		Short:  "Deploys a new t0ken-compliance contract",
-		Args:   cobra.NoArgs,
-		PreRun: cli.ConnectWithKeyStore,
+		Use:     "deploy",
+		Short:   "Deploys a new t0ken-compliance contract",
+		Example: "t0ken compliance deploy --keystoreAddress owner",
+		Args:    cobra.NoArgs,
+		PreRun:  cli.ConnectWithKeyStore,
 		// TODO: refactor these deploy funcs into something...
 		Run: func(cmd *cobra.Command, args []string) {
 			// Deploy the token-compliance using for the symbol/name/decimals

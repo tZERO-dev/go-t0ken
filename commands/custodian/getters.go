@@ -11,22 +11,25 @@ import (
 
 var GetterCommands = []*cobra.Command{
 	&cobra.Command{
-		Use:   "abi",
-		Short: "Outputs the Storage ABI",
-		Args:  cobra.NoArgs,
-		Run:   func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
+		Use:     "abi",
+		Short:   "Outputs the Storage ABI",
+		Example: "t0ken investor abi",
+		Args:    cobra.NoArgs,
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
 	},
 	&cobra.Command{
-		Use:   "bin",
-		Short: "Outputs the Storage Binary",
-		Args:  cobra.NoArgs,
-		Run:   func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
+		Use:     "bin",
+		Short:   "Outputs the Storage Binary",
+		Example: "t0ken investor bin",
+		Args:    cobra.NoArgs,
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
 	},
 	&cobra.Command{
-		Use:    "store",
-		Short:  "Gets the Storage contract address",
-		Args:   cobra.NoArgs,
-		PreRun: connectCaller,
+		Use:     "storage",
+		Short:   "Gets the Storage contract address",
+		Example: "t0ken investor storage",
+		Args:    cobra.NoArgs,
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			cli.CheckAddressGetter(cmd)(callSession.Store())
 		},

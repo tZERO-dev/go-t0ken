@@ -18,101 +18,112 @@ import (
 
 var GetterCommands = []*cobra.Command{
 	&cobra.Command{
-		Use:   "abi",
-		Short: "Outputs the Storage ABI",
-		Args:  cobra.NoArgs,
-		Run:   func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
+		Use:     "abi",
+		Short:   "Outputs the Storage ABI",
+		Example: "t0ken investor abi",
+		Args:    cobra.NoArgs,
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
 	},
 	&cobra.Command{
-		Use:   "bin",
-		Short: "Outputs the Storage Binary",
-		Args:  cobra.NoArgs,
-		Run:   func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
+		Use:     "bin",
+		Short:   "Outputs the Storage Binary",
+		Example: "t0ken investor bin",
+		Args:    cobra.NoArgs,
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
 	},
 	&cobra.Command{
-		Use:    "accountAt <index>",
-		Short:  "Gets account at the given <index>",
-		Args:   cli.BigIntArgFunc("index", 0),
-		PreRun: connectCaller,
+		Use:     "accountAt <index>",
+		Short:   "Gets account at the given <index>",
+		Example: "t0ken storage accountAt 5",
+		Args:    cli.BigIntArgFunc("index", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			index, _ := new(big.Int).SetString(args[0], 10)
 			cli.CheckGetter(cmd)(accountStr(callSession.AccountAt(index)))
 		},
 	},
 	&cobra.Command{
-		Use:    "accountExists <address>",
-		Short:  "Checks if the <address> exists",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectCaller,
+		Use:     "accountExists <address>",
+		Short:   "Checks if the <address> exists",
+		Example: "t0ken storage accountExists 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(callSession.AccountExists(addr))
 		},
 	},
 	&cobra.Command{
-		Use:    "accountFrozen <address>",
-		Short:  "Checks if the <address> is frozen",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectCaller,
+		Use:     "accountFrozen <address>",
+		Short:   "Checks if the <address> is frozen",
+		Example: "t0ken storage accountFrozen 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(callSession.AccountFrozen(addr))
 		},
 	},
 	&cobra.Command{
-		Use:    "accountGet <address>",
-		Short:  "Gets the account for the given <address>",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectCaller,
+		Use:     "accountGet <address>",
+		Short:   "Gets the account for the given <address>",
+		Example: "t0ken storage accountGet 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(accountGetStr(callSession.AccountGet(addr)))
 		},
 	},
 	&cobra.Command{
-		Use:    "accountIndexOf <address>",
-		Short:  "Gets the index of the <address>",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectCaller,
+		Use:     "accountIndexOf <address>",
+		Short:   "Gets the index of the <address>",
+		Example: "t0ken storage indexOf 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(callSession.AccountIndexOf(addr))
 		},
 	},
 	&cobra.Command{
-		Use:    "accountKind <address>",
-		Short:  "Gets the kind for the <address>",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectCaller,
+		Use:     "accountKind <address>",
+		Short:   "Gets the kind for the <address>",
+		Example: "t0ken storage accountKind 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(callSession.AccountKind(addr))
 		},
 	},
 	&cobra.Command{
-		Use:    "accountParent <address>",
-		Short:  "Gets the parent of the <address>",
-		Args:   cli.AddressArgFunc("address", 0),
-		PreRun: connectCaller,
+		Use:     "accountParent <address>",
+		Short:   "Gets the parent of the <address>",
+		Example: "t0ken storage accountParent 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.AddressArgFunc("address", 0),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(callSession.AccountParent(addr))
 		},
 	},
 	&cobra.Command{
-		Use:    "accounts",
-		Short:  "Gets the total number of accounts",
-		Args:   cobra.NoArgs,
-		PreRun: connectCaller,
+		Use:     "accounts",
+		Short:   "Gets the total number of accounts",
+		Example: "t0ken storage accounts",
+		Args:    cobra.NoArgs,
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			cli.CheckGetter(cmd)(callSession.Accounts())
 		},
 	},
 	&cobra.Command{
-		Use:    "data <address> <index>",
-		Short:  "Gets the data for the <address> at the given <index>",
-		Args:   cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.UintArgFunc("index", 1, 8)),
-		PreRun: connectCaller,
+		Use:     "data <address> <index>",
+		Short:   "Gets the data for the <address> at the given <index>",
+		Example: "t0ken storage data 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 1",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.UintArgFunc("index", 1, 8)),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			index, _ := strconv.ParseInt(args[1], 10, 8)
@@ -120,10 +131,11 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "permissionAt <kind> <index>",
-		Short:  "Gets the address for the <kind> permission at <index>",
-		Args:   cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.BigIntArgFunc("index", 1)),
-		PreRun: connectCaller,
+		Use:     "permissionAt <kind> <index>",
+		Short:   "Gets the address for the <kind> permission at <index>",
+		Example: "t0ken permissionAt 4, 1",
+		Args:    cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.BigIntArgFunc("index", 1)),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			kind, _ := strconv.ParseInt(args[0], 10, 8)
 			index, _ := new(big.Int).SetString(args[1], 10)
@@ -131,10 +143,11 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "permissionExists <kind> <address>",
-		Short:  "Checks if <kind> permission exists for the <address>",
-		Args:   cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.AddressArgFunc("address", 1)),
-		PreRun: connectCaller,
+		Use:     "permissionExists <kind> <address>",
+		Short:   "Checks if <kind> permission exists for the <address>",
+		Example: "t0ken storage permissionExists 4 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.AddressArgFunc("address", 1)),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			kind, _ := strconv.ParseInt(args[0], 10, 8)
 			addr := common.HexToAddress(args[1])
@@ -142,10 +155,11 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "permissionIndexOf <kind> <address>",
-		Short:  "Checks if <kind> permission exists for the <address>",
-		Args:   cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.AddressArgFunc("address", 1)),
-		PreRun: connectCaller,
+		Use:     "permissionIndexOf <kind> <address>",
+		Short:   "Checks if <kind> permission exists for the <address>",
+		Example: "t0ken storage permissionIndexOf 4 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Args:    cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.AddressArgFunc("address", 1)),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			kind, _ := strconv.ParseInt(args[0], 10, 8)
 			addr := common.HexToAddress(args[1])
@@ -153,10 +167,11 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "permissions <kind>",
-		Short:  "Gets the total number of permissions for the <kind>",
-		Args:   cli.UintArgFunc("kind", 0, 8),
-		PreRun: connectCaller,
+		Use:     "permissions <kind>",
+		Short:   "Gets the total number of permissions for the <kind>",
+		Example: "t0ken storage permissions 4",
+		Args:    cli.UintArgFunc("kind", 0, 8),
+		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			kind, _ := strconv.ParseInt(args[0], 10, 8)
 			cli.CheckGetter(cmd)(callSession.Permissions(uint8(kind)))
