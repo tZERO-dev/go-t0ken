@@ -18,7 +18,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands/token"
 )
 
-const VERSION = "0.0.2"
+const VERSION = "0.0.3"
 
 var configFile string
 
@@ -32,6 +32,38 @@ var versionCmd = &cobra.Command{
 	Short: "Displays the t0ken version",
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Println(VERSION)
+	},
+}
+
+var completionCmd = &cobra.Command{
+	Use:   "completion [shell] (default 'bash' or 'zsh')",
+	Short: "Generates shell completion scripts",
+	Long: `To load completion run
+
+# --- bash ---
+. <(t0ken completion)
+
+To configure your bash shell to load completions for each session add to your bashrc
+
+# ~/.bashrc or ~/.profile
+. <(t0ken completion)
+
+# --- zsh ---
+t0ken completion > /fpath/location/_t0ken
+`,
+	Run: func(cmd *cobra.Command, args []string) {
+		genFn := rootCmd.GenBashCompletion
+		if len(args) > 0 {
+			switch args[0] {
+			case "bash":
+			case "zsh":
+				genFn = rootCmd.GenZshCompletion
+			default:
+				cmd.Println("Invalid shell name, expecting one of 'bash', 'zsh'")
+				os.Exit(1)
+			}
+		}
+		genFn(os.Stdout)
 	},
 }
 
@@ -52,7 +84,6 @@ func initConfig() {
 	if configFile != "" {
 		viper.SetConfigFile(configFile)
 	}
-	//viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
 		fmt.Printf("Failed to read config: %s - %s\n", configFile, err)
@@ -62,6 +93,7 @@ func initConfig() {
 
 func main() {
 	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(completionCmd)
 
 	// Gas
 	gas.Command.AddCommand(gas.PriceCommand)

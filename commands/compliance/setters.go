@@ -110,7 +110,7 @@ func getIssuerFromToQty(args []string) (common.Address, common.Address, common.A
 }
 
 func init() {
-	// Add the Administrable, Destroyable, Lockable contract getter commands
+	// Add the Administrable, Destroyable, Lockable, Ownable contract getter commands
 	SetterCommands = append(SetterCommands, administrable.NewSetterCommands(contractKey)...)
 	SetterCommands = append(SetterCommands, destroyable.NewSetterCommands(contractKey)...)
 	SetterCommands = append(SetterCommands, lockable.NewSetterCommands(contractKey)...)
@@ -119,5 +119,6 @@ func init() {
 	for _, cmd := range SetterCommands {
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 	}
 }

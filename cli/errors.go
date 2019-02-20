@@ -25,7 +25,7 @@ func CheckGetter(cmd *cobra.Command) func(interface{}, error) {
 	}
 }
 
-// CheckGetter prints the given error and exits, if the error is not nil, otherwise the returned address is printed.
+// CheckAddressesGetter prints the address.
 func CheckAddressGetter(cmd *cobra.Command) func(common.Address, error) {
 	return func(addr common.Address, err error) {
 		CheckErr(cmd, err)
@@ -33,6 +33,17 @@ func CheckAddressGetter(cmd *cobra.Command) func(common.Address, error) {
 	}
 }
 
+// CheckAddressesGetter prints the collection of addresses.
+func CheckAddressesGetter(cmd *cobra.Command) func([]common.Address, error) {
+	return func(s []common.Address, err error) {
+		CheckErr(cmd, err)
+		for _, addr := range s {
+			cmd.Println(addr.String())
+		}
+	}
+}
+
+// CheckAccreditationGetter prints the UTC date and EPOCH.
 func CheckAccreditationGetter(cmd *cobra.Command) func(*big.Int, error) {
 	return func(accreditation *big.Int, err error) {
 		CheckErr(cmd, err)
@@ -41,6 +52,7 @@ func CheckAccreditationGetter(cmd *cobra.Command) func(*big.Int, error) {
 	}
 }
 
+// CheckCountryGetter prints the country code.
 func CheckCountryGetter(cmd *cobra.Command) func([2]byte, error) {
 	return func(country [2]byte, err error) {
 		CheckErr(cmd, err)
@@ -48,6 +60,7 @@ func CheckCountryGetter(cmd *cobra.Command) func([2]byte, error) {
 	}
 }
 
+// CheckHashGetter prints the hex of the given hash.
 func CheckHashGetter(cmd *cobra.Command) func([32]byte, error) {
 	return func(hash [32]byte, err error) {
 		CheckErr(cmd, err)

@@ -37,9 +37,8 @@ var SendCommand = &cobra.Command{
 		signedTx, err := cli.Conn.Opts.Signer(types.HomesteadSigner{}, cli.Conn.Opts.From, tx)
 		cli.CheckErr(cmd, err)
 
-		cli.PrintTransaction(cmd, tx)
 		err = cli.Conn.SendTransaction(context.Background(), signedTx)
-		cli.CheckErr(cmd, err)
+		cli.PrintTransFn(cmd)(signedTx, err)
 	},
 }
 
@@ -71,4 +70,6 @@ func getAmount(ether string) *big.Int {
 func init() {
 	gas.Flag(SendCommand)
 	nonce.Flag(SendCommand)
+
+	SendCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 }
