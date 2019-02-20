@@ -8,7 +8,6 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/tzero-dev/go-t0ken/cli"
-	"github.com/tzero-dev/go-t0ken/commands/administrable"
 	"github.com/tzero-dev/go-t0ken/commands/destroyable"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
@@ -125,8 +124,7 @@ var SetterCommands = []*cobra.Command{
 }
 
 func init() {
-	// Add the Administrable, Destroyable, Lockable contract getter commands
-	SetterCommands = append(SetterCommands, administrable.NewSetterCommands(contractKey)...)
+	// Add the Destroyable, Ownable, Lockable contract getter commands
 	SetterCommands = append(SetterCommands, destroyable.NewSetterCommands(contractKey)...)
 	SetterCommands = append(SetterCommands, ownable.NewSetterCommands(contractKey)...)
 	SetterCommands = append(SetterCommands, lockable.NewSetterCommands(contractKey)...)
@@ -138,5 +136,6 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 	}
 }

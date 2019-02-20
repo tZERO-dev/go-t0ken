@@ -48,7 +48,7 @@ var GetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			k, _ := strconv.ParseInt(args[0], 10, 8)
 			kind := uint8(k)
-			cli.CheckGetter(cmd)(callSession.GetRules(kind))
+			cli.CheckAddressesGetter(cmd)(callSession.GetRules(kind))
 		},
 	},
 	&cobra.Command{
@@ -74,7 +74,7 @@ var GetterCommands = []*cobra.Command{
 }
 
 func init() {
-	// Add the Administrable, Lockable contract getter commands
+	// Add the Administrable, Ownable, Lockable contract getter commands
 	GetterCommands = append(GetterCommands, administrable.NewGetterCommands(contractKey)...)
 	GetterCommands = append(GetterCommands, ownable.NewGetterCommands(contractKey)...)
 	GetterCommands = append(GetterCommands, lockable.NewGetterCommands(contractKey)...)

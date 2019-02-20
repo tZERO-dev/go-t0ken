@@ -220,7 +220,7 @@ func dataStr(data [32]byte, err error) (interface{}, error) {
 }
 
 func init() {
-	// Add the Administrable, Lockable contract getter commands
+	// Add the Ownable, Lockable contract getter commands
 	GetterCommands = append(GetterCommands, ownable.NewGetterCommands(contractKey)...)
 	GetterCommands = append(GetterCommands, lockable.NewGetterCommands(contractKey)...)
 

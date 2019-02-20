@@ -29,7 +29,7 @@ var (
 			addr, tx, _, err := registry.DeployCustodian(cli.Conn.Opts, cli.Conn.Client)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
-			cli.PrintTransaction(cmd, tx)
+			cli.PrintTransFn(cmd)(tx, nil)
 		},
 	}
 
@@ -62,4 +62,7 @@ func init() {
 	// Add both the 'gasPrice' and 'nonce' flags to the deploy function
 	gas.Flag(DeployCommand)
 	nonce.Flag(DeployCommand)
+
+	// Add the 'wait' flag
+	DeployCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/tzero-dev/go-t0ken/cli"
-	"github.com/tzero-dev/go-t0ken/commands/administrable"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
 	"github.com/tzero-dev/go-t0ken/commands/ownable"
 	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
@@ -189,8 +188,7 @@ var GetterCommands = []*cobra.Command{
 }
 
 func init() {
-	// Add the Administrable, Lockable contract getter commands
-	GetterCommands = append(GetterCommands, administrable.NewGetterCommands(contractKey)...)
+	// Add the Lockable, Ownable contract getter commands
 	GetterCommands = append(GetterCommands, lockable.NewGetterCommands(contractKey)...)
 	GetterCommands = append(GetterCommands, ownable.NewGetterCommands(contractKey)...)
 
