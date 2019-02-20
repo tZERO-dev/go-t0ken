@@ -58,6 +58,9 @@ t0ken completion > /fpath/location/_t0ken
 			case "bash":
 			case "zsh":
 				genFn = rootCmd.GenZshCompletion
+			default:
+				cmd.Println("Invalid shell name, expecting one of 'bash', 'zsh'")
+				os.Exit(1)
 			}
 		}
 		genFn(os.Stdout)
