@@ -49,7 +49,7 @@ To configure your bash shell to load completions for each session add to your ba
 . <(t0ken completion)
 
 # --- zsh ---
-t0ken completion > /fpath/location/_t0ken
+t0ken completion zsh > /fpath/location/_t0ken
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		genFn := rootCmd.GenBashCompletion
