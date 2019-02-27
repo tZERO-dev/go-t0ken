@@ -10,7 +10,9 @@ import (
 
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands/destroyable"
+	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
+	"github.com/tzero-dev/go-t0ken/commands/nonce"
 	"github.com/tzero-dev/go-t0ken/commands/ownable"
 )
 
@@ -35,7 +37,7 @@ var SetterCommands = []*cobra.Command{
 			var hash [32]byte
 			copy(hash[:], h)
 
-			cli.PrintTransFn(cmd)(transSession.Add(investor, hash, country, big.NewInt(accreditation.Unix())))
+			cli.PrintTransactionFn(cmd)(transSession.Add(investor, hash, country, big.NewInt(accreditation.Unix())))
 		},
 	},
 	&cobra.Command{
@@ -46,7 +48,7 @@ var SetterCommands = []*cobra.Command{
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
-			cli.PrintTransFn(cmd)(transSession.Remove(investor))
+			cli.PrintTransactionFn(cmd)(transSession.Remove(investor))
 		},
 	},
 	&cobra.Command{
@@ -58,7 +60,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
 			accreditation, _ := cli.DateFromArg(args[2])
-			cli.PrintTransFn(cmd)(transSession.SetAccreditation(investor, big.NewInt(accreditation.Unix())))
+			cli.PrintTransactionFn(cmd)(transSession.SetAccreditation(investor, big.NewInt(accreditation.Unix())))
 		},
 	},
 	&cobra.Command{
@@ -70,7 +72,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
 			country, _ := cli.CountryFromArg(args[2])
-			cli.PrintTransFn(cmd)(transSession.SetCountry(investor, country))
+			cli.PrintTransactionFn(cmd)(transSession.SetCountry(investor, country))
 		},
 	},
 	&cobra.Command{
@@ -82,7 +84,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
 			frozen, _ := strconv.ParseBool(args[1])
-			cli.PrintTransFn(cmd)(transSession.SetFrozen(investor, frozen))
+			cli.PrintTransactionFn(cmd)(transSession.SetFrozen(investor, frozen))
 		},
 	},
 	&cobra.Command{
@@ -99,7 +101,7 @@ var SetterCommands = []*cobra.Command{
 			var hash [32]byte
 			copy(hash[:], h)
 
-			cli.PrintTransFn(cmd)(transSession.SetHash(investor, hash))
+			cli.PrintTransactionFn(cmd)(transSession.SetHash(investor, hash))
 		},
 	},
 	&cobra.Command{
@@ -110,7 +112,7 @@ var SetterCommands = []*cobra.Command{
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransFn(cmd)(transSession.SetStorage(addr))
+			cli.PrintTransactionFn(cmd)(transSession.SetStorage(addr))
 		},
 	},
 }
@@ -122,6 +124,10 @@ func init() {
 	SetterCommands = append(SetterCommands, ownable.NewSetterCommands(contractKey)...)
 
 	for _, cmd := range SetterCommands {
+		// Allow 'gasPrice' and 'nonce' flags
+		gas.Flag(cmd)
+		nonce.Flag(cmd)
+
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
 		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")

@@ -25,7 +25,7 @@ var (
 		Short:   "Deploys a new t0ken contract",
 		Example: "t0ken token deploy --keystoreAddress owner",
 		Args:    cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc("decimals", 2, 8)),
-		PreRun:  connectTransactor,
+		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Get the token data args
 			name := args[0]
@@ -36,7 +36,7 @@ var (
 			addr, tx, _, err := erc20.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
-			cli.PrintTransFn(cmd)(tx, nil)
+			cli.PrintTransactionFn(cmd)(tx, nil)
 		},
 	}
 

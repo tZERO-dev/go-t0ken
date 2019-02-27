@@ -38,7 +38,7 @@ var SendCommand = &cobra.Command{
 		cli.CheckErr(cmd, err)
 
 		err = cli.Conn.SendTransaction(context.Background(), signedTx)
-		cli.PrintTransFn(cmd)(signedTx, err)
+		cli.PrintTransactionFn(cmd)(signedTx, err)
 	},
 }
 

@@ -23,13 +23,13 @@ var (
 		Short:   "Deploys a new storage contract",
 		Example: "t0ken storage deploy --keystoreAddress owner",
 		Args:    cobra.NoArgs,
-		PreRun:  connectTransactor,
+		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Deploy the storage using for the symbol/name/decimals
 			addr, tx, _, err := registry.DeployStorage(cli.Conn.Opts, cli.Conn.Client)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
-			cli.PrintTransFn(cmd)(tx, nil)
+			cli.PrintTransactionFn(cmd)(tx, nil)
 		},
 	}
 

@@ -2,6 +2,7 @@ package cli
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
@@ -29,27 +30,36 @@ func FlagOrConfigAddress(cmd *cobra.Command, flag, configKey string) (common.Add
 }
 
 // addressForKeystoreAlias returns the address in the config 'keystoreAddressAliases' secion of the given alias
-func addressForKeystoreAlias(alias string) (common.Address, error) {
+func addressForKeystoreAlias(alias string) (common.Address, string, bool, error) {
 	var addr common.Address
+	var passphrase string
+	var hasPassphrase bool
 
 	// Make sure configuration contains a valid entry for 'keystoreAddressAliases'
 	o := viper.Get("keystoreAddressAliases")
 	m, ok := o.(map[string]interface{})
 	if !ok {
-		return addr, errors.New("Invalid, or improperly setup 'keystoreAddressAliases' YAML configuration")
+		return addr, passphrase, hasPassphrase, errors.New("Invalid, or improperly setup 'keystoreAddressAliases' YAML configuration")
 	}
 
 	// Check if the alias exists
 	v, ok := m[alias]
 	if !ok {
-		return addr, errors.New("Missing key '%s' within the 'keystoreAddressAliases' YAML configuration")
+		return addr, passphrase, hasPassphrase, errors.New("Missing key '%s' within the 'keystoreAddressAliases' YAML configuration")
 	}
 
 	// Verify the value is a valid address
 	s, ok := v.(string)
 	if !ok {
-		return addr, errors.New("Values for 'keystoreAddressAliases' must be strings")
+		return addr, passphrase, hasPassphrase, errors.New("Values for 'keystoreAddressAliases' must be strings")
+	}
+
+	p := strings.SplitN(s, ",", 2)
+	hasPassphrase = len(p) == 2
+	if hasPassphrase {
+		s = p[0]
+		passphrase = p[1]
 	}
 	err := addr.UnmarshalText([]byte(s))
-	return addr, err
+	return addr, passphrase, hasPassphrase, err
 }

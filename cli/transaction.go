@@ -2,9 +2,12 @@ package cli
 
 import (
 	"context"
+	"errors"
+	"math/big"
 	"strconv"
 	"time"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/spf13/cobra"
 
@@ -30,13 +33,25 @@ func waitOnTransaction(cmd *cobra.Command, tx *types.Transaction, timeout int) e
 	if timeout > 0 && elapsed-timeout > 0 {
 		cmd.Println("\nExceeded timeout")
 	} else {
-		cmd.Println("\nTransaction no longer pending")
+		cmd.Println("\nTransaction accepted")
 	}
 	return nil
 }
 
-// PrintTransFn returns a function that checks for an error, printing the transaction when successful.
-func PrintTransFn(cmd *cobra.Command) func(*types.Transaction, error) {
+func ReplayTransaction(cmd *cobra.Command, h common.Hash, gasPrice *big.Int) error {
+	tx, pending, err := Conn.TransactionByHash(context.Background(), h)
+	if err != nil {
+		return err
+	} else if pending {
+		return errors.New("transaction must be in 'pending' state")
+	}
+
+	tx = types.NewTransaction(tx.Nonce(), *tx.To(), tx.Value(), Conn.Opts.GasLimit, gasPrice, tx.Data())
+	return Conn.SendTransaction(context.Background(), tx)
+}
+
+// PrintTransactionFn returns a function that checks for an error, printing the transaction when successful.
+func PrintTransactionFn(cmd *cobra.Command) func(*types.Transaction, error) {
 	return func(tx *types.Transaction, err error) {
 		CheckErr(cmd, err)
 		PrintTransaction(cmd, tx)

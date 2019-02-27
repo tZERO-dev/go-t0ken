@@ -2,6 +2,7 @@ package cli
 
 import (
 	"errors"
+	//"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/console"
@@ -14,13 +15,23 @@ import (
 // Conn is a connection to the node
 var Conn *connection.Connection
 
-// getAddress retrieves either the 'keystoreAddress' or the matching address from 'keystoreAddressAliases'
-func getAddress() (common.Address, error) {
-	s := viper.GetString("keystoreAddress")
-	if common.IsHexAddress(s) {
-		return common.HexToAddress(s), nil
+type password string
+
+func getAddress(cmd *cobra.Command) (common.Address, string, bool, error) {
+	// If an address was specified as a flag, don't perform password checking
+	f, err := cmd.Flags().GetString("keystoreAddress")
+	if common.IsHexAddress(f) || err != nil {
+		return common.HexToAddress(f), "", false, err
 	}
-	return addressForKeystoreAlias(s)
+
+	// If the config value is an address then we have no alias/password to process
+	f = viper.GetString("keystoreAddress")
+	if common.IsHexAddress(f) {
+		return common.HexToAddress(f), "", false, err
+	}
+
+	// Get the address and optional password, for the alias
+	return addressForKeystoreAlias(f)
 }
 
 // Connect creates a connection to the node
@@ -37,9 +48,8 @@ func ConnectWithKeyStore(cmd *cobra.Command, args []string) {
 	}
 
 	// Get keystore address and password
-	var password string
-	addr, err := getAddress()
-	if err == nil {
+	addr, password, hasPassword, err := getAddress(cmd)
+	if err == nil && !hasPassword {
 		password, err = console.Stdin.PromptPassword("Password: ")
 	}
 
@@ -52,6 +62,7 @@ func ConnectWithKeyStore(cmd *cobra.Command, args []string) {
 	CheckErr(cmd, err)
 }
 
+// NewConnection returns a connection using the URL from 't0ken.yaml'
 func NewConnection(cmd *cobra.Command, args []string) (*connection.Connection, error) {
 	url := viper.GetString("url")
 	if url == "" {
@@ -60,6 +71,7 @@ func NewConnection(cmd *cobra.Command, args []string) (*connection.Connection, e
 	return connection.New(url)
 }
 
+// NewKeystoreConnection returns a connection using the URL, address, and optional password from 't0ken.yaml'
 func NewKeystoreConnection(cmd *cobra.Command, args []string) (*connection.Connection, error) {
 	conn, err := NewConnection(cmd, args)
 	if err != nil {
@@ -72,9 +84,8 @@ func NewKeystoreConnection(cmd *cobra.Command, args []string) (*connection.Conne
 	}
 
 	// Get keystore address and password
-	var password string
-	addr, err := getAddress()
-	if err == nil {
+	addr, password, hasPassword, err := getAddress(cmd)
+	if err == nil && !hasPassword {
 		password, err = console.Stdin.PromptPassword("Password: ")
 	}
 	if err != nil {

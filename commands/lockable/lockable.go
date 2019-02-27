@@ -57,7 +57,7 @@ func NewSetterCommands(contractConfigKey string) []*cobra.Command {
 			PreRun: connect,
 			Run: func(cmd *cobra.Command, args []string) {
 				locked, _ := strconv.ParseBool(args[0])
-				cli.PrintTransFn(cmd)(session.SetLocked(locked))
+				cli.PrintTransactionFn(cmd)(session.SetLocked(locked))
 			},
 		},
 	}

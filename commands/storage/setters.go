@@ -9,13 +9,15 @@ import (
 
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands/destroyable"
+	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
+	"github.com/tzero-dev/go-t0ken/commands/nonce"
 	"github.com/tzero-dev/go-t0ken/commands/ownable"
 )
 
 var SetterCommands = []*cobra.Command{
 	&cobra.Command{
-		Use:     "addAccount <address> <kind> <frozen>, <parent>",
+		Use:     "addAccount <address> <kind> <frozen> <parent>",
 		Short:   "Adds the <address> under the <kind>, set as <frozen>, for the <parent>",
 		Example: "t0ken storage addAccount 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 4 false 0xb01ba0d19cc9cd613253bad489b69e583dbfd4da --keystoreAddress owner",
 		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.UintArgFunc("kind", 1, 8), cli.BoolArgFunc("frozen", 2), cli.AddressArgFunc("parent", 3)),
@@ -25,7 +27,7 @@ var SetterCommands = []*cobra.Command{
 			kind, _ := strconv.ParseInt(args[1], 10, 8)
 			frozen, _ := strconv.ParseBool(args[2])
 			parent := common.HexToAddress(args[3])
-			cli.PrintTransFn(cmd)(transSession.AddAccount(addr, uint8(kind), frozen, parent))
+			cli.PrintTransactionFn(cmd)(transSession.AddAccount(addr, uint8(kind), frozen, parent))
 		},
 	},
 	&cobra.Command{
@@ -37,7 +39,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			kind, _ := strconv.ParseInt(args[0], 10, 8)
 			addr := common.HexToAddress(args[1])
-			cli.PrintTransFn(cmd)(transSession.GrantPermission(uint8(kind), addr))
+			cli.PrintTransactionFn(cmd)(transSession.GrantPermission(uint8(kind), addr))
 		},
 	},
 	&cobra.Command{
@@ -48,7 +50,7 @@ var SetterCommands = []*cobra.Command{
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransFn(cmd)(transSession.RemoveAccount(addr))
+			cli.PrintTransactionFn(cmd)(transSession.RemoveAccount(addr))
 		},
 	},
 	&cobra.Command{
@@ -60,7 +62,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			kind, _ := strconv.ParseInt(args[0], 10, 8)
 			addr := common.HexToAddress(args[1])
-			cli.PrintTransFn(cmd)(transSession.RevokePermission(uint8(kind), addr))
+			cli.PrintTransactionFn(cmd)(transSession.RevokePermission(uint8(kind), addr))
 		},
 	},
 	&cobra.Command{
@@ -78,7 +80,7 @@ var SetterCommands = []*cobra.Command{
 			var data [32]byte
 			copy(data[:], h)
 
-			cli.PrintTransFn(cmd)(transSession.SetAccountData(addr, uint8(index), data))
+			cli.PrintTransactionFn(cmd)(transSession.SetAccountData(addr, uint8(index), data))
 		},
 	},
 	&cobra.Command{
@@ -90,7 +92,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			frozen, _ := strconv.ParseBool(args[1])
-			cli.PrintTransFn(cmd)(transSession.SetAccountFrozen(addr, frozen))
+			cli.PrintTransactionFn(cmd)(transSession.SetAccountFrozen(addr, frozen))
 		},
 	},
 }
@@ -102,6 +104,10 @@ func init() {
 	SetterCommands = append(SetterCommands, ownable.NewSetterCommands(contractKey)...)
 
 	for _, cmd := range SetterCommands {
+		// Allow 'gasPrice' and 'nonce' flags
+		gas.Flag(cmd)
+		nonce.Flag(cmd)
+
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
 		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")

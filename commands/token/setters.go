@@ -25,7 +25,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			quantity, _ := new(big.Int).SetString(args[1], 10)
-			cli.PrintTransFn(cmd)(transSession.Approve(addr, quantity))
+			cli.PrintTransactionFn(cmd)(transSession.Approve(addr, quantity))
 		},
 	},
 	&cobra.Command{
@@ -37,7 +37,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			replacement := common.HexToAddress(args[1])
-			cli.PrintTransFn(cmd)(transSession.CancelAndReissue(addr, replacement))
+			cli.PrintTransactionFn(cmd)(transSession.CancelAndReissue(addr, replacement))
 		},
 	},
 	&cobra.Command{
@@ -47,7 +47,7 @@ var SetterCommands = []*cobra.Command{
 		Args:    cobra.NoArgs,
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.PrintTransFn(cmd)(transSession.FinishIssuing())
+			cli.PrintTransactionFn(cmd)(transSession.FinishIssuing())
 		},
 	},
 	&cobra.Command{
@@ -58,7 +58,7 @@ var SetterCommands = []*cobra.Command{
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			quantity, _ := new(big.Int).SetString(args[0], 10)
-			cli.PrintTransFn(cmd)(transSession.IssueTokens(quantity))
+			cli.PrintTransactionFn(cmd)(transSession.IssueTokens(quantity))
 		},
 	},
 	&cobra.Command{
@@ -69,7 +69,7 @@ var SetterCommands = []*cobra.Command{
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransFn(cmd)(transSession.SetCompliance(addr))
+			cli.PrintTransactionFn(cmd)(transSession.SetCompliance(addr))
 		},
 	},
 	&cobra.Command{
@@ -80,7 +80,7 @@ var SetterCommands = []*cobra.Command{
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransFn(cmd)(transSession.SetIssuer(addr))
+			cli.PrintTransactionFn(cmd)(transSession.SetIssuer(addr))
 		},
 	},
 	&cobra.Command{
@@ -92,7 +92,7 @@ var SetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			qty, _ := new(big.Int).SetString(args[1], 10)
-			cli.PrintTransFn(cmd)(transSession.Transfer(addr, qty))
+			cli.PrintTransactionFn(cmd)(transSession.Transfer(addr, qty))
 		},
 	},
 	&cobra.Command{
@@ -105,7 +105,7 @@ var SetterCommands = []*cobra.Command{
 			sender := common.HexToAddress(args[0])
 			recipient := common.HexToAddress(args[1])
 			qty, _ := new(big.Int).SetString(args[2], 10)
-			cli.PrintTransFn(cmd)(transSession.TransferFrom(sender, recipient, qty))
+			cli.PrintTransactionFn(cmd)(transSession.TransferFrom(sender, recipient, qty))
 		},
 	},
 	&cobra.Command{
@@ -118,7 +118,7 @@ var SetterCommands = []*cobra.Command{
 			sender := common.HexToAddress(args[0])
 			recipient := common.HexToAddress(args[1])
 			qty, _ := new(big.Int).SetString(args[2], 10)
-			cli.PrintTransFn(cmd)(transSession.TransferOverride(sender, recipient, qty))
+			cli.PrintTransactionFn(cmd)(transSession.TransferOverride(sender, recipient, qty))
 		},
 	},
 }

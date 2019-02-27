@@ -23,14 +23,14 @@ var (
 		Short:   "Deploys a new t0ken-compliance contract",
 		Example: "t0ken compliance deploy --keystoreAddress owner",
 		Args:    cobra.NoArgs,
-		PreRun:  cli.ConnectWithKeyStore,
+		PreRun:  commands.ConnectWithKeyStore,
 		// TODO: refactor these deploy funcs into something...
 		Run: func(cmd *cobra.Command, args []string) {
 			// Deploy the token-compliance using for the symbol/name/decimals
 			addr, tx, _, err := compliance.DeployT0kenCompliance(cli.Conn.Opts, cli.Conn.Client)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
-			cli.PrintTransFn(cmd)(tx, nil)
+			cli.PrintTransactionFn(cmd)(tx, nil)
 		},
 	}
 

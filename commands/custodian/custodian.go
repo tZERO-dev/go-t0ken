@@ -23,13 +23,13 @@ var (
 		Short:   "Deploys a new custodian registry contract",
 		Example: "t0ken custodian deploy --keystoreAddress owner",
 		Args:    cobra.NoArgs,
-		PreRun:  connectTransactor,
+		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Deploy the custodian using for the symbol/name/decimals
 			addr, tx, _, err := registry.DeployCustodian(cli.Conn.Opts, cli.Conn.Client)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
-			cli.PrintTransFn(cmd)(tx, nil)
+			cli.PrintTransactionFn(cmd)(tx, nil)
 		},
 	}
 

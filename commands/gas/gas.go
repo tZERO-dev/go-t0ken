@@ -30,7 +30,7 @@ var PriceCommand = &cobra.Command{
 	},
 }
 
-// GasPrice Returns the gas price flag value, or the suggested gas price when unset.
+// GasPrice returns the gas price flag value, or the suggested gas price when unset.
 func GetPrice(cmd *cobra.Command, args []string) (*big.Int, error) {
 	f := cmd.Flag("gasPrice")
 	if f == nil {
@@ -40,6 +40,19 @@ func GetPrice(cmd *cobra.Command, args []string) (*big.Int, error) {
 	wei := new(big.Int)
 	units.ConvertFloat(g, units.Gwei, units.Wei).Int(wei)
 	return wei, nil
+}
+
+// GetFlagValue returns the flag value converted from Gwei to Wei.
+func GetFlagValue(cmd *cobra.Command) *big.Int {
+	f := cmd.Flag("gasPrice")
+	if f == nil || gasPrice == 0 {
+		return nil
+	}
+
+	g := big.NewFloat(gasPrice)
+	wei := new(big.Int)
+	units.ConvertFloat(g, units.Gwei, units.Wei).Int(wei)
+	return wei
 }
 
 // Flag adds the 'gasPrice' flag to the given command.
