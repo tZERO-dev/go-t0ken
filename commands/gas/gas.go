@@ -33,7 +33,7 @@ var PriceCommand = &cobra.Command{
 // GasPrice returns the gas price flag value, or the suggested gas price when unset.
 func GetPrice(cmd *cobra.Command, args []string) (*big.Int, error) {
 	f := cmd.Flag("gasPrice")
-	if f == nil {
+	if f == nil || gasPrice == 0 {
 		return cli.Conn.SuggestGasPrice(context.Background())
 	}
 	g := big.NewFloat(gasPrice)
