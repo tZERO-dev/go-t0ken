@@ -1,6 +1,9 @@
 package token
 
 import (
+	"context"
+	"fmt"
+	"math/big"
 	"strconv"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -25,7 +28,7 @@ var (
 		Short:   "Deploys a new t0ken contract",
 		Example: "t0ken token deploy --keystoreAddress owner",
 		Args:    cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc("decimals", 2, 8)),
-		PreRun:  connectTransactor,
+		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Get the token data args
 			name := args[0]
@@ -36,7 +39,38 @@ var (
 			addr, tx, _, err := erc20.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
-			cli.PrintTransFn(cmd)(tx, nil)
+			cli.PrintTransactionFn(cmd)(tx, nil)
+		},
+	}
+
+	AuditCommand = &cobra.Command{
+		Use:    "audit",
+		Short:  "Audit the holders of the t0ken, outputting CSV to <stdout>",
+		PreRun: connectCaller,
+		Run: func(cmd *cobra.Command, arts []string) {
+			// Get the current block
+			header, err := cli.Conn.HeaderByNumber(context.Background(), nil)
+			cli.CheckErr(cmd, err)
+
+			// Pin the requests to the same block (avoid any state changes during audit)
+			callSession.CallOpts.BlockNumber = header.Number
+			n, err := callSession.Shareholders()
+			cli.CheckErr(cmd, err)
+
+			one := big.NewInt(1)
+			index := big.NewInt(0)
+			cmd.Printf("Block: %s\n", header.Number.String())
+			fmt.Println("address,balance")
+			for i := int64(0); i < n.Int64(); i++ {
+				holder, err := callSession.HolderAt(index)
+				cli.CheckErr(cmd, err)
+
+				balance, err := callSession.BalanceOf(holder)
+				cli.CheckErr(cmd, err)
+
+				fmt.Printf("%s,%s\n", holder.String(), balance.String())
+				index.Add(index, one)
+			}
 		},
 	}
 

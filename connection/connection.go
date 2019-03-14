@@ -13,6 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/ethereum/go-ethereum/rpc"
 )
 
 var (
@@ -24,8 +25,9 @@ var (
 // Connection wraps 'etherclient.Client' to hold transactor options and a key-store.
 type Connection struct {
 	*ethclient.Client
-	Opts     *bind.TransactOpts
-	KeyStore *keystore.KeyStore
+	rpcClient *rpc.Client
+	Opts      *bind.TransactOpts
+	KeyStore  *keystore.KeyStore
 }
 
 // accountFor returns the matching account within the key-store.
@@ -47,6 +49,7 @@ func NewTransactor(keyFile string, password string) (*bind.TransactOpts, error) 
 	key := strings.NewReader(string(b))
 	auth, err := bind.NewTransactor(key, password)
 	return auth, err
+	//bind.WaitMined(
 }
 
 // SetNextNonce sets the next nonce of the transactor address.
@@ -109,13 +112,24 @@ func (c *Connection) SetTransactorFromKeyStore(a common.Address, password string
 	return c.SetTransactor(key.URL.Path, password)
 }
 
+// RawCall performs a JSON-RPC call against the underlying RPC connection
+func (c *Connection) RawCall(result interface{}, method string, args ...interface{}) error {
+	return c.rpcClient.CallContext(context.Background(), result, method, args...)
+}
+
+// RawCall performs a JSON-RPC call against the underlying RPC connection, using the given context
+func (c *Connection) RawCallContext(ctx context.Context, result interface{}, method string, args ...interface{}) error {
+	return c.rpcClient.CallContext(ctx, result, method, args...)
+}
+
 // New creates a new connection
 func New(url string) (*Connection, error) {
-	c, err := ethclient.Dial(url)
+	rpcClient, err := rpc.Dial(url)
 	if err != nil {
 		return nil, err
 	}
-	return &Connection{c, nil, nil}, err
+	client := ethclient.NewClient(rpcClient)
+	return &Connection{client, rpcClient, nil, nil}, err
 }
 
 // NewForKey creates a new connection using the given key-store file and password.

@@ -3,6 +3,7 @@ package nonce
 import (
 	"context"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
 
 	"github.com/tzero-dev/go-t0ken/cli"
@@ -18,10 +19,17 @@ var Command = &cobra.Command{
 var NextCommand = &cobra.Command{
 	Use:    "next <address>",
 	Short:  "gets the next nonce for an address",
-	Args:   cobra.MaximumNArgs(1),
+	Args:   cobra.ExactArgs(1),
 	PreRun: cli.Connect,
 	Run: func(cmd *cobra.Command, args []string) {
-		addr, err := cli.GetArgAddress(0, args)
+		var addr common.Address
+		var err error
+
+		if common.IsHexAddress(args[0]) {
+			addr, err = cli.GetArgAddress(0, args)
+		} else {
+			addr, _, _, err = cli.AddressForKeystoreAlias(args[0])
+		}
 		cli.CheckErr(cmd, err)
 
 		n, err := cli.Conn.PendingNonceAt(context.Background(), addr)

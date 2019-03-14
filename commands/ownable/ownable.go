@@ -55,7 +55,7 @@ func NewSetterCommands(contractConfigKey string) []*cobra.Command {
 			PreRun: connect,
 			Run: func(cmd *cobra.Command, args []string) {
 				addr := common.HexToAddress(args[0])
-				cli.PrintTransFn(cmd)(session.TransferOwner(addr))
+				cli.PrintTransactionFn(cmd)(session.TransferOwner(addr))
 			},
 		},
 	}

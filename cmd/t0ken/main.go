@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	"github.com/tzero-dev/go-t0ken"
 	"github.com/tzero-dev/go-t0ken/commands/broker"
 	"github.com/tzero-dev/go-t0ken/commands/compliance"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
@@ -16,9 +17,8 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
 	"github.com/tzero-dev/go-t0ken/commands/storage"
 	"github.com/tzero-dev/go-t0ken/commands/token"
+	"github.com/tzero-dev/go-t0ken/commands/transaction"
 )
-
-const VERSION = "0.0.3"
 
 var configFile string
 
@@ -31,7 +31,7 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Displays the t0ken version",
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Println(VERSION)
+		cmd.Println(t0ken.VERSION)
 	},
 }
 
@@ -49,7 +49,7 @@ To configure your bash shell to load completions for each session add to your ba
 . <(t0ken completion)
 
 # --- zsh ---
-t0ken completion > /fpath/location/_t0ken
+t0ken completion zsh > /fpath/location/_t0ken
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		genFn := rootCmd.GenBashCompletion
@@ -108,8 +108,16 @@ func main() {
 	ether.Command.AddCommand(ether.BalanceCommand)
 	rootCmd.AddCommand(ether.Command)
 
+	// Transaction
+	transaction.Command.AddCommand(transaction.ReplayCommand)
+	transaction.Command.AddCommand(transaction.CancelCommand)
+	transaction.Command.AddCommand(transaction.NextAddressCommand)
+	transaction.Command.AddCommand(transaction.WaitCommand)
+	rootCmd.AddCommand(transaction.Command)
+
 	// Token
 	token.Command.AddCommand(token.DeployCommand)
+	token.Command.AddCommand(token.AuditCommand)
 	token.Command.AddCommand(token.GetterCommands...)
 	token.Command.AddCommand(token.SetterCommands...)
 	rootCmd.AddCommand(token.Command)
@@ -122,6 +130,7 @@ func main() {
 
 	// Registry, Storage
 	storage.Command.AddCommand(storage.DeployCommand)
+	storage.Command.AddCommand(storage.AuditCommand)
 	storage.Command.AddCommand(storage.GetterCommands...)
 	storage.Command.AddCommand(storage.SetterCommands...)
 	rootCmd.AddCommand(storage.Command)

@@ -29,7 +29,7 @@ func NewSetterCommands(contractConfigKey string) []*cobra.Command {
 			Args:   cobra.NoArgs,
 			PreRun: connect,
 			Run: func(cmd *cobra.Command, args []string) {
-				cli.PrintTransFn(cmd)(session.Kill())
+				cli.PrintTransactionFn(cmd)(session.Kill())
 			},
 		},
 	}

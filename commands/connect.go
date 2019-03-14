@@ -13,6 +13,21 @@ import (
 type CallerSessionFunc func(common.Address, bind.ContractCaller) (interface{}, error)
 type TransactorSessionFunc func(common.Address, bind.ContractTransactor) (interface{}, error)
 
+// ConnectWithKeyStore establishes a connection with gasPrice and nonce values set.
+func ConnectWithKeyStore(cmd *cobra.Command, args []string) {
+	cli.ConnectWithKeyStore(cmd, args)
+
+	// Set gas price
+	gasPrice, err := gas.GetPrice(cmd, args)
+	cli.CheckErr(cmd, err)
+	cli.Conn.SetGasPrice(gasPrice)
+
+	// Set nonce
+	n, err := nonce.Get()
+	cli.CheckErr(cmd, err)
+	cli.Conn.SetNonce(n)
+}
+
 // ConnectWithCallerSession establishes a T0kenCompliance caller session.
 func ConnectWithCallerSessionFunc(cmd *cobra.Command, args []string, contractConfigKey string, fn CallerSessionFunc) (interface{}, bind.CallOpts) {
 	var caller interface{}
@@ -27,19 +42,8 @@ func ConnectWithCallerSessionFunc(cmd *cobra.Command, args []string, contractCon
 
 // ConnectWithTransactorSession establishes a T0kenCompliance transactor session.
 func ConnectWithTransactorSessionFunc(cmd *cobra.Command, args []string, contractConfigKey string, fn TransactorSessionFunc) (interface{}, bind.TransactOpts) {
-	cli.ConnectWithKeyStore(cmd, args)
-
-	// Set gas price
-	gasPrice, err := gas.GetPrice(cmd, args)
-	cli.CheckErr(cmd, err)
-	cli.Conn.SetGasPrice(gasPrice)
-
-	// Set nonce
-	n, err := nonce.Get()
-	cli.CheckErr(cmd, err)
-	cli.Conn.SetNonce(n)
-
 	var transactor interface{}
+	ConnectWithKeyStore(cmd, args)
 	// Create session
 	addr, err := cli.FlagOrConfigAddress(cmd, "address", contractConfigKey)
 	if err == nil {
