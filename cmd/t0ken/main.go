@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	t0ken "github.com/tzero-dev/go-t0ken"
+	"github.com/tzero-dev/go-t0ken"
 	"github.com/tzero-dev/go-t0ken/commands/broker"
 	"github.com/tzero-dev/go-t0ken/commands/compliance"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
@@ -112,10 +112,12 @@ func main() {
 	transaction.Command.AddCommand(transaction.ReplayCommand)
 	transaction.Command.AddCommand(transaction.CancelCommand)
 	transaction.Command.AddCommand(transaction.NextAddressCommand)
+	transaction.Command.AddCommand(transaction.WaitCommand)
 	rootCmd.AddCommand(transaction.Command)
 
 	// Token
 	token.Command.AddCommand(token.DeployCommand)
+	token.Command.AddCommand(token.AuditCommand)
 	token.Command.AddCommand(token.GetterCommands...)
 	token.Command.AddCommand(token.SetterCommands...)
 	rootCmd.AddCommand(token.Command)
@@ -128,6 +130,7 @@ func main() {
 
 	// Registry, Storage
 	storage.Command.AddCommand(storage.DeployCommand)
+	storage.Command.AddCommand(storage.AuditCommand)
 	storage.Command.AddCommand(storage.GetterCommands...)
 	storage.Command.AddCommand(storage.SetterCommands...)
 	rootCmd.AddCommand(storage.Command)

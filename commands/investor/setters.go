@@ -25,7 +25,7 @@ var SetterCommands = []*cobra.Command{
 	0xa1896382c22b03c562b0241324cfca19505cc5c78eb06751d9cee690e21ed6a1 \
 	US \
 	2020-07-11 --keystoreAddress broker`,
-		Args:   cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.HexArgFunc("hash", 1, 32), cli.CountryCodeArgFunc("country", 2), cli.DateArgFunc("accreditation", 3)),
+		Args:   cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.HexArgFunc("hash", 1, 16), cli.CountryCodeArgFunc("country", 2), cli.DateArgFunc("accreditation", 3)),
 		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])

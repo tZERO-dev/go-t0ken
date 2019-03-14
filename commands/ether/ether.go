@@ -48,7 +48,14 @@ var BalanceCommand = &cobra.Command{
 	PreRun: cli.Connect,
 	Args:   cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		addr, err := cli.GetArgAddress(0, args)
+		var addr common.Address
+		var err error
+
+		if common.IsHexAddress(args[0]) {
+			addr, err = cli.GetArgAddress(0, args)
+		} else {
+			addr, _, _, err = cli.AddressForKeystoreAlias(args[0])
+		}
 		cli.CheckErr(cmd, err)
 
 		balance, err := cli.Conn.BalanceAt(context.Background(), addr, nil)

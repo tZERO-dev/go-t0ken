@@ -29,8 +29,8 @@ func FlagOrConfigAddress(cmd *cobra.Command, flag, configKey string) (common.Add
 	return common.HexToAddress(s), err
 }
 
-// addressForKeystoreAlias returns the address in the config 'keystoreAddressAliases' secion of the given alias
-func addressForKeystoreAlias(alias string) (common.Address, string, bool, error) {
+// AddressForKeystoreAlias returns the address in the config 'keystoreAddressAliases' secion of the given alias
+func AddressForKeystoreAlias(alias string) (common.Address, string, bool, error) {
 	var addr common.Address
 	var passphrase string
 	var hasPassphrase bool

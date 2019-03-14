@@ -31,7 +31,7 @@ func getAddress(cmd *cobra.Command) (common.Address, string, bool, error) {
 	}
 
 	// Get the address and optional password, for the alias
-	return addressForKeystoreAlias(f)
+	return AddressForKeystoreAlias(f)
 }
 
 // Connect creates a connection to the node

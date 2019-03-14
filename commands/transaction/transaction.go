@@ -5,7 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"strconv"
 
+	//"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -81,9 +83,45 @@ var CancelCommand = &cobra.Command{
 	},
 }
 
+var WaitCommand = &cobra.Command{
+	Use:    "wait <transaction>...",
+	Short:  "Waits for the <transaction>... to no longer be in a pending state",
+	PreRun: cli.Connect,
+	Run: func(cmd *cobra.Command, args []string) {
+		// Get wait flag/value
+		wait := 0
+		f := cmd.Flag("wait")
+		if f != nil {
+			w, _ := strconv.Atoi(f.Value.String())
+			if w > -1 {
+				wait = w
+			}
+		}
+
+		// Get hash args and wait on transactions
+		hashes, err := getHashes(args)
+		cli.CheckErr(cmd, err)
+
+		// Print transaction info
+		for i := range hashes {
+			tx, _, err := cli.Conn.TransactionByHash(context.Background(), hashes[i])
+			cli.CheckErr(cmd, err)
+			cli.PrintTransaction(cmd.OutOrStdout(), tx)
+		}
+
+		// Wait on the transactions, and print block info
+		if len(hashes) == 1 {
+			err = cli.WaitOnTransaction(cmd, hashes[0], wait)
+		} else {
+			err = cli.WaitOnTransactions(cmd, hashes, wait)
+		}
+		cli.CheckErr(cmd, err)
+	},
+}
+
 var NextAddressCommand = &cobra.Command{
 	Use:    "nextAddress [flags]",
-	Short:  "Outputs the next contract address, supply the 'nonce' flag whenyou want a future address",
+	Short:  "Outputs the next contract address, supply the 'nonce' flag when you want a future address",
 	PreRun: cli.ConnectWithKeyStore,
 	Run: func(cmd *cobra.Command, args []string) {
 		n, err := nonce.Get()
@@ -136,4 +174,5 @@ func init() {
 	gas.Flag(CancelCommand)
 
 	nonce.Flag(NextAddressCommand)
+	WaitCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 }
