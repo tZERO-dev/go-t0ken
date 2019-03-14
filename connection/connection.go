@@ -49,6 +49,7 @@ func NewTransactor(keyFile string, password string) (*bind.TransactOpts, error) 
 	key := strings.NewReader(string(b))
 	auth, err := bind.NewTransactor(key, password)
 	return auth, err
+	//bind.WaitMined(
 }
 
 // SetNextNonce sets the next nonce of the transactor address.
@@ -123,13 +124,11 @@ func (c *Connection) RawCallContext(ctx context.Context, result interface{}, met
 
 // New creates a new connection
 func New(url string) (*Connection, error) {
-	//client, err := ethclient.Dial(url)
 	rpcClient, err := rpc.Dial(url)
 	if err != nil {
 		return nil, err
 	}
 	client := ethclient.NewClient(rpcClient)
-	//return &Connection{client, nil, nil}, err
 	return &Connection{client, rpcClient, nil, nil}, err
 }
 
