@@ -32,11 +32,9 @@ func ChainArgs(funcs ...func(cmd *cobra.Command, args []string) error) func(*cob
 func GetArgAddress(index int, args []string) (common.Address, error) {
 	var addr common.Address
 	if len(args) < index+1 {
-		if !common.IsHexAddress(viper.GetString("keystoreAddress")) {
-			return addr, errors.New("missing one of <address> or <keystoreAddress> args")
-		}
-		return common.HexToAddress(viper.GetString("keystoreAddress")), nil
+		return addr, fmt.Errorf("requires address arg")
 	}
+
 	if !common.IsHexAddress(args[index]) {
 		return addr, errors.New("invalid address for <address> arg")
 	}
@@ -177,7 +175,7 @@ func HexArgFunc(key string, index int, length int) func(*cobra.Command, []string
 
 		b, err := hexutil.Decode(args[index])
 		l := hex.DecodedLen(len(b))
-		if err == nil && l != length/2 {
+		if err == nil && l != length {
 			err = fmt.Errorf("hex arg <%s> data size %d is different than the required length %d", key, l, length)
 		}
 		return err
