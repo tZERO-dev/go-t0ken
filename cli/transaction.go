@@ -1,8 +1,8 @@
 package cli
 
 import (
+	"bytes"
 	"context"
-	//"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -20,7 +20,10 @@ import (
 	"github.com/tzero-dev/go-t0ken/units"
 )
 
-var waitDuration = time.Duration(1 * time.Second)
+var (
+	waitDuration     = time.Duration(1 * time.Second)
+	zeroAddressBytes = new(common.Address).Bytes()
+)
 
 // PrintBlock prints the block info.
 func PrintBlock(w io.Writer, latest *types.Header, block *types.Block) error {
@@ -125,6 +128,9 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 		} else if timeout > 0 && elapsed-timeout > 0 {
 			return errors.New("Exceederd timeout")
 		} else if !pending {
+			if elapsed > 0 {
+				cmd.Println()
+			}
 			break
 		}
 
@@ -137,8 +143,12 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	tr, err := Conn.TransactionReceipt(context.Background(), tx)
 	if err != nil {
 		return err
-	} else if tr.Status != 1 {
-		return fmt.Errorf("transaction failed with status:", tr.Status)
+	}
+
+	// Output the status and contract address
+	cmd.Printf("       Status: %d\n", tr.Status)
+	if bytes.Compare(tr.ContractAddress.Bytes(), zeroAddressBytes) != 0 {
+		cmd.Printf("     Contract: %s\n", tr.ContractAddress.String())
 	}
 
 	// Get latest block
