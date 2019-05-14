@@ -12,22 +12,22 @@ import (
 var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "abi",
-		Short:   "Outputs the Storage ABI",
-		Example: "t0ken investor abi",
+		Short:   "Outputs the Broker Dealer Registry ABI",
+		Example: "t0ken broker abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.BrokerDealerABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
-		Short:   "Outputs the Storage Binary",
-		Example: "t0ken investor bin",
+		Short:   "Outputs the Broker Dealer Binary",
+		Example: "t0ken broker bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.BrokerDealerBin) },
 	},
 	&cobra.Command{
 		Use:     "storage",
 		Short:   "Gets the Storage contract address",
-		Example: "t0ken investor storage",
+		Example: "t0ken broker storage",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
