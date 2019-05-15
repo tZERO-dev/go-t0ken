@@ -6,7 +6,6 @@ import (
 	"io"
 	"math/big"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -90,8 +89,8 @@ func (i Investor) String() string {
 	return fmt.Sprintf("%s, Hash: %#x, Country: %s, Accreditation: %s, Tokens: %s", i.Address.String(), i.Hash[:], string(i.Country[:]), i.Accreditation, i.Tokens.String())
 }
 
-func investorHeaders(s []string) (headers, error) {
-	var h headers
+func investorHeaders(s []string, isIssuance bool) (headers, error) {
+	h := headers{-1, -1, -1, -1, -1}
 	c := 0
 	for i := 0; i < len(s); i++ {
 		switch strings.ToUpper(s[i]) {
@@ -112,15 +111,52 @@ func investorHeaders(s []string) (headers, error) {
 			c++
 		}
 	}
+
+	var missing []string
+	if h[ADDRESS] < 0 {
+		missing = append(missing, "address")
+	}
+
+	if isIssuance {
+		if h[TOKENS] < 0 {
+			missing = append(missing, "Tokens")
+		}
+	} else {
+		if h[HASH] < 0 {
+			missing = append(missing, "hash")
+		}
+		if h[COUNTRY] < 0 {
+			missing = append(missing, "country")
+		}
+		if h[ACCREDITATION] < 0 {
+			missing = append(missing, "accreditation")
+		}
+	}
 	var err error
+	if len(missing) > 0 {
+		err = fmt.Errorf("Missing the required columns: [%s]", strings.Join(missing, ", "))
+	}
 	return h, err
 }
 
 func newInvestor(row []string, h headers, isIssuance bool) (Investor, error) {
 	var i Investor
 
+	// Always required the address
 	if !common.IsHexAddress(row[h[ADDRESS]]) {
 		return i, fmt.Errorf("invalid address: '%s'", row[h[ADDRESS]])
+	}
+
+	// Get token quantity only during issuance, otherwise all other values for onboarding
+	if isIssuance {
+		tokens, ok := new(big.Int).SetString(row[h[TOKENS]], 10)
+		if !ok {
+			return i, fmt.Errorf("invalid tokens: '%s'", row[h[TOKENS]])
+		}
+		return Investor{
+			Address: common.HexToAddress(row[h[ADDRESS]]),
+			Tokens:  tokens,
+		}, nil
 	}
 
 	hash, err := hexutil.Decode(row[h[HASH]])
@@ -137,15 +173,6 @@ func newInvestor(row []string, h headers, isIssuance bool) (Investor, error) {
 	if err != nil {
 		return i, fmt.Errorf("invalid accreditation: '%s', %s", row[h[ACCREDITATION]], err)
 	}
-
-	var tokens int
-	if isIssuance {
-		tokens, err = strconv.Atoi(row[h[TOKENS]])
-		if err != nil {
-			return i, fmt.Errorf("invalid tokens: '%s', %s", row[h[TOKENS]], err)
-		}
-	}
-
 	var b [32]byte
 	copy(b[:], hash)
 	return Investor{
@@ -153,7 +180,6 @@ func newInvestor(row []string, h headers, isIssuance bool) (Investor, error) {
 		Hash:          b,
 		Country:       c,
 		Accreditation: big.NewInt(a.Unix()),
-		Tokens:        big.NewInt(int64(tokens)),
 	}, nil
 }
 
@@ -174,9 +200,10 @@ func parseInvestorCSV(r io.Reader, isIssuance bool) <-chan InvestorMsg {
 				ch <- InvestorMsg{Error: err}
 				return
 			case index == 0:
-				h, err = investorHeaders(row)
+				h, err = investorHeaders(row, isIssuance)
 				if err != nil {
 					ch <- InvestorMsg{Error: err}
+					break
 				}
 				continue
 			}
@@ -288,7 +315,7 @@ address,tokens
 			i := msg.Investor
 			tx, err := transSession.Transfer(i.Address, i.Tokens)
 			if err != nil {
-				cmd.Printf("Failed onboarding '%s', %s\n", i.Address.String(), err)
+				cmd.Printf("Failed issuing to '%s', %s\n", i.Address.String(), err)
 				continue
 			}
 
