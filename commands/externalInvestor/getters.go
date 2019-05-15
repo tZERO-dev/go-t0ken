@@ -13,17 +13,17 @@ import (
 var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "abi",
-		Short:   "Outputs the Storage ABI",
+		Short:   "Outputs the External Investor Registry ABI",
 		Example: "t0ken externalInvestor abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.ExternalInvestorABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
-		Short:   "Outputs the Storage Binary",
+		Short:   "Outputs the External Investor Registry Binary",
 		Example: "t0ken externalInvestor bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.ExternalInvestorBin) },
 	},
 	&cobra.Command{
 		Use:     "getAccreditation <investor>",
