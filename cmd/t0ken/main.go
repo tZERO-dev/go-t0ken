@@ -12,6 +12,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands/compliance"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
 	"github.com/tzero-dev/go-t0ken/commands/ether"
+	"github.com/tzero-dev/go-t0ken/commands/externalInvestor"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/investor"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
@@ -152,6 +153,12 @@ func main() {
 	investor.Command.AddCommand(investor.GetterCommands...)
 	investor.Command.AddCommand(investor.SetterCommands...)
 	rootCmd.AddCommand(investor.Command)
+
+	// Registry, External-Investor
+	externalInvestor.Command.AddCommand(externalInvestor.DeployCommand)
+	externalInvestor.Command.AddCommand(externalInvestor.GetterCommands...)
+	externalInvestor.Command.AddCommand(externalInvestor.SetterCommands...)
+	rootCmd.AddCommand(externalInvestor.Command)
 
 	err := rootCmd.Execute()
 	if err != nil {
