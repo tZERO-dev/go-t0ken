@@ -47,7 +47,14 @@ func CheckAddressesGetter(cmd *cobra.Command) func([]common.Address, error) {
 func CheckAccreditationGetter(cmd *cobra.Command) func(*big.Int, error) {
 	return func(accreditation *big.Int, err error) {
 		CheckErr(cmd, err)
-		t := time.Unix(accreditation.Int64(), 0).UTC()
+
+		var t time.Time
+		a := accreditation.Int64()
+		if a > 999999999999 {
+			t = time.Unix(0, a*int64(time.Millisecond)).UTC()
+		} else {
+			t = time.Unix(a, 0).UTC()
+		}
 		cmd.Printf(" date: %s\nepoch: %s\n", t, accreditation)
 	}
 }
