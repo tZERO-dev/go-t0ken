@@ -21,7 +21,7 @@ import (
 )
 
 var (
-	waitDuration     = time.Duration(1 * time.Second)
+	waitDuration     = time.Duration(5 * time.Second)
 	zeroAddressBytes = new(common.Address).Bytes()
 )
 
@@ -49,6 +49,7 @@ Confirmations: %d
       Receipt: %s
        Parent: %s
     Sha3Uncle: %s
+        Miner: %s
    Extra Data: %s
 `,
 		header.Number, header.Hash().String(),
@@ -60,6 +61,7 @@ Confirmations: %d
 		header.ReceiptHash.String(),
 		header.ParentHash.String(),
 		header.UncleHash.String(),
+		header.Coinbase.String(),
 		strings.Join(rlpData, " "))
 	return err
 }
@@ -118,6 +120,65 @@ func receiptBlock(hash common.Hash) (*types.Block, error) {
 	return Conn.BlockByHash(context.Background(), r.BlockHash)
 }
 
+//func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, confirmations int) error {
+//	// Wait for the transaction to be mined
+//	for {
+//		_, pending, err := Conn.TransactionByHash(context.Background(), tx)
+//		if err != nil {
+//			return err
+//		} else if !pending {
+//			break
+//		}
+//
+//		<-time.After(waitDuration)
+//		cmd.Print(".")
+//	}
+//
+//	// Ensure the transaction is successful
+//	tr, err := Conn.TransactionReceipt(context.Background(), tx)
+//	if err != nil {
+//		return err
+//	}
+//
+//	// Output the status and contract address
+//	cmd.Printf("       Status: %d\n", tr.Status)
+//	if bytes.Compare(tr.ContractAddress.Bytes(), zeroAddressBytes) != 0 {
+//		cmd.Printf("     Contract: %s\n", tr.ContractAddress.String())
+//	}
+//
+//	c := big.NewInt(int64(confirmations))
+//	total := int64(0)
+//	for {
+//		// Get latest block
+//		latest, err := Conn.HeaderByNumber(context.Background(), nil)
+//		if err != nil {
+//			return err
+//		}
+//
+//		// Output block info from receipt
+//		block, err := receiptBlock(tx)
+//		if err == nil {
+//			err = PrintBlock(cmd.OutOrStdout(), latest, block)
+//		}
+//		if err != nil {
+//			return err
+//		}
+//
+//		// Wait for the block to have the number of given confirmations
+//		n := latest.Number.Sub(latest.Number, block.Number())
+//		if n.Int64() != total {
+//			total = n.Int64()
+//			cmd.Printf("\n%d confirmations", total)
+//		}
+//		if n.Cmp(c) >= 0 {
+//			break
+//		}
+//		cmd.Print(".")
+//		<-time.After(waitDuration)
+//	}
+//	return nil
+//}
+
 func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	// Wait for the transaction to be mined
 	elapsed := 0
@@ -166,20 +227,20 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 }
 
 func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout int) error {
+	confirmedTransactions := make([]common.Hash, len(transactions))
+
 	// Wait for all transaction confirmations
-	for _, tx := range transactions {
+	for i := 0; i < len(transactions); {
 		elapsed := 0
-		_, pending, err := Conn.TransactionByHash(context.Background(), tx)
+		_, pending, err := Conn.TransactionByHash(context.Background(), transactions[i])
 		if err != nil {
-			cmd.Printf("failed to retrieve transaction '%s', %s\n", tx.String(), err)
-			break
+			cmd.Printf("failed to retrieve transaction '%s', %s\n", transactions[i].String(), err)
+			i++
+		} else if !pending {
+			confirmedTransactions = append(confirmedTransactions, transactions[i])
+			i++
 		} else if timeout > 0 && elapsed-timeout > 0 {
 			return errors.New("exceederd timeout")
-		} else if !pending {
-			if elapsed > 0 {
-				cmd.Printf("Confirmed transaction: %s\n", tx.String())
-			}
-			break
 		}
 		<-time.After(waitDuration)
 		elapsed += 1
