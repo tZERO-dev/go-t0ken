@@ -7,7 +7,6 @@ import (
 	"math/big"
 	"strconv"
 
-	//"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -172,7 +171,6 @@ func transAndGas(cmd *cobra.Command, h common.Hash) (*types.Transaction, *big.In
 func init() {
 	gas.Flag(ReplayCommand)
 	gas.Flag(CancelCommand)
-
 	nonce.Flag(NextAddressCommand)
-	WaitCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
+	cli.WaitFlag(WaitCommand)
 }

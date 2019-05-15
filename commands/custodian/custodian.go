@@ -59,10 +59,8 @@ func connectTransactor(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	// Add both the 'gasPrice' and 'nonce' flags to the deploy function
+	// Add the 'gasPrice', 'nonce' and 'wait' flags to the deploy function
 	gas.Flag(DeployCommand)
 	nonce.Flag(DeployCommand)
-
-	// Add the 'wait' flag
-	DeployCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
+	cli.WaitFlag(DeployCommand)
 }

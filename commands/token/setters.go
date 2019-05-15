@@ -130,12 +130,12 @@ func init() {
 	SetterCommands = append(SetterCommands, lockable.NewSetterCommands(contractKey)...)
 
 	for _, cmd := range SetterCommands {
-		// Allow 'gasPrice' and 'nonce' flags
+		// Add the 'gasPrice', 'nonce' and 'wait' flags to the deploy function
 		gas.Flag(cmd)
 		nonce.Flag(cmd)
+		cli.WaitFlag(cmd)
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
-		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 	}
 }

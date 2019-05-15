@@ -2,9 +2,11 @@ package nonce
 
 import (
 	"context"
+	"errors"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/tzero-dev/go-t0ken/cli"
 )
@@ -17,15 +19,21 @@ var Command = &cobra.Command{
 }
 
 var NextCommand = &cobra.Command{
-	Use:    "next <address>",
+	Use:    "next [address]",
 	Short:  "gets the next nonce for an address",
-	Args:   cobra.ExactArgs(1),
+	Args:   cobra.MaximumNArgs(1),
 	PreRun: cli.Connect,
 	Run: func(cmd *cobra.Command, args []string) {
 		var addr common.Address
 		var err error
 
-		if common.IsHexAddress(args[0]) {
+		if len(args) == 0 {
+			s := viper.GetString("keystoreAddress")
+			addr = common.HexToAddress(s)
+			if !common.IsHexAddress(s) {
+				err = errors.New("No [address] provided, and no valid 'keystoreAddress' address found")
+			}
+		} else if common.IsHexAddress(args[0]) {
 			addr, err = cli.GetArgAddress(0, args)
 		} else {
 			addr, _, _, err = cli.AddressForKeystoreAlias(args[0])

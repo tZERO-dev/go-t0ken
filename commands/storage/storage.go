@@ -101,10 +101,11 @@ func connectTransactor(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	// Add both the 'gasPrice' and 'nonce' flags to the deploy function
+	// Add the 'gasPrice', 'nonce' and 'wait' flags to the deploy function
 	gas.Flag(DeployCommand)
 	nonce.Flag(DeployCommand)
+	cli.WaitFlag(DeployCommand)
 
-	// Add the 'wait' flag
-	DeployCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
+	// Allow providing contract 'address' flag
+	AuditCommand.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
 }

@@ -2,11 +2,13 @@ package ether
 
 import (
 	"context"
+	"errors"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
@@ -51,7 +53,13 @@ var BalanceCommand = &cobra.Command{
 		var addr common.Address
 		var err error
 
-		if common.IsHexAddress(args[0]) {
+		if len(args) == 0 {
+			s := viper.GetString("keystoreAddress")
+			addr = common.HexToAddress(s)
+			if !common.IsHexAddress(s) {
+				err = errors.New("No [address] provided, and no valid 'keystoreAddress' address found")
+			}
+		} else if common.IsHexAddress(args[0]) {
 			addr, err = cli.GetArgAddress(0, args)
 		} else {
 			addr, _, _, err = cli.AddressForKeystoreAlias(args[0])
@@ -62,7 +70,13 @@ var BalanceCommand = &cobra.Command{
 		cli.CheckErr(cmd, err)
 
 		ether := units.ConvertInt(balance, units.Wei, units.Ether)
-		cmd.Println(ether.Text('f', 4), "Ether")
+		cmd.Printf("Ξ %s\n", ether.Text('f', 4))
+		usd, btc, sat, err := getExchangePrice(ether)
+		if err == nil {
+			cmd.Printf("\n(%s)\n", exchange)
+			cmd.Printf("₿ %s (%s SAT)\n", btc.Text('f', 4), sat.Text('f', 0))
+			cmd.Printf("$ %s\n", usd.Text('f', 4))
+		}
 	},
 }
 
@@ -75,8 +89,8 @@ func getAmount(ether string) *big.Int {
 }
 
 func init() {
+	// Add the 'gasPrice', 'nonce' and 'wait' flags to the deploy function
 	gas.Flag(SendCommand)
 	nonce.Flag(SendCommand)
-
-	SendCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
+	cli.WaitFlag(SendCommand)
 }
