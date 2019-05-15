@@ -15,7 +15,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/tzero-dev/go-t0ken"
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/contracts/registry"
