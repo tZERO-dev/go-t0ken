@@ -45,7 +45,7 @@ func GetArgAddress(index int, args []string) (common.Address, error) {
 // IsAddress checks if the given string is a valid address.
 func IsAddress(s string) error {
 	if !common.IsHexAddress(s) {
-		return errors.New("argument must be a valid address")
+		return fmt.Errorf("received '%s' but expected a valid address", s)
 	}
 	return nil
 }
@@ -58,7 +58,7 @@ func IsAddressArg(key string, args []string, i int) error {
 	return IsAddress(args[i])
 }
 
-// IsAddressArg validates that the args contains enough values, and if the given argument position is an int.
+// IsIntArg validates that the args contains enough values, and if the given argument position is an int.
 func IsIntArg(key string, args []string, i int) error {
 	if len(args) < i+1 {
 		return fmt.Errorf("requires <%s> arg", key)
