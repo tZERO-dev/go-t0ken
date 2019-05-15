@@ -2,6 +2,7 @@ package cli
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -18,13 +19,13 @@ func FlagOrConfigAddress(cmd *cobra.Command, flag, configKey string) (common.Add
 	}
 	// If neither the flag or config exists, and we have an error
 	if s == "" && err != nil {
-		return common.Address{}, err
+		return common.Address{}, fmt.Errorf("missing required flag '%s' or config key '%s'", flag, configKey)
 	}
 
 	// Convert to an address
 	err = IsAddress(s)
 	if err != nil {
-		return common.Address{}, err
+		return common.Address{}, fmt.Errorf("'%s' is not a valid address for flag '%s' or '%s' config key", s, flag, configKey)
 	}
 	return common.HexToAddress(s), err
 }
@@ -45,7 +46,7 @@ func AddressForKeystoreAlias(alias string) (common.Address, string, bool, error)
 	// Check if the alias exists
 	v, ok := m[alias]
 	if !ok {
-		return addr, passphrase, hasPassphrase, errors.New("Missing key '%s' within the 'keystoreAddressAliases' YAML configuration")
+		return addr, passphrase, hasPassphrase, fmt.Errorf("Missing key '%s' within the 'keystoreAddressAliases' YAML configuration", alias)
 	}
 
 	// Verify the value is a valid address
@@ -62,4 +63,9 @@ func AddressForKeystoreAlias(alias string) (common.Address, string, bool, error)
 	}
 	err := addr.UnmarshalText([]byte(s))
 	return addr, passphrase, hasPassphrase, err
+}
+
+// WaitFlag adds the 'wait' flag to the given command, to wait for 'n' confirmations..
+func WaitFlag(cmd *cobra.Command) {
+	cmd.Flags().Int("wait", -1, "waits the provided number of confirmations ('0' for accepted only)")
 }
