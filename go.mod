@@ -5,7 +5,7 @@ require (
 	github.com/aristanetworks/goarista v0.0.0-20190204200901-2166578f3448 // indirect
 	github.com/btcsuite/btcd v0.0.0-20190115013929-ed77733ec07d // indirect
 	github.com/deckarep/golang-set v1.7.1 // indirect
-	github.com/ethereum/go-ethereum v1.8.23
+	github.com/ethereum/go-ethereum v1.8.27
 	github.com/fatih/color v1.7.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
