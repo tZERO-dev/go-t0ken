@@ -1,13 +1,14 @@
 package main
 
 import (
+	//"context"
 	"encoding/csv"
 	"fmt"
 	"io"
 	"math/big"
 	"os"
-	"strconv"
 	"strings"
+	//"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
@@ -19,7 +20,9 @@ import (
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/contracts/registry"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	//"github.com/tzero-dev/go-t0ken/commands/broker"
+	//"github.com/tzero-dev/go-t0ken/commands/investor"
+	//"github.com/tzero-dev/go-t0ken/commands/token"
 )
 
 var one = new(big.Int).SetInt64(1)
@@ -29,6 +32,14 @@ var configFile string
 var rootCmd = &cobra.Command{
 	Use:   "t0kenbatch [OPTIONS] COMMAND [ARG...]",
 	Short: "Batch functions for use with tZERO Ethereum smart contracts",
+}
+
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Displays the t0kenbatch version",
+	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Println(t0ken.VERSION)
+	},
 }
 
 var completionCmd = &cobra.Command{
@@ -63,18 +74,6 @@ t0kenbatch completion zsh > /fpath/location/_t0kenbatch
 	},
 }
 
-type header int
-
-const (
-	ADDRESS header = iota
-	HASH
-	COUNTRY
-	ACCREDITATION
-	TOKENS
-)
-
-type headers [5]int
-
 type InvestorMsg struct {
 	Investor Investor
 	Error    error
@@ -84,86 +83,76 @@ type Investor struct {
 	Hash          [32]byte
 	Country       [2]byte
 	Accreditation *big.Int
-	Tokens        *big.Int
 }
 
 func (i Investor) String() string {
-	return fmt.Sprintf("%s, Hash: %#x, Country: %s, Accreditation: %s, Tokens: %s", i.Address.String(), i.Hash[:], string(i.Country[:]), i.Accreditation, i.Tokens.String())
+	return fmt.Sprintf("%s, Hash: %#x, Country: %s, Accreditation: %s", i.Address.String(), i.Hash[:], string(i.Country[:]), i.Accreditation)
 }
 
-func investorHeaders(s []string) (headers, error) {
-	var h headers
+func investorHeaders(s []string) ([4]int, error) {
+	var h [4]int
 	c := 0
 	for i := 0; i < len(s); i++ {
 		switch strings.ToUpper(s[i]) {
 		case "ADDRESS":
-			h[ADDRESS] = i
+			h[0] = i
 			c++
 		case "HASH":
-			h[HASH] = i
+			h[1] = i
 			c++
 		case "COUNTRY":
-			h[COUNTRY] = i
+			h[2] = i
 			c++
 		case "ACCREDITATION":
-			h[ACCREDITATION] = i
-			c++
-		case "TOKENS":
-			h[TOKENS] = i
+			h[3] = i
 			c++
 		}
 	}
 	var err error
+	if c != 4 {
+		err = fmt.Errorf("missing required headers within CSV, must have 'address', 'hash', 'country', and 'accreditation'")
+	}
 	return h, err
 }
 
-func newInvestor(row []string, h headers, isIssuance bool) (Investor, error) {
+func investorFrom(addr, hash, country, accreditation string) (Investor, error) {
 	var i Investor
 
-	if !common.IsHexAddress(row[h[ADDRESS]]) {
-		return i, fmt.Errorf("invalid address: '%s'", row[h[ADDRESS]])
+	if !common.IsHexAddress(addr) {
+		return i, fmt.Errorf("invalid address: '%s'", addr)
 	}
 
-	hash, err := hexutil.Decode(row[h[HASH]])
+	h, err := hexutil.Decode(hash)
 	if err != nil {
-		return i, fmt.Errorf("invalid hash: '%s', %s", row[h[HASH]], err)
+		return i, fmt.Errorf("invalid hash: '%s', %s", hash, err)
 	}
 
-	c, err := cli.CountryFromArg(row[h[COUNTRY]])
+	c, err := cli.CountryFromArg(country)
 	if err != nil {
-		return i, fmt.Errorf("invalid country: '%s', %s", row[h[COUNTRY]], err)
+		return i, fmt.Errorf("invalid country: '%s', %s", country, err)
 	}
 
-	a, err := cli.DateFromArg(row[h[ACCREDITATION]])
+	a, err := cli.DateFromArg(accreditation)
 	if err != nil {
-		return i, fmt.Errorf("invalid accreditation: '%s', %s", row[h[ACCREDITATION]], err)
-	}
-
-	var tokens int
-	if isIssuance {
-		tokens, err = strconv.Atoi(row[h[TOKENS]])
-		if err != nil {
-			return i, fmt.Errorf("invalid tokens: '%s', %s", row[h[TOKENS]], err)
-		}
+		return i, fmt.Errorf("invalid accreditation: '%s', %s", accreditation, err)
 	}
 
 	var b [32]byte
-	copy(b[:], hash)
+	copy(b[:], h)
 	return Investor{
-		Address:       common.HexToAddress(row[h[ADDRESS]]),
+		Address:       common.HexToAddress(addr),
 		Hash:          b,
 		Country:       c,
 		Accreditation: big.NewInt(a.Unix()),
-		Tokens:        big.NewInt(int64(tokens)),
 	}, nil
 }
 
-func parseInvestorCSV(r io.Reader, isIssuance bool) <-chan InvestorMsg {
+func parseInvestorCSV(r io.Reader) <-chan InvestorMsg {
 	c := make(chan InvestorMsg)
 	go func(ch chan<- InvestorMsg) {
 		reader := csv.NewReader(r)
 		index := -1
-		var h headers
+		var h [4]int
 		for {
 			index++
 			row, err := reader.Read()
@@ -182,7 +171,7 @@ func parseInvestorCSV(r io.Reader, isIssuance bool) <-chan InvestorMsg {
 				continue
 			}
 
-			i, err := newInvestor(row, h, isIssuance)
+			i, err := investorFrom(row[h[0]], row[h[1]], row[h[2]], row[h[3]])
 			if err != nil {
 				err = fmt.Errorf("error processing at row: %d, %s", index, err)
 			}
@@ -193,9 +182,60 @@ func parseInvestorCSV(r io.Reader, isIssuance bool) <-chan InvestorMsg {
 	return c
 }
 
-func investorTransactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
+func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
 	return registry.NewInvestorTransactor(addr, transactor)
 }
+
+//func transactionStatus(cmd *cobra.Command, h *[]common.Hash) {
+//	l := len(*h)
+//	for i := 0; i < l; {
+//		s := *h
+//		tx, pending, err := cli.Conn.TransactionByHash(context.Background(), s[i])
+//		if err != nil {
+//			cmd.Printf("Failed: %s, %s\n", s[i], err)
+//			*h = append(s[:i], s[i+1:]...)
+//			l--
+//		} else if !pending {
+//			cmd.Printf("Accepted: %s\n", tx.Hash().String())
+//			*h = append(s[:i], s[i+1:]...)
+//			l--
+//		} else {
+//			i++
+//		}
+//	}
+//}
+//
+//type Transaction struct {
+//	Hash  common.Hash
+//	Error error
+//}
+//
+//func WaitOnTransactions(ctx context.Context, h []common.Hash) chan<- Transaction {
+//	ch := make(chan<- Transaction)
+//	go func() {
+//		l := len(h)
+//		for i := 0; i < l; {
+//			tx, pending, err := cli.Conn.TransactionByHash(ctx, h[i])
+//			b, err := cli.Conn.BlockByHash(ctx, h[i])
+//			time.Unix(b.Time().Int64(), 0)
+//			b.GasUsed()  // uint64
+//			b.ReceivedAt //time.Time
+//			b.Number()   //*big.Int
+//
+//			if err != nil {
+//				h = append(h[:i], h[i+1:]...)
+//				l--
+//			} else if !pending {
+//				h = append(h[:i], h[i+1:]...)
+//				l--
+//			} else {
+//				i++
+//			}
+//		}
+//		close(ch)
+//	}()
+//	return ch
+//}
 
 var onboardInvestorCommand = &cobra.Command{
 	Use:   "onboardInvestors <file>",
@@ -216,14 +256,14 @@ address,hash,country,accreditation
 		cli.CheckErr(cmd, err)
 
 		// Connect to node
-		o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, "investorRegistry", investorTransactorSessionFn)
+		o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, "investorRegistry", transactorSessionFn)
 		transactor := o.(*registry.InvestorTransactor)
 		transSession := &registry.InvestorTransactorSession{transactor, transactOpts}
 		nonce := cli.Conn.Opts.Nonce
 
 		// Onboard
 		var transactions []common.Hash
-		for msg := range parseInvestorCSV(f, false) {
+		for msg := range parseInvestorCSV(f) {
 			if msg.Error != nil {
 				cmd.Println(msg.Error)
 				break
@@ -248,63 +288,15 @@ address,hash,country,accreditation
 			err = cli.WaitOnTransactions(cmd, transactions, 0)
 		}
 		cli.CheckErr(cmd, err)
-	},
-}
 
-func tokenTransactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return erc20.NewT0kenTransactor(addr, transactor)
-}
-
-var issueTokensCommand = &cobra.Command{
-	Use:   "issuance <file>",
-	Short: "Issues tokens to investors from the given CSV <file>",
-	Long: `The CSV file must be in the following format:
----
-address,tokens
-0xf01ff29dcbee147e9ca151a281bfdf136f66a45b,66
----
-
- - The header column must be present, with all values being required.
-`,
-	Args: cobra.ExactArgs(1),
-	Run: func(cmd *cobra.Command, args []string) {
-		// Open file
-		f, err := os.Open(args[0])
-		cli.CheckErr(cmd, err)
-
-		// Connect to node
-		o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, "t0ken", tokenTransactorSessionFn)
-		transactor := o.(*erc20.T0kenTransactor)
-		transSession := &erc20.T0kenTransactorSession{transactor, transactOpts}
-		nonce := cli.Conn.Opts.Nonce
-
-		// Onboard
-		var transactions []common.Hash
-		for msg := range parseInvestorCSV(f, true) {
-			if msg.Error != nil {
-				cmd.Println(msg.Error)
-				break
-			}
-
-			i := msg.Investor
-			tx, err := transSession.Transfer(i.Address, i.Tokens)
-			if err != nil {
-				cmd.Printf("Failed onboarding '%s', %s\n", i.Address.String(), err)
-				continue
-			}
-
-			nonce.Add(nonce, one)
-			transactions = append(transactions, tx.Hash())
-			cli.PrintTransaction(cmd.OutOrStdout(), tx)
-		}
-
-		// Wait on the transaction
-		if len(transactions) == 1 {
-			err = cli.WaitOnTransaction(cmd, transactions[0], 0)
-		} else {
-			err = cli.WaitOnTransactions(cmd, transactions, 0)
-		}
-		cli.CheckErr(cmd, err)
+		//// Wait for transactions to be mined
+		//for {
+		//	transactionStatus(cmd, &transactions)
+		//	if len(transactions) == 0 {
+		//		break
+		//	}
+		//	<-time.After(3 * time.Second)
+		//}
 	},
 }
 
@@ -333,19 +325,34 @@ func initConfig() {
 }
 
 func main() {
-	rootCmd.AddCommand(commands.Version)
+	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(completionCmd)
 
 	onboardInvestorCommand.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[investorRegistry] value from config")`)
 	onboardInvestorCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
-	issueTokensCommand.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[investorRegistry] value from config")`)
-	issueTokensCommand.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
-
 	rootCmd.AddCommand(onboardInvestorCommand)
-	rootCmd.AddCommand(issueTokensCommand)
 
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
 	}
 }
+
+/*
+
+✱ t0ken storage deploy
+✱ t0ken investor deploy
+✱ t0ken storage grantPermission 4 0x2c90510547d976D9fe1C88816A9dA12F07Fb3b04
+✱ t0ken investor setStorage 0xbd110bACa4eBcE26f22107A717c99Cd273f9D2b6
+✱ t0ken storage addAccount 0xa42c038b9f7dfabf95298024fbaae9e54e4f0abf 3 false 0xa42c038b9f7dfabf95298024fbaae9e54e4f0abf
+✱ t0kenbatch onboardInvestors investors.csv
+*/
+
+/*
+Refactor:
+
+ - Ability to keep track of what's processed _(separate file, same file)_
+ - Ability to pick up where we left off
+ - Limit the number of submitted transactions / batch transactions
+ - Arg(s) to start/stop at a given index in the file
+*/

@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/tzero-dev/go-t0ken"
+	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/broker"
 	"github.com/tzero-dev/go-t0ken/commands/compliance"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
@@ -26,14 +26,6 @@ var configFile string
 var rootCmd = &cobra.Command{
 	Use:   "t0ken [OPTIONS] COMMAND [ARG...]",
 	Short: "Utility functions for use with tZERO Ethereum smart contracts",
-}
-
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Displays the t0ken version",
-	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Println(t0ken.VERSION)
-	},
 }
 
 var completionCmd = &cobra.Command{
@@ -93,7 +85,7 @@ func initConfig() {
 }
 
 func main() {
-	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(commands.Version)
 	rootCmd.AddCommand(completionCmd)
 
 	// Gas
