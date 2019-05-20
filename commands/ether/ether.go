@@ -44,9 +44,11 @@ var SendCommand = &cobra.Command{
 
 		// Estimate the gas (2100 for non-message transaction)
 		gas, err := cli.Conn.EstimateGas(context.Background(), ethereum.CallMsg{
-			GasPrice: gasPrice,
-			Value:    wei,
+			From:     cli.Conn.Opts.From,
+			To:       &to,
 			Data:     data,
+			Value:    wei,
+			GasPrice: gasPrice,
 		})
 		cli.CheckErr(cmd, err)
 
