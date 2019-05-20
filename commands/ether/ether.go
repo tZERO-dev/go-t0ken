@@ -5,6 +5,7 @@ import (
 	"errors"
 	"math/big"
 
+	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/spf13/cobra"
@@ -22,23 +23,39 @@ var Command = &cobra.Command{
 }
 
 var SendCommand = &cobra.Command{
-	Use:    "send <address> <ether>",
-	Short:  "sends an <address> <ether>",
+	Use:    "send <address> <ether> [message]",
+	Short:  "sends an <address> <ether> [message]",
 	PreRun: cli.ConnectWithKeyStore,
-	Args:   cli.ChainArgs(cobra.ExactArgs(2), cli.AddressArgFunc("address", 0), cli.BigFloatArgFunc("ether", 1)),
+	Args:   cli.ChainArgs(cobra.RangeArgs(2, 3), cli.AddressArgFunc("address", 0), cli.BigFloatArgFunc("ether", 1)),
 	Run: func(cmd *cobra.Command, args []string) {
 		to := common.HexToAddress(args[0])
 		wei := getAmount(args[1])
 		gasPrice, err := gas.GetPrice(cmd, args)
 		cli.CheckErr(cmd, err)
 
+		var data []byte
+		if len(args) == 3 {
+			data = []byte(args[2])
+		}
+
+		// Get the next, or supplied nonce
 		n, err := nonce.Get()
 		cli.CheckErr(cmd, err)
 
-		tx := types.NewTransaction(n, to, wei, uint64(21000), gasPrice, nil)
+		// Estimate the gas (2100 for non-message transaction)
+		gas, err := cli.Conn.EstimateGas(context.Background(), ethereum.CallMsg{
+			GasPrice: gasPrice,
+			Value:    wei,
+			Data:     data,
+		})
+		cli.CheckErr(cmd, err)
+
+		// Create and sign the transaction
+		tx := types.NewTransaction(n, to, wei, gas, gasPrice, data)
 		signedTx, err := cli.Conn.Opts.Signer(types.HomesteadSigner{}, cli.Conn.Opts.From, tx)
 		cli.CheckErr(cmd, err)
 
+		// Send it
 		err = cli.Conn.SendTransaction(context.Background(), signedTx)
 		cli.PrintTransactionFn(cmd)(signedTx, err)
 	},
