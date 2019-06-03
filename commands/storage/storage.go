@@ -107,5 +107,5 @@ func init() {
 	cli.WaitFlag(DeployCommand)
 
 	// Allow providing contract 'address' flag
-	AuditCommand.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+	AuditCommand.Flags().String("address", "", `address of the Storage contract (default "[`+contractKey+`] value from config")`)
 }

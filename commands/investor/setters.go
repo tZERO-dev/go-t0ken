@@ -107,7 +107,7 @@ var SetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "setStorage <address>",
 		Short:   "Sets the storage contract to <address>",
-		Example: "t0ken broker setStorage 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
+		Example: "t0ken investor setStorage 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -129,7 +129,7 @@ func init() {
 		nonce.Flag(cmd)
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the Investor registry contract (default "[`+contractKey+`] value from config")`)
 		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 	}
 }

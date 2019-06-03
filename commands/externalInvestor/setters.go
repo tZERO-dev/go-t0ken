@@ -129,7 +129,7 @@ func init() {
 		nonce.Flag(cmd)
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the External-Investor registry contract (default "[`+contractKey+`] value from config")`)
 		cmd.Flags().Int("wait", -1, "waits the provided number of seconds for the transaction to be mined ('0' waits indefinitely)")
 	}
 }
