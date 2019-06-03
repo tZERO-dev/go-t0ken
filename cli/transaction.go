@@ -72,14 +72,14 @@ func PrintTransaction(w io.Writer, tx *types.Transaction) error {
 	cost := units.ConvertInt(tx.Cost(), units.Wei, units.Ether)
 	price := units.ConvertInt(tx.GasPrice(), units.Wei, units.Gwei)
 	_, err := fmt.Fprintf(w, `  Transaction: %s
-         Data: %s
+         Data: %x
         Value: %s Ether
       Tx Cost: %s Ether
     Gas Price: %s Gwei
         Nonce: %d
 `,
 		tx.Hash().String(),
-		string(tx.Data()),
+		tx.Data(),
 		value.Text('f', 9),
 		cost.Text('f', 9),
 		price.Text('f', 4),
