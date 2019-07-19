@@ -105,14 +105,14 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "setStorage <address>",
-		Short:   "Sets the storage contract to <address>",
-		Example: "t0ken externalInvestor setStorage 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
+		Use:     "setRegistry <address>",
+		Short:   "Sets the registry contract to <address>",
+		Example: "t0ken externalInvestor setRegistry 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransactionFn(cmd)(transSession.SetStorage(addr))
+			cli.PrintTransactionFn(cmd)(transSession.SetRegistry(addr))
 		},
 	},
 }

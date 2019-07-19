@@ -59,13 +59,13 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "storage",
-		Short:   "Gets the Storage contract address",
-		Example: "t0ken externalInvestor storage",
+		Use:     "registry",
+		Short:   "Gets the Registry contract address",
+		Example: "t0ken externalInvestor registry",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckAddressGetter(cmd)(callSession.Store())
+			cli.CheckAddressGetter(cmd)(callSession.Registry())
 		},
 	},
 }

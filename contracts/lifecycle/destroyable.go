@@ -15,10 +15,10 @@ import (
 )
 
 // DestroyableABI is the input ABI used to generate the binding from.
-const DestroyableABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const DestroyableABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
 
 // DestroyableBin is the compiled bytecode used for deploying new contracts.
-const DestroyableBin = `608060405260008054600160a060020a031916331790556103d1806100256000396000f3fe608060405234801561001057600080fd5b506004361061005d577c0100000000000000000000000000000000000000000000000000000000600035046341c0e1b581146100625780634fb2e45d1461006c5780638da5cb5b1461009f575b600080fd5b61006a6100d0565b005b61006a6004803603602081101561008257600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610171565b6100a7610364565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b60005473ffffffffffffffffffffffffffffffffffffffff16331461015657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b60005473ffffffffffffffffffffffffffffffffffffffff1633146101f757604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff8281169116141561026b576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260258152602001806103816025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff811615156102ef57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff8381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60005473ffffffffffffffffffffffffffffffffffffffff168156fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a165627a7a723058205d8d6c552ea55224cad69f2718de646dc4bdf1178ad2024bd019c2930d790ee00029`
+const DestroyableBin = `6080604052600180546001600160a01b03199081169091556000805490911633179055610337806100316000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c806341c0e1b5146100515780634fb2e45d1461005b578063538ba4f9146100815780638da5cb5b146100a5575b600080fd5b6100596100ad565b005b6100596004803603602081101561007157600080fd5b50356001600160a01b0316610135565b6100896102bf565b604080516001600160a01b039092168252519081900360200190f35b6100896102ce565b6000546001600160a01b03163314806100d657506001546000546001600160a01b039081169116145b610127576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b0316ff5b6000546001600160a01b031633148061015e57506001546000546001600160a01b039081169116145b6101af576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156101fc5760405162461bcd60e51b81526004018080602001828103825260258152602001806102de6025913960400191505060405180910390fd5b6001600160a01b038116610257576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6000546001600160a01b03168156fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a265627a7a723058205928518726914a8a41b893a84a90c2dfee5cba199074891adc73a3337badeae364736f6c63430005090032`
 
 // DeployDestroyable deploys a new Ethereum contract, binding an instance of Destroyable to it.
 func DeployDestroyable(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Destroyable, error) {
@@ -173,6 +173,32 @@ func (_Destroyable *DestroyableTransactorRaw) Transfer(opts *bind.TransactOpts) 
 // Transact invokes the (paid) contract method with params as input values.
 func (_Destroyable *DestroyableTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
 	return _Destroyable.Contract.contract.Transact(opts, method, params...)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Destroyable *DestroyableCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Destroyable.contract.Call(opts, out, "ZERO_ADDRESS")
+	return *ret0, err
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Destroyable *DestroyableSession) ZEROADDRESS() (common.Address, error) {
+	return _Destroyable.Contract.ZEROADDRESS(&_Destroyable.CallOpts)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Destroyable *DestroyableCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _Destroyable.Contract.ZEROADDRESS(&_Destroyable.CallOpts)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.

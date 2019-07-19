@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	CLIVersion   string = "0.0.5"
-	T0kenVersion string = "1.1.0"
+	CLIVersion   string = "0.1.0"
+	T0kenVersion string = "1.2.0"
 	GitCommit    string = "experimental"
 )
 

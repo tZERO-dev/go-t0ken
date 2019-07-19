@@ -17,11 +17,12 @@ var SetterCommands = []*cobra.Command{
 		Use:     "add <broker>",
 		Short:   "Adds the <broker> address",
 		Example: "t0ken broker add 0xb01ba0d19cc9cd613253bad489b69e583dbfd4da --keystoreAddress custodian",
-		Args:    cli.AddressArgFunc("broker", 0),
+		Args:    cli.ChainArgs(cli.AddressArgFunc("broker", 0), cli.HexArgFunc("hash", 1, 16)),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			broker := common.HexToAddress(args[0])
-			cli.PrintTransactionFn(cmd)(transSession.Add(broker))
+			hash, _ := cli.HashFromArg(args[1])
+			cli.PrintTransactionFn(cmd)(transSession.Add(broker, hash))
 		},
 	},
 	&cobra.Command{
@@ -59,14 +60,14 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "setStorage <address>",
-		Short:   "Sets the storage contract to <address>",
-		Example: "t0ken broker setStorage 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
+		Use:     "setRegistry <address>",
+		Short:   "Sets the registry contract to <address>",
+		Example: "t0ken broker setRegistry 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransactionFn(cmd)(transSession.SetStorage(addr))
+			cli.PrintTransactionFn(cmd)(transSession.SetRegistry(addr))
 		},
 	},
 }

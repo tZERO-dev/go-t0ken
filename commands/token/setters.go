@@ -41,13 +41,13 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "finishIssuing",
-		Short:   "Finishes issuing for the token (can't be undone)",
-		Example: "t0ken token finishIssuing --keystoreAddress issuer",
+		Use:     "finishIssuance",
+		Short:   "Finishes issuance for the token (can't be undone)",
+		Example: "t0ken token finishIssuance --keystoreAddress issuer",
 		Args:    cobra.NoArgs,
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.PrintTransactionFn(cmd)(transSession.FinishIssuing())
+			cli.PrintTransactionFn(cmd)(transSession.FinishIssuance())
 		},
 	},
 	&cobra.Command{

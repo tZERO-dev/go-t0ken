@@ -16,7 +16,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/investor"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/commands/storage"
+	"github.com/tzero-dev/go-t0ken/commands/registry"
 	"github.com/tzero-dev/go-t0ken/commands/token"
 	"github.com/tzero-dev/go-t0ken/commands/transaction"
 )
@@ -121,12 +121,12 @@ func main() {
 	compliance.Command.AddCommand(compliance.SetterCommands...)
 	rootCmd.AddCommand(compliance.Command)
 
-	// Registry, Storage
-	storage.Command.AddCommand(storage.DeployCommand)
-	storage.Command.AddCommand(storage.AuditCommand)
-	storage.Command.AddCommand(storage.GetterCommands...)
-	storage.Command.AddCommand(storage.SetterCommands...)
-	rootCmd.AddCommand(storage.Command)
+	// Registry
+	registry.Command.AddCommand(registry.DeployCommand)
+	registry.Command.AddCommand(registry.AuditCommand)
+	registry.Command.AddCommand(registry.GetterCommands...)
+	registry.Command.AddCommand(registry.SetterCommands...)
+	rootCmd.AddCommand(registry.Command)
 
 	// Registry, Custodian
 	custodian.Command.AddCommand(custodian.DeployCommand)

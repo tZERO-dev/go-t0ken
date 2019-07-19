@@ -29,13 +29,9 @@ var SetterCommands = []*cobra.Command{
 		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
-			h, _ := hexutil.Decode(args[1])
+			hash, _ := cli.HashFromArg(args[1])
 			country, _ := cli.CountryFromArg(args[2])
 			accreditation, _ := cli.DateFromArg(args[3])
-
-			// Convert has to fixed size byte array
-			var hash [32]byte
-			copy(hash[:], h)
 
 			cli.PrintTransactionFn(cmd)(transSession.Add(investor, hash, country, big.NewInt(accreditation.Unix())))
 		},
@@ -44,7 +40,7 @@ var SetterCommands = []*cobra.Command{
 		Use:     "remove <investor>",
 		Short:   "Removes the <investor> address --keystoreAddress broker",
 		Example: "t0ken investor remove 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b --keystoreAddress broker",
-		Args:    cli.ChainArgs(cli.AddressArgFunc("investor", 0)),
+		Args:    cli.AddressArgFunc("investor", 0),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
@@ -105,14 +101,14 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "setStorage <address>",
-		Short:   "Sets the storage contract to <address>",
-		Example: "t0ken investor setStorage 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
+		Use:     "setRegistry <address>",
+		Short:   "Sets the registry contract to <address>",
+		Example: "t0ken investor setRegistry 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
-			cli.PrintTransactionFn(cmd)(transSession.SetStorage(addr))
+			cli.PrintTransactionFn(cmd)(transSession.SetRegistry(addr))
 		},
 	},
 }

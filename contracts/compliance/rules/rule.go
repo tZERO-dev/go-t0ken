@@ -14,7 +14,7 @@ import (
 )
 
 // RuleABI is the input ABI used to generate the binding from.
-const RuleABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"toKind\",\"type\":\"uint8\"},{\"name\":\"tokens\",\"type\":\"uint256\"},{\"name\":\"store\",\"type\":\"address\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
+const RuleABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"toKind\",\"type\":\"uint8\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"compliance\",\"type\":\"address\"},{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"toKind\",\"type\":\"uint8\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"test\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
 
 // Rule is an auto generated Go binding around an Ethereum contract.
 type Rule struct {
@@ -158,23 +158,75 @@ func (_Rule *RuleTransactorRaw) Transact(opts *bind.TransactOpts, method string,
 	return _Rule.Contract.contract.Transact(opts, method, params...)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_Rule *RuleTransactor) Check(opts *bind.TransactOpts, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _Rule.contract.Transact(opts, "check", initiator, from, to, toKind, tokens, store)
+// Solidity: function name() constant returns(string)
+func (_Rule *RuleCaller) Name(opts *bind.CallOpts) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _Rule.contract.Call(opts, out, "name")
+	return *ret0, err
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_Rule *RuleSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _Rule.Contract.Check(&_Rule.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function name() constant returns(string)
+func (_Rule *RuleSession) Name() (string, error) {
+	return _Rule.Contract.Name(&_Rule.CallOpts)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_Rule *RuleTransactorSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _Rule.Contract.Check(&_Rule.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function name() constant returns(string)
+func (_Rule *RuleCallerSession) Name() (string, error) {
+	return _Rule.Contract.Name(&_Rule.CallOpts)
+}
+
+// Test is a free data retrieval call binding the contract method 0xa9189562.
+//
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, toKind uint8, tokens uint256) constant returns(string)
+func (_Rule *RuleCaller) Test(opts *bind.CallOpts, compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _Rule.contract.Call(opts, out, "test", compliance, token, initiator, from, to, toKind, tokens)
+	return *ret0, err
+}
+
+// Test is a free data retrieval call binding the contract method 0xa9189562.
+//
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, toKind uint8, tokens uint256) constant returns(string)
+func (_Rule *RuleSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int) (string, error) {
+	return _Rule.Contract.Test(&_Rule.CallOpts, compliance, token, initiator, from, to, toKind, tokens)
+}
+
+// Test is a free data retrieval call binding the contract method 0xa9189562.
+//
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, toKind uint8, tokens uint256) constant returns(string)
+func (_Rule *RuleCallerSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int) (string, error) {
+	return _Rule.Contract.Test(&_Rule.CallOpts, compliance, token, initiator, from, to, toKind, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x5a47e1c7.
+//
+// Solidity: function check(token address, initiator address, from address, to address, toKind uint8, tokens uint256) returns()
+func (_Rule *RuleTransactor) Check(opts *bind.TransactOpts, token common.Address, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int) (*types.Transaction, error) {
+	return _Rule.contract.Transact(opts, "check", token, initiator, from, to, toKind, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x5a47e1c7.
+//
+// Solidity: function check(token address, initiator address, from address, to address, toKind uint8, tokens uint256) returns()
+func (_Rule *RuleSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int) (*types.Transaction, error) {
+	return _Rule.Contract.Check(&_Rule.TransactOpts, token, initiator, from, to, toKind, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x5a47e1c7.
+//
+// Solidity: function check(token address, initiator address, from address, to address, toKind uint8, tokens uint256) returns()
+func (_Rule *RuleTransactorSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int) (*types.Transaction, error) {
+	return _Rule.Contract.Check(&_Rule.TransactOpts, token, initiator, from, to, toKind, tokens)
 }

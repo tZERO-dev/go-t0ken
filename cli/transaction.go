@@ -229,30 +229,35 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 }
 
 func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout int) error {
-	confirmedTransactions := make([]common.Hash, len(transactions))
-
 	// Wait for all transaction confirmations
-	for i := 0; i < len(transactions); {
-		elapsed := 0
+	n := len(transactions)
+	confirmed := make([]common.Hash, 0, n)
+	elapsed := 0
+	for i := 0; len(confirmed) < n; i++ {
 		_, pending, err := Conn.TransactionByHash(context.Background(), transactions[i])
 		if err != nil {
 			cmd.Printf("failed to retrieve transaction '%s', %s\n", transactions[i].String(), err)
-			i++
+			n--
+			transactions[i] = transactions[n]
 		} else if !pending {
-			confirmedTransactions = append(confirmedTransactions, transactions[i])
-			i++
-		} else if timeout > 0 && elapsed-timeout > 0 {
-			return errors.New("exceederd timeout")
+			confirmed = append(confirmed, transactions[i])
 		}
-		<-time.After(waitDuration)
-		elapsed += 1
-		cmd.Print(".")
+
+		if i == n {
+			elapsed++
+			if elapsed > timeout {
+				return errors.New("exceederd timeout")
+			}
+			<-time.After(waitDuration)
+			cmd.Print(".")
+			i = 0
+		}
 	}
 
 	// Get the blocks the transactions are included in
 	var blocks []*types.Block
 	blockTx := make(map[uint64][]string)
-	for _, tx := range transactions {
+	for _, tx := range confirmed {
 		// Ensure the transaction is successful
 		tr, err := Conn.TransactionReceipt(context.Background(), tx)
 		if err != nil {

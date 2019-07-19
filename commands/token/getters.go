@@ -136,13 +136,13 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "issuingFinished",
-		Short:   "Returns if issuing has been finished",
-		Example: "t0ken token issuingFinished",
+		Use:     "issuanceFinished",
+		Short:   "Returns if issuance has been finished",
+		Example: "t0ken token issuanceFinished",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckGetter(cmd)(callSession.IssuingFinished())
+			cli.CheckGetter(cmd)(callSession.IssuanceFinished())
 		},
 	},
 	&cobra.Command{

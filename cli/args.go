@@ -39,7 +39,6 @@ func GetArgAddress(index int, args []string) (common.Address, error) {
 		return addr, errors.New("invalid address for <address> arg")
 	}
 	return common.HexToAddress(args[index]), nil
-
 }
 
 // IsAddress checks if the given string is a valid address.
@@ -89,14 +88,14 @@ func UintArgFunc(key string, index, bitSize int) func(*cobra.Command, []string) 
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is an int.
+// IntArgFunc returns a cobra.Command Arg function to validate the given argument index is an int.
 func IntArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		return IsIntArg(key, args, index)
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Int.
+// BigIntArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Int.
 func BigIntArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if len(args) < index+1 {
@@ -110,7 +109,7 @@ func BigIntArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Float.
+// BigFloatArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Float.
 func BigFloatArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if len(args) < index+1 {
@@ -124,7 +123,7 @@ func BigFloatArgFunc(key string, index int) func(*cobra.Command, []string) error
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is a common.Address.
+// AddressArgFunc returns a cobra.Command Arg function to validate the given argument index is a common.Address.
 func AddressArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		return IsAddressArg(key, args, index)
@@ -164,6 +163,16 @@ func CountryCodeArgFunc(key string, index int) func(*cobra.Command, []string) er
 		_, err := CountryFromArg(args[index])
 		return err
 	}
+}
+
+// HashFromArg returns the bytes32 hash for the argument at the specified index.
+func HashFromArg(s string) ([32]byte, error) {
+	var hash [32]byte
+	h, err := hexutil.Decode(s)
+	if err != nil {
+		copy(hash[:], h)
+	}
+	return hash, err
 }
 
 // HexArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string of the given length.

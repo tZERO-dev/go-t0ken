@@ -15,10 +15,10 @@ import (
 )
 
 // OwnableABI is the input ABI used to generate the binding from.
-const OwnableABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const OwnableABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
 
 // OwnableBin is the compiled bytecode used for deploying new contracts.
-const OwnableBin = `608060405234801561001057600080fd5b5060008054600160a060020a0319163317905561031d806100326000396000f3fe608060405234801561001057600080fd5b5060043610610052577c010000000000000000000000000000000000000000000000000000000060003504634fb2e45d81146100575780638da5cb5b1461008c575b600080fd5b61008a6004803603602081101561006d57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff166100bd565b005b6100946102b0565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b60005473ffffffffffffffffffffffffffffffffffffffff16331461014357604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff828116911614156101b7576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260258152602001806102cd6025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff8116151561023b57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff8381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60005473ffffffffffffffffffffffffffffffffffffffff168156fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a165627a7a72305820abb8f89d613972427772534999978b6efbf2f5ed060837684f80ad42edaec8cf0029`
+const OwnableBin = `6080604052600180546001600160a01b031916905534801561002057600080fd5b50600080546001600160a01b0319163317905561029c806100426000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80634fb2e45d14610046578063538ba4f91461006e5780638da5cb5b14610092575b600080fd5b61006c6004803603602081101561005c57600080fd5b50356001600160a01b031661009a565b005b610076610224565b604080516001600160a01b039092168252519081900360200190f35b610076610233565b6000546001600160a01b03163314806100c357506001546000546001600160a01b039081169116145b610114576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156101615760405162461bcd60e51b81526004018080602001828103825260258152602001806102436025913960400191505060405180910390fd5b6001600160a01b0381166101bc576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6000546001600160a01b03168156fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a265627a7a72305820e5da8bcfb9a3193ee89086c850a3dbc990e85bb6390506229880eb216f1ffc5f64736f6c63430005090032`
 
 // DeployOwnable deploys a new Ethereum contract, binding an instance of Ownable to it.
 func DeployOwnable(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Ownable, error) {
@@ -173,6 +173,32 @@ func (_Ownable *OwnableTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.
 // Transact invokes the (paid) contract method with params as input values.
 func (_Ownable *OwnableTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
 	return _Ownable.Contract.contract.Transact(opts, method, params...)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Ownable *OwnableCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Ownable.contract.Call(opts, out, "ZERO_ADDRESS")
+	return *ret0, err
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Ownable *OwnableSession) ZEROADDRESS() (common.Address, error) {
+	return _Ownable.Contract.ZEROADDRESS(&_Ownable.CallOpts)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Ownable *OwnableCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _Ownable.Contract.ZEROADDRESS(&_Ownable.CallOpts)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.

@@ -16,7 +16,7 @@ import (
 )
 
 // ComplianceABI is the input ABI used to generate the binding from.
-const ComplianceABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"admin\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"canOverride\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"canTransfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addr\",\"type\":\"address\"},{\"name\":\"freeze\",\"type\":\"bool\"}],\"name\":\"setFrozen\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"kind\",\"type\":\"uint8\"}],\"name\":\"getRules\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"kind\",\"type\":\"uint8\"},{\"name\":\"rules\",\"type\":\"address[]\"}],\"name\":\"setRules\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuer\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"canIssue\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"addr\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"isFrozen\",\"type\":\"bool\"},{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"AddressFrozen\",\"type\":\"event\"}]"
+const ComplianceABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"kind\",\"type\":\"uint8\"},{\"name\":\"rules\",\"type\":\"address[]\"}],\"name\":\"setRules\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"kind\",\"type\":\"uint8\"}],\"name\":\"getRules\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"admin\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"canOverride\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"canTransfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"registry\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"store\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"addr\",\"type\":\"address\"},{\"name\":\"freeze\",\"type\":\"bool\"}],\"name\":\"setFrozen\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"issuer\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"canIssue\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"addr\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"isFrozen\",\"type\":\"bool\"},{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"AddressFrozen\",\"type\":\"event\"}]"
 
 // Compliance is an auto generated Go binding around an Ethereum contract.
 type Compliance struct {
@@ -160,30 +160,82 @@ func (_Compliance *ComplianceTransactorRaw) Transact(opts *bind.TransactOpts, me
 	return _Compliance.Contract.contract.Transact(opts, method, params...)
 }
 
-// GetRules is a free data retrieval call binding the contract method 0xafc24bfb.
+// GetRules is a free data retrieval call binding the contract method 0x45178acb.
 //
-// Solidity: function getRules(kind uint8) constant returns(address[])
-func (_Compliance *ComplianceCaller) GetRules(opts *bind.CallOpts, kind uint8) ([]common.Address, error) {
+// Solidity: function getRules(token address, kind uint8) constant returns(address[])
+func (_Compliance *ComplianceCaller) GetRules(opts *bind.CallOpts, token common.Address, kind uint8) ([]common.Address, error) {
 	var (
 		ret0 = new([]common.Address)
 	)
 	out := ret0
-	err := _Compliance.contract.Call(opts, out, "getRules", kind)
+	err := _Compliance.contract.Call(opts, out, "getRules", token, kind)
 	return *ret0, err
 }
 
-// GetRules is a free data retrieval call binding the contract method 0xafc24bfb.
+// GetRules is a free data retrieval call binding the contract method 0x45178acb.
 //
-// Solidity: function getRules(kind uint8) constant returns(address[])
-func (_Compliance *ComplianceSession) GetRules(kind uint8) ([]common.Address, error) {
-	return _Compliance.Contract.GetRules(&_Compliance.CallOpts, kind)
+// Solidity: function getRules(token address, kind uint8) constant returns(address[])
+func (_Compliance *ComplianceSession) GetRules(token common.Address, kind uint8) ([]common.Address, error) {
+	return _Compliance.Contract.GetRules(&_Compliance.CallOpts, token, kind)
 }
 
-// GetRules is a free data retrieval call binding the contract method 0xafc24bfb.
+// GetRules is a free data retrieval call binding the contract method 0x45178acb.
 //
-// Solidity: function getRules(kind uint8) constant returns(address[])
-func (_Compliance *ComplianceCallerSession) GetRules(kind uint8) ([]common.Address, error) {
-	return _Compliance.Contract.GetRules(&_Compliance.CallOpts, kind)
+// Solidity: function getRules(token address, kind uint8) constant returns(address[])
+func (_Compliance *ComplianceCallerSession) GetRules(token common.Address, kind uint8) ([]common.Address, error) {
+	return _Compliance.Contract.GetRules(&_Compliance.CallOpts, token, kind)
+}
+
+// Registry is a free data retrieval call binding the contract method 0x7b103999.
+//
+// Solidity: function registry() constant returns(address)
+func (_Compliance *ComplianceCaller) Registry(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Compliance.contract.Call(opts, out, "registry")
+	return *ret0, err
+}
+
+// Registry is a free data retrieval call binding the contract method 0x7b103999.
+//
+// Solidity: function registry() constant returns(address)
+func (_Compliance *ComplianceSession) Registry() (common.Address, error) {
+	return _Compliance.Contract.Registry(&_Compliance.CallOpts)
+}
+
+// Registry is a free data retrieval call binding the contract method 0x7b103999.
+//
+// Solidity: function registry() constant returns(address)
+func (_Compliance *ComplianceCallerSession) Registry() (common.Address, error) {
+	return _Compliance.Contract.Registry(&_Compliance.CallOpts)
+}
+
+// Store is a free data retrieval call binding the contract method 0x975057e7.
+//
+// Solidity: function store() constant returns(address)
+func (_Compliance *ComplianceCaller) Store(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Compliance.contract.Call(opts, out, "store")
+	return *ret0, err
+}
+
+// Store is a free data retrieval call binding the contract method 0x975057e7.
+//
+// Solidity: function store() constant returns(address)
+func (_Compliance *ComplianceSession) Store() (common.Address, error) {
+	return _Compliance.Contract.Store(&_Compliance.CallOpts)
+}
+
+// Store is a free data retrieval call binding the contract method 0x975057e7.
+//
+// Solidity: function store() constant returns(address)
+func (_Compliance *ComplianceCallerSession) Store() (common.Address, error) {
+	return _Compliance.Contract.Store(&_Compliance.CallOpts)
 }
 
 // CanIssue is a paid mutator transaction binding the contract method 0xfd8258bd.
@@ -249,46 +301,46 @@ func (_Compliance *ComplianceTransactorSession) CanTransfer(initiator common.Add
 	return _Compliance.Contract.CanTransfer(&_Compliance.TransactOpts, initiator, from, to, tokens)
 }
 
-// SetFrozen is a paid mutator transaction binding the contract method 0xac869cd8.
+// SetFrozen is a paid mutator transaction binding the contract method 0xd69e70ba.
 //
-// Solidity: function setFrozen(addr address, freeze bool) returns()
-func (_Compliance *ComplianceTransactor) SetFrozen(opts *bind.TransactOpts, addr common.Address, freeze bool) (*types.Transaction, error) {
-	return _Compliance.contract.Transact(opts, "setFrozen", addr, freeze)
+// Solidity: function setFrozen(token address, addr address, freeze bool) returns()
+func (_Compliance *ComplianceTransactor) SetFrozen(opts *bind.TransactOpts, token common.Address, addr common.Address, freeze bool) (*types.Transaction, error) {
+	return _Compliance.contract.Transact(opts, "setFrozen", token, addr, freeze)
 }
 
-// SetFrozen is a paid mutator transaction binding the contract method 0xac869cd8.
+// SetFrozen is a paid mutator transaction binding the contract method 0xd69e70ba.
 //
-// Solidity: function setFrozen(addr address, freeze bool) returns()
-func (_Compliance *ComplianceSession) SetFrozen(addr common.Address, freeze bool) (*types.Transaction, error) {
-	return _Compliance.Contract.SetFrozen(&_Compliance.TransactOpts, addr, freeze)
+// Solidity: function setFrozen(token address, addr address, freeze bool) returns()
+func (_Compliance *ComplianceSession) SetFrozen(token common.Address, addr common.Address, freeze bool) (*types.Transaction, error) {
+	return _Compliance.Contract.SetFrozen(&_Compliance.TransactOpts, token, addr, freeze)
 }
 
-// SetFrozen is a paid mutator transaction binding the contract method 0xac869cd8.
+// SetFrozen is a paid mutator transaction binding the contract method 0xd69e70ba.
 //
-// Solidity: function setFrozen(addr address, freeze bool) returns()
-func (_Compliance *ComplianceTransactorSession) SetFrozen(addr common.Address, freeze bool) (*types.Transaction, error) {
-	return _Compliance.Contract.SetFrozen(&_Compliance.TransactOpts, addr, freeze)
+// Solidity: function setFrozen(token address, addr address, freeze bool) returns()
+func (_Compliance *ComplianceTransactorSession) SetFrozen(token common.Address, addr common.Address, freeze bool) (*types.Transaction, error) {
+	return _Compliance.Contract.SetFrozen(&_Compliance.TransactOpts, token, addr, freeze)
 }
 
-// SetRules is a paid mutator transaction binding the contract method 0xd179d77d.
+// SetRules is a paid mutator transaction binding the contract method 0x30f047c3.
 //
-// Solidity: function setRules(kind uint8, rules address[]) returns()
-func (_Compliance *ComplianceTransactor) SetRules(opts *bind.TransactOpts, kind uint8, rules []common.Address) (*types.Transaction, error) {
-	return _Compliance.contract.Transact(opts, "setRules", kind, rules)
+// Solidity: function setRules(token address, kind uint8, rules address[]) returns()
+func (_Compliance *ComplianceTransactor) SetRules(opts *bind.TransactOpts, token common.Address, kind uint8, rules []common.Address) (*types.Transaction, error) {
+	return _Compliance.contract.Transact(opts, "setRules", token, kind, rules)
 }
 
-// SetRules is a paid mutator transaction binding the contract method 0xd179d77d.
+// SetRules is a paid mutator transaction binding the contract method 0x30f047c3.
 //
-// Solidity: function setRules(kind uint8, rules address[]) returns()
-func (_Compliance *ComplianceSession) SetRules(kind uint8, rules []common.Address) (*types.Transaction, error) {
-	return _Compliance.Contract.SetRules(&_Compliance.TransactOpts, kind, rules)
+// Solidity: function setRules(token address, kind uint8, rules address[]) returns()
+func (_Compliance *ComplianceSession) SetRules(token common.Address, kind uint8, rules []common.Address) (*types.Transaction, error) {
+	return _Compliance.Contract.SetRules(&_Compliance.TransactOpts, token, kind, rules)
 }
 
-// SetRules is a paid mutator transaction binding the contract method 0xd179d77d.
+// SetRules is a paid mutator transaction binding the contract method 0x30f047c3.
 //
-// Solidity: function setRules(kind uint8, rules address[]) returns()
-func (_Compliance *ComplianceTransactorSession) SetRules(kind uint8, rules []common.Address) (*types.Transaction, error) {
-	return _Compliance.Contract.SetRules(&_Compliance.TransactOpts, kind, rules)
+// Solidity: function setRules(token address, kind uint8, rules address[]) returns()
+func (_Compliance *ComplianceTransactorSession) SetRules(token common.Address, kind uint8, rules []common.Address) (*types.Transaction, error) {
+	return _Compliance.Contract.SetRules(&_Compliance.TransactOpts, token, kind, rules)
 }
 
 // ComplianceAddressFrozenIterator is returned from FilterAddressFrozen and is used to iterate over the raw logs and unpacked data for AddressFrozen events raised by the Compliance contract.

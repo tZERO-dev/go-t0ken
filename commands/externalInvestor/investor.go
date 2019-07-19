@@ -22,11 +22,12 @@ var (
 		Use:     "deploy",
 		Short:   "Deploys a new investor contract",
 		Example: "t0ken externalInvestor deploy --keystoreAddress owner",
-		Args:    cobra.NoArgs,
+		Args:    cli.AddressArgFunc("registry", 0),
 		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
 			// Deploy the investor registry using for the symbol/name/decimals
-			addr, tx, _, err := registry.DeployExternalInvestor(cli.Conn.Opts, cli.Conn.Client)
+			registryAddress := common.HexToAddress(args[0])
+			addr, tx, _, err := registry.DeployExternalInvestor(cli.Conn.Opts, cli.Conn.Client, registryAddress)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
