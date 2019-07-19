@@ -1,4 +1,4 @@
-package storage
+package registry
 
 import (
 	"context"
@@ -19,19 +19,19 @@ import (
 
 var (
 	Command = &cobra.Command{
-		Use:   "storage",
-		Short: "Storage utilities",
+		Use:   "registry",
+		Short: "Registry utilities",
 	}
 
 	DeployCommand = &cobra.Command{
 		Use:     "deploy",
-		Short:   "Deploys a new storage contract",
-		Example: "t0ken storage deploy --keystoreAddress owner",
+		Short:   "Deploys a new registry contract",
+		Example: "t0ken registry deploy --keystoreAddress owner",
 		Args:    cobra.NoArgs,
 		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
-			// Deploy the storage using for the symbol/name/decimals
-			addr, tx, _, err := registry.DeployStorage(cli.Conn.Opts, cli.Conn.Client)
+			// Deploy the registry using for the symbol/name/decimals
+			addr, tx, _, err := registry.DeployRegistry(cli.Conn.Opts, cli.Conn.Client)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -64,40 +64,40 @@ var (
 			cmd.Printf("Block: %s\n", header.Number.String())
 			fmt.Println("address,kind,frozen,parent")
 			for i := int64(0); i < n.Int64(); i++ {
-				addr, k, frozen, parent, err := callSession.AccountAt(index)
+				addr, k, frozen, parent, hash, err := callSession.AccountAt(index)
 				cli.CheckErr(cmd, err)
 
 				if kind == 0 || k == kind {
-					fmt.Printf("%s,%d,%t,%s\n", addr.String(), k, frozen, parent.String())
+					fmt.Printf("%s,%d,%t,%s,%x\n", addr.String(), k, frozen, parent.String(), hash)
 				}
 				index.Add(index, one)
 			}
 		},
 	}
 
-	contractKey  = "storage"
-	callSession  *registry.StorageCallerSession
-	transSession *registry.StorageTransactorSession
+	contractKey  = "registry"
+	callSession  *registry.RegistryCallerSession
+	transSession *registry.RegistryTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return registry.NewStorageCaller(addr, caller)
+	return registry.NewRegistryCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return registry.NewStorageTransactor(addr, transactor)
+	return registry.NewRegistryTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*registry.StorageCaller)
-	callSession = &registry.StorageCallerSession{caller, callOpts}
+	caller := o.(*registry.RegistryCaller)
+	callSession = &registry.RegistryCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*registry.StorageTransactor)
-	transSession = &registry.StorageTransactorSession{transactor, transactOpts}
+	transactor := o.(*registry.RegistryTransactor)
+	transSession = &registry.RegistryTransactorSession{transactor, transactOpts}
 }
 
 func init() {
@@ -107,5 +107,5 @@ func init() {
 	cli.WaitFlag(DeployCommand)
 
 	// Allow providing contract 'address' flag
-	AuditCommand.Flags().String("address", "", `address of the Storage contract (default "[`+contractKey+`] value from config")`)
+	AuditCommand.Flags().String("address", "", `address of the Registry contract (default "[`+contractKey+`] value from config")`)
 }
