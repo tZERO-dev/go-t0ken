@@ -20,6 +20,9 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
 	"github.com/tzero-dev/go-t0ken/commands/registry"
 	"github.com/tzero-dev/go-t0ken/commands/token"
+	"github.com/tzero-dev/go-t0ken/commands/token/dynamicSplittable"
+	"github.com/tzero-dev/go-t0ken/commands/token/migrateable"
+	"github.com/tzero-dev/go-t0ken/commands/token/splittable"
 	"github.com/tzero-dev/go-t0ken/commands/transaction"
 )
 
@@ -117,6 +120,24 @@ func main() {
 	token.Command.AddCommand(token.GetterCommands...)
 	token.Command.AddCommand(token.SetterCommands...)
 	rootCmd.AddCommand(token.Command)
+
+	migrateable.Command.AddCommand(migrateable.DeployCommand)
+	migrateable.Command.AddCommand(token.AuditCommand)
+	migrateable.Command.AddCommand(migrateable.GetterCommands...)
+	migrateable.Command.AddCommand(migrateable.SetterCommands...)
+	rootCmd.AddCommand(migrateable.Command)
+
+	splittable.Command.AddCommand(splittable.DeployCommand)
+	splittable.Command.AddCommand(token.AuditCommand)
+	splittable.Command.AddCommand(splittable.GetterCommands...)
+	splittable.Command.AddCommand(splittable.SetterCommands...)
+	rootCmd.AddCommand(splittable.Command)
+
+	dynamicSplittable.Command.AddCommand(dynamicSplittable.DeployCommand)
+	dynamicSplittable.Command.AddCommand(token.AuditCommand)
+	dynamicSplittable.Command.AddCommand(dynamicSplittable.GetterCommands...)
+	dynamicSplittable.Command.AddCommand(dynamicSplittable.SetterCommands...)
+	rootCmd.AddCommand(dynamicSplittable.Command)
 
 	// ComplianceStorage
 	complianceStorage.Command.AddCommand(complianceStorage.DeployCommand)
