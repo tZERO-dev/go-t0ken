@@ -10,6 +10,19 @@ import (
 	"github.com/spf13/viper"
 )
 
+// FlagAddress returns the address of the given flag, when set.
+func OptionalFlagAddress(cmd *cobra.Command, flag string) (common.Address, error) {
+	// Get the flag or config value
+	s, err := cmd.Flags().GetString(flag)
+	if s == "" || err != nil {
+		return common.Address{}, err
+	}
+	if !common.IsHexAddress(s) {
+		return common.Address{}, err
+	}
+	return common.HexToAddress(s), err
+}
+
 // FlagOrConfigAddress returns the address of the given flag, when set, or the matching address for the given key, within the config file.
 func FlagOrConfigAddress(cmd *cobra.Command, flag, configKey string) (common.Address, error) {
 	// Get the flag or config value

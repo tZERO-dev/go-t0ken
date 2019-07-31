@@ -10,6 +10,8 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/broker"
 	"github.com/tzero-dev/go-t0ken/commands/compliance"
+	"github.com/tzero-dev/go-t0ken/commands/compliance/rules"
+	"github.com/tzero-dev/go-t0ken/commands/complianceStorage"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
 	"github.com/tzero-dev/go-t0ken/commands/ether"
 	"github.com/tzero-dev/go-t0ken/commands/externalInvestor"
@@ -85,6 +87,7 @@ func initConfig() {
 }
 
 func main() {
+	rootCmd.SetOut(os.Stdout)
 	rootCmd.AddCommand(commands.Version)
 	rootCmd.AddCommand(completionCmd)
 
@@ -115,11 +118,21 @@ func main() {
 	token.Command.AddCommand(token.SetterCommands...)
 	rootCmd.AddCommand(token.Command)
 
+	// ComplianceStorage
+	complianceStorage.Command.AddCommand(complianceStorage.DeployCommand)
+	complianceStorage.Command.AddCommand(complianceStorage.GetterCommands...)
+	complianceStorage.Command.AddCommand(complianceStorage.SetterCommands...)
+	rootCmd.AddCommand(complianceStorage.Command)
+
 	// Token-Compliance
 	compliance.Command.AddCommand(compliance.DeployCommand)
 	compliance.Command.AddCommand(compliance.GetterCommands...)
 	compliance.Command.AddCommand(compliance.SetterCommands...)
 	rootCmd.AddCommand(compliance.Command)
+
+	// Rules
+	rules.Command.AddCommand(rules.DeployCommand)
+	rootCmd.AddCommand(rules.Command)
 
 	// Registry
 	registry.Command.AddCommand(registry.DeployCommand)

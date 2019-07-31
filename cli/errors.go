@@ -67,10 +67,18 @@ func CheckCountryGetter(cmd *cobra.Command) func([2]byte, error) {
 	}
 }
 
-// CheckHashGetter prints the hex of the given hash.
-func CheckHashGetter(cmd *cobra.Command) func([32]byte, error) {
-	return func(hash [32]byte, err error) {
+// CheckBytes32Getter prints the return hex
+func CheckBytes32Getter(cmd *cobra.Command) func([32]byte, error) {
+	return func(b [32]byte, err error) {
 		CheckErr(cmd, err)
-		cmd.Printf("0x%x\n", hash[:])
+		cmd.Printf("0x%x\n", b[:])
+	}
+}
+
+// CheckBytes32Getter prints the return hex
+func CheckBytesGetter(cmd *cobra.Command) func([]byte, error) {
+	return func(b []byte, err error) {
+		CheckErr(cmd, err)
+		cmd.Printf("0x%x\n", b)
 	}
 }

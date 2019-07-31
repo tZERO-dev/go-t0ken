@@ -165,18 +165,30 @@ func CountryCodeArgFunc(key string, index int) func(*cobra.Command, []string) er
 	}
 }
 
-// HashFromArg returns the bytes32 hash for the argument at the specified index.
-func HashFromArg(s string) ([32]byte, error) {
-	var hash [32]byte
+// Bytes32FromArg returns the bytes32 hash for the argument at the specified index.
+func Bytes32FromArg(s string) ([32]byte, error) {
+	var b [32]byte
 	h, err := hexutil.Decode(s)
-	if err != nil {
-		copy(hash[:], h)
+	if err == nil {
+		copy(b[:], h)
 	}
-	return hash, err
+	return b, err
 }
 
-// HexArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string of the given length.
-func HexArgFunc(key string, index int, length int) func(*cobra.Command, []string) error {
+// HexArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string
+func HexArgFunc(key string, index int) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		if len(args) < index+1 {
+			return fmt.Errorf("requires <%s> arg", key)
+		}
+
+		_, err := hexutil.Decode(args[index])
+		return err
+	}
+}
+
+// HexArgLenFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string of the given length.
+func HexArgLenFunc(key string, index int, length int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if len(args) < index+1 {
 			return fmt.Errorf("requires <%s> arg", key)

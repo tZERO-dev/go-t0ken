@@ -97,7 +97,7 @@ var SetterCommands = []*cobra.Command{
 	},
 	&cobra.Command{
 		Use:     "transferFrom <sender> <recipient> <quantity>",
-		Short:   "Transfers <quantity> of tokens from the <sender> address to the <recipient> address (requires approval)",
+		Short:   "Transfers <quantity> of tokens from the <sender> address to the <recipient> address",
 		Example: "t0ken token transferFrom 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 0xf02f537578d03f6aece28f249eac19542d848f20 15 --keystoreAddress 0xa01a0a93716633058d69a28fbd472fd40e7c6b79",
 		Args:    cli.ChainArgs(cobra.MaximumNArgs(3), cli.AddressArgFunc("sender", 0), cli.AddressArgFunc("recipient", 1), cli.BigIntArgFunc("quantity", 2)),
 		PreRun:  connectTransactor,
@@ -110,7 +110,7 @@ var SetterCommands = []*cobra.Command{
 	},
 	&cobra.Command{
 		Use:     "transferOverride <sender> <recipient> <quantity>",
-		Short:   "Transfers <quantity> of tokens from the <sender> address to the <recipient> address (invoker must be an admin, and t0ken must have compliance set)",
+		Short:   "Transfers <quantity> of tokens from the <sender> address to the <recipient> address",
 		Example: "t0ken token transferOverride 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 0xf02f537578d03f6aece28f249eac19542d848f20 15 --keystoreAddress admin",
 		Args:    cli.ChainArgs(cobra.MaximumNArgs(3), cli.AddressArgFunc("sender", 0), cli.AddressArgFunc("recipient", 1), cli.BigIntArgFunc("quantity", 2)),
 		PreRun:  connectTransactor,
@@ -136,6 +136,6 @@ func init() {
 		cli.WaitFlag(cmd)
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the token contract (default "[`+contractKey+`] value from config")`)
 	}
 }

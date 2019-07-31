@@ -111,15 +111,22 @@ func receiptBlock(hash common.Hash) (*types.Block, error) {
 	//h := tr.Logs[0].BlockHash
 	//return Conn.BlockByHash(context.Background(), h)
 
-	// https://github.com/ethereum/go-ethereum/pull/17662#pullrequestreview-206299201
-	// We should be able to use the above PR, which will hopefully be included in the 1.9.x release to get the block number.
-	// But for now, issuing a raw query and parsing the bits we need will suffice.
-	var r *transactionReceiptBlock
-	err := Conn.RawCall(&r, "eth_getTransactionReceipt", hash)
+	//// https://github.com/ethereum/go-ethereum/pull/17662#pullrequestreview-206299201
+	//// We should be able to use the above PR, which will hopefully be included in the 1.9.x release to get the block number.
+	//// But for now, issuing a raw query and parsing the bits we need will suffice.
+	//var r *transactionReceiptBlock
+	//err := Conn.RawCall(&r, "eth_getTransactionReceipt", hash)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//return Conn.BlockByHash(context.Background(), r.BlockHash)
+
+	ctx := context.Background()
+	r, err := Conn.TransactionReceipt(ctx, hash)
 	if err != nil {
 		return nil, err
 	}
-	return Conn.BlockByHash(context.Background(), r.BlockHash)
+	return Conn.BlockByHash(ctx, r.BlockHash)
 }
 
 //func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, confirmations int) error {
@@ -183,9 +190,10 @@ func receiptBlock(hash common.Hash) (*types.Block, error) {
 
 func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	// Wait for the transaction to be mined
+	ctx := context.Background()
 	elapsed := 0
 	for {
-		_, pending, err := Conn.TransactionByHash(context.Background(), tx)
+		_, pending, err := Conn.TransactionByHash(ctx, tx)
 		if err != nil {
 			return err
 		} else if timeout > 0 && elapsed-timeout > 0 {
@@ -203,7 +211,7 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	}
 
 	// Ensure the transaction is successful
-	tr, err := Conn.TransactionReceipt(context.Background(), tx)
+	tr, err := Conn.TransactionReceipt(ctx, tx)
 	if err != nil {
 		return err
 	}
@@ -215,7 +223,7 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	}
 
 	// Get latest block
-	latest, err := Conn.HeaderByNumber(context.Background(), nil)
+	latest, err := Conn.HeaderByNumber(ctx, nil)
 	if err != nil {
 		return err
 	}
@@ -230,11 +238,12 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 
 func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout int) error {
 	// Wait for all transaction confirmations
+	ctx := context.Background()
 	n := len(transactions)
 	confirmed := make([]common.Hash, 0, n)
 	elapsed := 0
 	for i := 0; len(confirmed) < n; i++ {
-		_, pending, err := Conn.TransactionByHash(context.Background(), transactions[i])
+		_, pending, err := Conn.TransactionByHash(ctx, transactions[i])
 		if err != nil {
 			cmd.Printf("failed to retrieve transaction '%s', %s\n", transactions[i].String(), err)
 			n--
@@ -259,7 +268,7 @@ func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout 
 	blockTx := make(map[uint64][]string)
 	for _, tx := range confirmed {
 		// Ensure the transaction is successful
-		tr, err := Conn.TransactionReceipt(context.Background(), tx)
+		tr, err := Conn.TransactionReceipt(ctx, tx)
 		if err != nil {
 			cmd.Printf("failed retrieving receipt for '%s', %s\n", tx.String(), err)
 			continue
@@ -278,7 +287,7 @@ func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout 
 	}
 
 	// Get latest block
-	latest, err := Conn.HeaderByNumber(context.Background(), nil)
+	latest, err := Conn.HeaderByNumber(ctx, nil)
 	if err != nil {
 		return err
 	}
@@ -305,7 +314,8 @@ func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout 
 
 // ReplayTransaction attempts to replay an existing, pending transaction.
 func ReplayTransaction(cmd *cobra.Command, h common.Hash, gasPrice *big.Int) error {
-	tx, pending, err := Conn.TransactionByHash(context.Background(), h)
+	ctx := context.Background()
+	tx, pending, err := Conn.TransactionByHash(ctx, h)
 	if err != nil {
 		return err
 	} else if pending {
@@ -313,7 +323,7 @@ func ReplayTransaction(cmd *cobra.Command, h common.Hash, gasPrice *big.Int) err
 	}
 
 	tx = types.NewTransaction(tx.Nonce(), *tx.To(), tx.Value(), Conn.Opts.GasLimit, gasPrice, tx.Data())
-	return Conn.SendTransaction(context.Background(), tx)
+	return Conn.SendTransaction(ctx, tx)
 }
 
 // PrintTransactionFn returns a function that checks for an error, printing the transaction when successful.

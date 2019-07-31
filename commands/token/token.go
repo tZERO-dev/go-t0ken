@@ -54,7 +54,7 @@ var (
 
 			// Pin the requests to the same block (avoid any state changes during audit)
 			callSession.CallOpts.BlockNumber = header.Number
-			n, err := callSession.Shareholders()
+			n, err := callSession.Holders()
 			cli.CheckErr(cmd, err)
 
 			one := big.NewInt(1)

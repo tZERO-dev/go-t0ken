@@ -14,14 +14,14 @@ import (
 
 var SetterCommands = []*cobra.Command{
 	&cobra.Command{
-		Use:     "add <custodian>",
-		Short:   "Adds the <custodian> address",
-		Example: "t0ken custodian add 0xc01c68ac7dd1cc48f95e3187a33a170fdb9023e7 --keystoreAddress owner",
-		Args:    cli.ChainArgs(cli.AddressArgFunc("custodian", 0), cli.HexArgFunc("hash", 1, 16)),
+		Use:     "add <custodian> <hash>",
+		Short:   "Adds the <custodian> <hash> to the registry",
+		Example: "t0ken custodian add 0xc01c68ac7dd1cc48f95e3187a33a170fdb9023e7 0x6ea3939dd4721de598d003ee4796ea2a59ab095cf6b28d49fadd43a5e34db548 --keystoreAddress owner",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("custodian", 0), cli.HexArgLenFunc("hash", 1, 16)),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			custodian := common.HexToAddress(args[0])
-			hash, _ := cli.HashFromArg(args[1])
+			hash, _ := cli.Bytes32FromArg(args[1])
 			cli.PrintTransactionFn(cmd)(transSession.Add(custodian, hash))
 		},
 	},

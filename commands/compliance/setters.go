@@ -19,30 +19,15 @@ import (
 
 var SetterCommands = []*cobra.Command{
 	&cobra.Command{
-		Use:    "canIssue <issuer> <from> <to> <quantity>",
-		Short:  "Checks if the <issuer> can issue <quantity> of tokens",
-		Args:   cli.ChainArgs(cli.AddressArgFunc("issuer", 0), cli.AddressArgFunc("from", 1), cli.AddressArgFunc("to", 2), cli.BigIntArgFunc("quantity", 3)),
-		PreRun: connectTransactor,
+		Use:     "setRegistryAndStore <registry> <storage>",
+		Short:   "Sets the registry and compaliance-storage addresses",
+		Example: "t0ken compliance setRegistryAndStore 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 0x0f18bbc1ae1c5ab891a7feb06d65388ba6b4cd07 --keystoreAddress owner",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("registry", 0), cli.AddressArgFunc("storage", 0)),
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.PrintTransactionFn(cmd)(transSession.CanIssue(getIssuerFromToQty(args)))
-		},
-	},
-	&cobra.Command{
-		Use:    "canOverride <admin> <from> <to> <quantity>",
-		Short:  "Checks if the <admin> can override a transfer <from> <to> in the amount of <tokens>",
-		Args:   cli.ChainArgs(cli.AddressArgFunc("admin", 0), cli.AddressArgFunc("from", 1), cli.AddressArgFunc("to", 2), cli.BigIntArgFunc("tokens", 3)),
-		PreRun: connectTransactor,
-		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckGetter(cmd)(transSession.CanOverride(getIssuerFromToQty(args)))
-		},
-	},
-	&cobra.Command{
-		Use:    "canTransfer <initiator> <from> <to> <quantity>",
-		Short:  "Checks if the <initiator> can transfer <from> <to> in the amount of <tokens>",
-		Args:   cli.ChainArgs(cli.AddressArgFunc("initiator", 0), cli.AddressArgFunc("from", 1), cli.AddressArgFunc("to", 2), cli.BigIntArgFunc("quantity", 3)),
-		PreRun: connectTransactor,
-		Run: func(cmd *cobra.Command, args []string) {
-			cli.PrintTransactionFn(cmd)(transSession.CanTransfer(getIssuerFromToQty(args)))
+			r := common.HexToAddress(args[0])
+			s := common.HexToAddress(args[1])
+			cli.PrintTransactionFn(cmd)(transSession.SetRegistryAndComplianceStore(r, s))
 		},
 	},
 	&cobra.Command{
@@ -81,26 +66,14 @@ var SetterCommands = []*cobra.Command{
 			cli.PrintTransactionFn(cmd)(transSession.SetRules(token, uint8(kind), rules))
 		},
 	},
-	&cobra.Command{
-		Use:     "setRegistryAndStore <registry> <storage>",
-		Short:   "Sets the registry and compaliance-storage addresses",
-		Example: "t0ken compliance setRegistryAndStore 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 0x0f18bbc1ae1c5ab891a7feb06d65388ba6b4cd07 --keystoreAddress owner",
-		Args:    cli.ChainArgs(cli.AddressArgFunc("registry", 0), cli.AddressArgFunc("storage", 0)),
-		PreRun:  connectTransactor,
-		Run: func(cmd *cobra.Command, args []string) {
-			r := common.HexToAddress(args[0])
-			s := common.HexToAddress(args[1])
-			cli.PrintTransactionFn(cmd)(transSession.SetRegistryAndComplianceStore(r, s))
-		},
-	},
 }
 
-func getIssuerFromToQty(args []string) (common.Address, common.Address, common.Address, *big.Int) {
-	issuer := common.HexToAddress(args[0])
+func getInitiatorFromToQty(args []string) (common.Address, common.Address, common.Address, *big.Int) {
+	initiator := common.HexToAddress(args[0])
 	from := common.HexToAddress(args[1])
 	to := common.HexToAddress(args[2])
 	qty, _ := new(big.Int).SetString(args[3], 10)
-	return issuer, from, to, qty
+	return initiator, from, to, qty
 }
 
 func init() {

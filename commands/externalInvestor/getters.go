@@ -55,7 +55,7 @@ var GetterCommands = []*cobra.Command{
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
-			cli.CheckHashGetter(cmd)(callSession.GetHash(investor))
+			cli.CheckBytes32Getter(cmd)(callSession.GetHash(investor))
 		},
 	},
 	&cobra.Command{

@@ -156,13 +156,13 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "shareholders",
-		Short:   "Gets the total number of shareholders",
-		Example: "t0ken token shareholders",
+		Use:     "holders",
+		Short:   "Gets the total number of holders",
+		Example: "t0ken token holders",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckGetter(cmd)(callSession.Shareholders())
+			cli.CheckGetter(cmd)(callSession.Holders())
 		},
 	},
 	&cobra.Command{
@@ -199,6 +199,6 @@ func init() {
 		}
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the token contract (default "[`+contractKey+`] value from config")`)
 	}
 }

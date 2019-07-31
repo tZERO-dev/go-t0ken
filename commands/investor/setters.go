@@ -25,11 +25,11 @@ var SetterCommands = []*cobra.Command{
 	0xa1896382c22b03c562b0241324cfca19505cc5c78eb06751d9cee690e21ed6a1 \
 	US \
 	2020-07-11 --keystoreAddress broker`,
-		Args:   cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.HexArgFunc("hash", 1, 16), cli.CountryCodeArgFunc("country", 2), cli.DateArgFunc("accreditation", 3)),
+		Args:   cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.HexArgLenFunc("hash", 1, 16), cli.CountryCodeArgFunc("country", 2), cli.DateArgFunc("accreditation", 3)),
 		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
-			hash, _ := cli.HashFromArg(args[1])
+			hash, _ := cli.Bytes32FromArg(args[1])
 			country, _ := cli.CountryFromArg(args[2])
 			accreditation, _ := cli.DateFromArg(args[3])
 
@@ -87,7 +87,7 @@ var SetterCommands = []*cobra.Command{
 		Use:     "setHash <inverstor> <hash>",
 		Short:   "Sets the <investor> <hash> value",
 		Example: "t0ken investor setHash 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 0xa1896382c22b03c562b0241324cfca19505cc5c78eb06751d9cee690e21ed6a1 --keystoreAddress broker",
-		Args:    cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.HexArgFunc("hash", 1, 16)),
+		Args:    cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.HexArgLenFunc("hash", 1, 16)),
 		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			investor := common.HexToAddress(args[0])
