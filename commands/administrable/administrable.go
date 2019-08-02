@@ -1,6 +1,7 @@
 package administrable
 
 import (
+	"math/big"
 	"strconv"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -47,6 +48,16 @@ func NewGetterCommands(contractConfigKey string) []*cobra.Command {
 			Run: func(cmd *cobra.Command, args []string) {
 				addr := common.HexToAddress(args[0])
 				cli.CheckGetter(cmd)(session.IsAdmin(addr))
+			},
+		},
+		&cobra.Command{
+			Use:    "adminAt <index>",
+			Short:  "Gets the admin address at the given <index>",
+			Args:   cli.IntArgFunc("index", 0),
+			PreRun: connect,
+			Run: func(cmd *cobra.Command, args []string) {
+				index, _ := new(big.Int).SetString(args[0], 10)
+				cli.CheckGetter(cmd)(session.AdminAt(index))
 			},
 		},
 	}
