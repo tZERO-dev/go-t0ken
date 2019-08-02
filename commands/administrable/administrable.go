@@ -63,14 +63,14 @@ func NewSetterCommands(contractConfigKey string) []*cobra.Command {
 
 	return []*cobra.Command{
 		&cobra.Command{
-			Use:    "setAdmin <address>",
+			Use:    "setAdmin <address> <isAdmin>",
 			Short:  "Adds/removes the given <address> as an admin",
-			Args:   cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.BoolArgFunc("add", 1)),
+			Args:   cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.BoolArgFunc("isAdmin", 1)),
 			PreRun: connect,
 			Run: func(cmd *cobra.Command, args []string) {
 				addr := common.HexToAddress(args[0])
-				add, _ := strconv.ParseBool(args[1])
-				cli.PrintTransactionFn(cmd)(session.SetAdmin(addr, add))
+				isAdmin, _ := strconv.ParseBool(args[1])
+				cli.PrintTransactionFn(cmd)(session.SetAdmin(addr, isAdmin))
 			},
 		},
 	}

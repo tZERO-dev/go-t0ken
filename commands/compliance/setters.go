@@ -90,6 +90,6 @@ func init() {
 		cli.WaitFlag(cmd)
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the Compliance contract (default "[`+contractKey+`] value from config")`)
 	}
 }
