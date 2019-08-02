@@ -20,10 +20,12 @@ print-%: ; @echo '$(subst ','\'',$*=$($*))'
 all: t0ken t0kenbatch
 
 t0ken:
-	@go build -ldflags=$(LDFLAGS_EXPERIMENTAL) -o bin/t0ken ./cmd/t0ken
+	# Building t0ken...
+	@go build -v -ldflags=$(LDFLAGS_EXPERIMENTAL) -o bin/t0ken ./cmd/t0ken
 
 t0kenbatch:
-	@go build -ldflags=$(LDFLAGS_EXPERIMENTAL) -o bin/t0kenbatch ./cmd/t0kenbatch
+	# Building t0kenbatch...
+	@go build -v -ldflags=$(LDFLAGS_EXPERIMENTAL) -o bin/t0kenbatch ./cmd/t0kenbatch
 
 dist:
 	@xgo -v --dest=dist --targets=$(TARGETS) -ldflags=$(LDFLAGS_DIST) github.com/tzero-dev/go-t0ken/cmd/t0ken
