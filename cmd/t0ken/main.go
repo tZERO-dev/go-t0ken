@@ -153,6 +153,7 @@ func main() {
 
 	// Rules
 	rules.Command.AddCommand(rules.DeployCommand)
+	rules.Command.AddCommand(rules.GetterCommands...)
 	rootCmd.AddCommand(rules.Command)
 
 	// Registry
