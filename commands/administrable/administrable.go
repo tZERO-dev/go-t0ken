@@ -57,7 +57,7 @@ func NewGetterCommands(contractConfigKey string) []*cobra.Command {
 			PreRun: connect,
 			Run: func(cmd *cobra.Command, args []string) {
 				index, _ := new(big.Int).SetString(args[0], 10)
-				cli.CheckGetter(cmd)(session.AdminAt(index))
+				cli.CheckAddressGetter(cmd)(session.AdminAt(index))
 			},
 		},
 	}
