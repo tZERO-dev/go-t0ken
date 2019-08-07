@@ -12,12 +12,16 @@ LDFLAGS_EXPERIMENTAL = '$(LDFLAG_COMMIT_EXPERIMENTAL) $(LDFLAG_TIME)'
 LDFLAGS_DIST         = '$(LDFLAG_COMMIT) $(LDFLAG_TIME)'
 
 
-.PHONY: t0ken t0kenbatch dist
+.PHONY: generate t0ken t0kenbatch dist
 
 
 print-%: ; @echo '$(subst ','\'',$*=$($*))'
 
-all: t0ken t0kenbatch
+all: generate t0ken t0kenbatch
+
+generate:
+	# Generating contracts...
+	@go generate ./...
 
 t0ken:
 	# Building t0ken...
@@ -27,7 +31,7 @@ t0kenbatch:
 	# Building t0kenbatch...
 	@go build -v -ldflags=$(LDFLAGS_EXPERIMENTAL) -o bin/t0kenbatch ./cmd/t0kenbatch
 
-dist:
+dist: generate
 	@xgo -v --dest=dist --targets=$(TARGETS) -ldflags=$(LDFLAGS_DIST) github.com/tzero-dev/go-t0ken/cmd/t0ken
 
 clean:
