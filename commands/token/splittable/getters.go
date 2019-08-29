@@ -5,7 +5,7 @@ import (
 
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands/token"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	t "github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var GetterCommands = []*cobra.Command{
@@ -14,14 +14,14 @@ var GetterCommands = []*cobra.Command{
 		Short:   "Outputs the Splittable-T0ken ABI",
 		Example: "t0ken token-splittable investor abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(erc20.T0kenABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(t.T0kenABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
 		Short:   "Outputs the Splittable-T0ken Binary",
 		Example: "t0ken token-splittable investor bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(erc20.T0kenBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(t.T0kenBin) },
 	},
 	&cobra.Command{
 		Use:     "split",

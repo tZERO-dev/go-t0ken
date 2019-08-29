@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	CLIVersion   string = "0.1.0"
-	T0kenVersion string = "1.2.0"
+	CLIVersion   string = "0.1.1"
+	T0kenVersion string = "1.2.1"
 	GitCommit    string = "experimental"
 	BuildTime    string = "n/a"
 )

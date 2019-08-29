@@ -28,18 +28,6 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "cancelAndReissue <originalAddress> <replacementAddress>",
-		Short:   "Cancels the <originalAddress> and replaces it with <replacemenmtAddress>",
-		Example: "t0ken token cancelAndReissue 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 0xa01a0a93716633058d69a28fbd472fd40e7c6b79 --keystoreAddress issuer",
-		Args:    cli.ChainArgs(cobra.ExactArgs(2), cli.AddressArgFunc("originalAddress", 0), cli.AddressArgFunc("replacementAddress", 1)),
-		PreRun:  connectTransactor,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			replacement := common.HexToAddress(args[1])
-			cli.PrintTransactionFn(cmd)(transSession.CancelAndReissue(addr, replacement))
-		},
-	},
-	&cobra.Command{
 		Use:     "finishIssuance",
 		Short:   "Finishes issuance for the token (can't be undone)",
 		Example: "t0ken token finishIssuance --keystoreAddress issuer",

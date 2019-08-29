@@ -31,15 +31,30 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:    "setFrozen <token> <address> <frozen>",
-		Short:  "Sets the <token> <address> frozen state to <frozen>",
-		Args:   cli.ChainArgs(cli.AddressArgFunc("token", 0), cli.AddressArgFunc("address", 1), cli.BoolArgFunc("frozen", 2)),
-		PreRun: connectTransactor,
+		Use: "setFeezeLevel <level>",
+		Short: `Sets the freeze-level for transfers
+0 - Shareholder check at registry and token 
+1 - Lineage check at the registry, shareholder at the token 
+2 - Lineage check at both the registry and token`,
+		Example: "t0ken compliance setFreezeLevel 2 --keystoreAddress admin",
+		Args:    cli.UintArgFunc("level", 0, 8),
+		PreRun:  connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
-			token := common.HexToAddress(args[0])
+			level, _ := strconv.ParseInt(args[0], 10, 8)
+			cli.PrintTransactionFn(cmd)(transSession.SetFreezeLevel(int8(level)))
+		},
+	},
+	&cobra.Command{
+		Use:     "setFrozen <symbol> <address> <frozen>",
+		Short:   "Sets the <symbol> <address> frozen state to <frozen>",
+		Example: "t0ken compliance setFrozen TZROP 0x0f18bbc1ae1c5ab891a7feb06d65388ba6b4cd07 true --keystoreAddress admin",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 1), cli.BoolArgFunc("frozen", 2)),
+		PreRun:  connectTransactor,
+		Run: func(cmd *cobra.Command, args []string) {
+			symbol := args[0]
 			addr := common.HexToAddress(args[1])
 			frozen, _ := strconv.ParseBool(args[1])
-			cli.PrintTransactionFn(cmd)(transSession.SetFrozen(token, addr, frozen))
+			cli.PrintTransactionFn(cmd)(transSession.SetFrozen(symbol, addr, frozen))
 		},
 	},
 	&cobra.Command{

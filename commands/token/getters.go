@@ -9,7 +9,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
 	"github.com/tzero-dev/go-t0ken/commands/ownable"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	t "github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var GetterCommands = []*cobra.Command{
@@ -18,14 +18,14 @@ var GetterCommands = []*cobra.Command{
 		Short:   "Outputs the T0ken ABI",
 		Example: "t0ken investor abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(erc20.T0kenABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(t.T0kenABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
 		Short:   "Outputs the T0ken Binary",
 		Example: "t0ken investor bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(erc20.T0kenBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(t.T0kenBin) },
 	},
 	&cobra.Command{
 		Use:     "allowance <owner> <spender>",
@@ -51,17 +51,6 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "cancellations <address>",
-		Short:   "Gets the replacement address of the given <address>, or a zero-address when it has not been cancelled",
-		Example: "t0ken token cancellations 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
-		Args:    cli.ChainArgs(cobra.MaximumNArgs(1), cli.AddressArgFunc("address", 0)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			cli.CheckAddressGetter(cmd)(callSession.Cancellations(addr))
-		},
-	},
-	&cobra.Command{
 		Use:     "compliance",
 		Short:   "Gets the compliance contract address for the t0ken",
 		Example: "t0ken token compliance",
@@ -79,17 +68,6 @@ var GetterCommands = []*cobra.Command{
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			cli.CheckGetter(cmd)(callSession.Decimals())
-		},
-	},
-	&cobra.Command{
-		Use:     "getSuperseded <address>",
-		Short:   "Gets the superseded address of the given <address>",
-		Example: "t0ken token getSuperseded 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
-		Args:    cli.ChainArgs(cobra.MaximumNArgs(1), cli.AddressArgFunc("address", 0)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			cli.CheckAddressGetter(cmd)(callSession.GetSuperseded(addr))
 		},
 	},
 	&cobra.Command{
@@ -112,17 +90,6 @@ var GetterCommands = []*cobra.Command{
 		Run: func(cmd *cobra.Command, args []string) {
 			addr := common.HexToAddress(args[0])
 			cli.CheckGetter(cmd)(callSession.IsHolder(addr))
-		},
-	},
-	&cobra.Command{
-		Use:     "isSuperseded <address>",
-		Short:   "Checks if the <address> is superseded by another",
-		Example: "t0ken token isSuperseded 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
-		Args:    cli.ChainArgs(cobra.MaximumNArgs(1), cli.AddressArgFunc("address", 0)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			cli.CheckGetter(cmd)(callSession.IsSuperseded(addr))
 		},
 	},
 	&cobra.Command{

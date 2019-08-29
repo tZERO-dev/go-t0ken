@@ -9,7 +9,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	"github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var (
@@ -30,7 +30,7 @@ var (
 			symbol := args[1]
 
 			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := erc20.DeployDynamicSplittableT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol)
+			addr, tx, _, err := token.DeployDynamicSplittableT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -38,28 +38,28 @@ var (
 	}
 
 	contractKey  = "token"
-	callSession  *erc20.DynamicSplittableT0kenCallerSession
-	transSession *erc20.DynamicSplittableT0kenTransactorSession
+	callSession  *token.DynamicSplittableT0kenCallerSession
+	transSession *token.DynamicSplittableT0kenTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return erc20.NewDynamicSplittableT0kenCaller(addr, caller)
+	return token.NewDynamicSplittableT0kenCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return erc20.NewDynamicSplittableT0kenTransactor(addr, transactor)
+	return token.NewDynamicSplittableT0kenTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*erc20.DynamicSplittableT0kenCaller)
-	callSession = &erc20.DynamicSplittableT0kenCallerSession{caller, callOpts}
+	caller := o.(*token.DynamicSplittableT0kenCaller)
+	callSession = &token.DynamicSplittableT0kenCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*erc20.DynamicSplittableT0kenTransactor)
-	transSession = &erc20.DynamicSplittableT0kenTransactorSession{transactor, transactOpts}
+	transactor := o.(*token.DynamicSplittableT0kenTransactor)
+	transSession = &token.DynamicSplittableT0kenTransactorSession{transactor, transactOpts}
 }
 
 func init() {

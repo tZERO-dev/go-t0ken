@@ -51,6 +51,18 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
+		Use:     "isFrozen <symbol> <address>",
+		Short:   "Gets the frozen state for the <symbol> <address>",
+		Example: "t0ken compliance isFrozen TZROP 0x47acdf4eac45ba7d819be0c6c96c3ebda5283405",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 1)),
+		PreRun:  connectCaller,
+		Run: func(cmd *cobra.Command, args []string) {
+			symbol := args[0]
+			addr := common.HexToAddress(args[1])
+			cli.CheckGetter(cmd)(callSession.IsFrozen(symbol, addr))
+		},
+	},
+	&cobra.Command{
 		Use:     "getRules <token> <kind>",
 		Short:   "Gets the addresses that exist for the given kind",
 		Example: "t0ken compliance getRules 0x47acdf4eac45ba7d819be0c6c96c3ebda5283405 4",

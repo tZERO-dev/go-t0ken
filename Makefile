@@ -35,4 +35,7 @@ dist: generate
 	@xgo -v --dest=dist --targets=$(TARGETS) -ldflags=$(LDFLAGS_DIST) github.com/tzero-dev/go-t0ken/cmd/t0ken
 
 clean:
-	@rm -f ./bin/*
+	@rm -f ./bin/t0ken
+	@rm -f ./bin/t0kenbatch
+	@rm -f ./build/*.abi
+	@rm -f ./build/*.bin

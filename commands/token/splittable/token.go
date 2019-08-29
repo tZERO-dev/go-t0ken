@@ -9,7 +9,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	"github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var (
@@ -30,7 +30,7 @@ var (
 			symbol := args[1]
 
 			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := erc20.DeploySplittableT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol)
+			addr, tx, _, err := token.DeploySplittableT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -38,28 +38,28 @@ var (
 	}
 
 	contractKey  = "token"
-	callSession  *erc20.SplittableT0kenCallerSession
-	transSession *erc20.SplittableT0kenTransactorSession
+	callSession  *token.SplittableT0kenCallerSession
+	transSession *token.SplittableT0kenTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return erc20.NewSplittableT0kenCaller(addr, caller)
+	return token.NewSplittableT0kenCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return erc20.NewSplittableT0kenTransactor(addr, transactor)
+	return token.NewSplittableT0kenTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*erc20.SplittableT0kenCaller)
-	callSession = &erc20.SplittableT0kenCallerSession{caller, callOpts}
+	caller := o.(*token.SplittableT0kenCaller)
+	callSession = &token.SplittableT0kenCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*erc20.SplittableT0kenTransactor)
-	transSession = &erc20.SplittableT0kenTransactorSession{transactor, transactOpts}
+	transactor := o.(*token.SplittableT0kenTransactor)
+	transSession = &token.SplittableT0kenTransactorSession{transactor, transactOpts}
 }
 
 func init() {

@@ -17,7 +17,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/contracts/registry"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	"github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var one = new(big.Int).SetInt64(1)
@@ -278,7 +278,7 @@ address,hash,country,accreditation
 }
 
 func tokenTransactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return erc20.NewT0kenTransactor(addr, transactor)
+	return token.NewT0kenTransactor(addr, transactor)
 }
 
 var issueTokensCommand = &cobra.Command{
@@ -300,8 +300,8 @@ address,tokens
 
 		// Connect to node
 		o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, "t0ken", tokenTransactorSessionFn)
-		transactor := o.(*erc20.T0kenTransactor)
-		transSession := &erc20.T0kenTransactorSession{transactor, transactOpts}
+		transactor := o.(*token.T0kenTransactor)
+		transSession := &token.T0kenTransactorSession{transactor, transactOpts}
 		nonce := cli.Conn.Opts.Nonce
 
 		// Onboard

@@ -14,7 +14,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	t "github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var (
@@ -36,7 +36,7 @@ var (
 			decimals, err := strconv.ParseInt(args[2], 10, 8)
 
 			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := erc20.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
+			addr, tx, _, err := t.DeployT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -75,28 +75,28 @@ var (
 	}
 
 	contractKey  = "t0ken"
-	callSession  *erc20.T0kenCallerSession
-	transSession *erc20.T0kenTransactorSession
+	callSession  *t.T0kenCallerSession
+	transSession *t.T0kenTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return erc20.NewT0kenCaller(addr, caller)
+	return t.NewT0kenCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return erc20.NewT0kenTransactor(addr, transactor)
+	return t.NewT0kenTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*erc20.T0kenCaller)
-	callSession = &erc20.T0kenCallerSession{caller, callOpts}
+	caller := o.(*t.T0kenCaller)
+	callSession = &t.T0kenCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*erc20.T0kenTransactor)
-	transSession = &erc20.T0kenTransactorSession{transactor, transactOpts}
+	transactor := o.(*t.T0kenTransactor)
+	transSession = &t.T0kenTransactorSession{transactor, transactOpts}
 }
 
 func init() {
