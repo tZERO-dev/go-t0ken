@@ -165,7 +165,7 @@ func CountryCodeArgFunc(key string, index int) func(*cobra.Command, []string) er
 	}
 }
 
-// Bytes32FromArg returns the bytes32 hash for the argument at the specified index.
+// Bytes32FromArg returns the bytes32 for the argument at the specified index.
 func Bytes32FromArg(s string) ([32]byte, error) {
 	var b [32]byte
 	h, err := hexutil.Decode(s)
