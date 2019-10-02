@@ -33,7 +33,7 @@ var (
 			decimals, err := strconv.ParseInt(args[2], 10, 8)
 
 			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := token.DeployMigrateableT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
+			addr, tx, _, err := token.DeployT0kenMigrateable(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -41,28 +41,28 @@ var (
 	}
 
 	contractKey  = "token"
-	callSession  *token.MigrateableT0kenCallerSession
-	transSession *token.MigrateableT0kenTransactorSession
+	callSession  *token.T0kenMigrateableCallerSession
+	transSession *token.T0kenMigrateableTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return token.NewMigrateableT0kenCaller(addr, caller)
+	return token.NewT0kenMigrateableCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return token.NewMigrateableT0kenTransactor(addr, transactor)
+	return token.NewT0kenMigrateableTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*token.MigrateableT0kenCaller)
-	callSession = &token.MigrateableT0kenCallerSession{caller, callOpts}
+	caller := o.(*token.T0kenMigrateableCaller)
+	callSession = &token.T0kenMigrateableCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*token.MigrateableT0kenTransactor)
-	transSession = &token.MigrateableT0kenTransactorSession{transactor, transactOpts}
+	transactor := o.(*token.T0kenMigrateableTransactor)
+	transSession = &token.T0kenMigrateableTransactorSession{transactor, transactOpts}
 }
 
 func init() {

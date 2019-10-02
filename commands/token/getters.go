@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -154,6 +155,36 @@ var GetterCommands = []*cobra.Command{
 	},
 }
 
+var FilterCommands = []*cobra.Command{
+	&cobra.Command{
+		Use:   "filterTransfer",
+		Short: "Filters transfer events within the given block range",
+		Example: `t0ken token filterTransfer --start 8658083
+t0ken token filterTransfer --start 8658083 --end 8700000
+t0ken token filterTransfer --from 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b
+t0ken token filterTransfer --to 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b,0xf02f537578d03f6AeCE28F249eaC19542D848F20`,
+		PreRun: connectFilterer,
+		Run: func(cmd *cobra.Command, args []string) {
+			from, err := cli.AddressesFlag(cmd, "from", false)
+			cli.CheckErr(cmd, err)
+			to, err := cli.AddressesFlag(cmd, "to", false)
+			cli.CheckErr(cmd, err)
+
+			opts := cli.FilterOpts(cmd)
+			i, err := filterer.FilterTransfer(&opts, from, to)
+			cli.CheckErr(cmd, err)
+
+			// Output matching events
+			defer i.Close()
+			fmt.Println("block,from,to,value")
+			for i.Next() {
+				cli.CheckErr(cmd, i.Error())
+				fmt.Printf("%d,%s,%s,%s\n", i.Event.Raw.BlockNumber, i.Event.From.String(), i.Event.To.String(), i.Event.Value)
+			}
+		},
+	},
+}
+
 func init() {
 	// Add the Lockable, Ownable contract getter commands
 	GetterCommands = append(GetterCommands, lockable.NewGetterCommands(contractKey)...)
@@ -168,4 +199,15 @@ func init() {
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the token contract (default "[`+contractKey+`] value from config")`)
 	}
+
+	for _, cmd := range FilterCommands {
+		// Allow providing contract 'address' flag
+		cmd.Flags().String("address", "", `address of the Investor registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().Uint64("start", 0, "start block of the filter")
+		cmd.Flags().Uint64("end", 0, "end block of the filter")
+
+		cmd.MarkFlagRequired("start")
+	}
+	FilterCommands[0].Flags().StringSlice("from", nil, "comma separated addresses to filter")
+	FilterCommands[0].Flags().StringSlice("to", nil, "comma separated addresses to filter")
 }

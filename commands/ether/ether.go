@@ -85,7 +85,14 @@ var BalanceCommand = &cobra.Command{
 		}
 		cli.CheckErr(cmd, err)
 
-		balance, err := cli.Conn.BalanceAt(context.Background(), addr, nil)
+		// Get the block flag, if set
+		var block *big.Int
+		i, err := cmd.Flags().GetInt64("block")
+		cli.CheckErr(cmd, err)
+		if i > -1 {
+			block = big.NewInt(i)
+		}
+		balance, err := cli.Conn.BalanceAt(context.Background(), addr, block)
 		cli.CheckErr(cmd, err)
 
 		ether := units.ConvertInt(balance, units.Wei, units.Ether)
@@ -112,4 +119,5 @@ func init() {
 	gas.Flag(SendCommand)
 	nonce.Flag(SendCommand)
 	cli.WaitFlag(SendCommand)
+	cli.BlockFlag(BalanceCommand)
 }

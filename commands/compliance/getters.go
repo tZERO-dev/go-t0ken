@@ -18,17 +18,17 @@ import (
 var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "abi",
-		Short:   "Outputs the T0kenCompliance ABI",
+		Short:   "Outputs the Compliance ABI",
 		Example: "t0ken investor abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.T0kenComplianceABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.ComplianceABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
-		Short:   "Outputs the T0kenCompliance Binary",
+		Short:   "Outputs the Compliance Binary",
 		Example: "t0ken investor bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.T0kenComplianceBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.ComplianceBin) },
 	},
 	&cobra.Command{
 		Use:     "registry",
@@ -51,18 +51,6 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "isFrozen <symbol> <address>",
-		Short:   "Gets the frozen state for the <symbol> <address>",
-		Example: "t0ken compliance isFrozen TZROP 0x47acdf4eac45ba7d819be0c6c96c3ebda5283405",
-		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 1)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			symbol := args[0]
-			addr := common.HexToAddress(args[1])
-			cli.CheckGetter(cmd)(callSession.IsFrozen(symbol, addr))
-		},
-	},
-	&cobra.Command{
 		Use:     "getRules <token> <kind>",
 		Short:   "Gets the addresses that exist for the given kind",
 		Example: "t0ken compliance getRules 0x47acdf4eac45ba7d819be0c6c96c3ebda5283405 4",
@@ -76,7 +64,7 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:   "canTransferTest <token> <initiator> <from> <to> <quantity>",
+		Use:   "canTransfer <token> <initiator> <from> <to> <quantity>",
 		Short: "Checks if the <initiator> can transfer <from> <to> in the amount of <tokens>",
 		Example: `t0ken compliance canTransferTest \
 	0x0000d6abc75370f48b42024371b07b4506885a55 \
@@ -121,5 +109,6 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the Compliance contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 }

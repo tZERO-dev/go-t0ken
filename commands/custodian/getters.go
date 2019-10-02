@@ -49,5 +49,6 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the Custodian registry contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 }

@@ -48,18 +48,21 @@ var (
 		Short:  "Audit the holders of the t0ken, outputting CSV to <stdout>",
 		PreRun: connectCaller,
 		Run: func(cmd *cobra.Command, arts []string) {
-			// Get the current block
-			header, err := cli.Conn.HeaderByNumber(context.Background(), nil)
-			cli.CheckErr(cmd, err)
+			if callSession.CallOpts.BlockNumber == nil {
+				// Get the current block
+				header, err := cli.Conn.HeaderByNumber(context.Background(), nil)
+				cli.CheckErr(cmd, err)
 
-			// Pin the requests to the same block (avoid any state changes during audit)
-			callSession.CallOpts.BlockNumber = header.Number
+				// Pin the requests to the same block (avoid any state changes during audit)
+				callSession.CallOpts.BlockNumber = header.Number
+			}
 			n, err := callSession.Holders()
 			cli.CheckErr(cmd, err)
 
 			one := big.NewInt(1)
 			index := big.NewInt(0)
-			cmd.Printf("Block: %s\n", header.Number.String())
+			//cmd.Printf("Block: %s\n", header.Number.String())
+			cmd.Printf("Block: %s\n", callSession.CallOpts.BlockNumber.String())
 			fmt.Println("address,tokens")
 			for i := int64(0); i < n.Int64(); i++ {
 				holder, err := callSession.HolderAt(index)
@@ -75,12 +78,17 @@ var (
 	}
 
 	contractKey  = "t0ken"
+	filterer     *t.T0kenFilterer
 	callSession  *t.T0kenCallerSession
 	transSession *t.T0kenTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
 	return t.NewT0kenCaller(addr, caller)
+}
+
+func filterSessionFn(addr common.Address, filter bind.ContractFilterer) (interface{}, error) {
+	return t.NewT0kenFilterer(addr, filter)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
@@ -91,6 +99,11 @@ func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
 	caller := o.(*t.T0kenCaller)
 	callSession = &t.T0kenCallerSession{caller, callOpts}
+}
+
+func connectFilterer(cmd *cobra.Command, args []string) {
+	f := commands.ConnectWithFiltererSessionFunc(cmd, args, contractKey, filterSessionFn)
+	filterer = f.(*t.T0kenFilterer)
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
@@ -107,4 +120,5 @@ func init() {
 
 	// Allow providing contract 'address' flag
 	AuditCommand.Flags().String("address", "", `address of the token contract (default "[`+contractKey+`] value from config")`)
+	cli.BlockFlag(AuditCommand)
 }
