@@ -39,3 +39,4 @@ clean:
 	@rm -f ./bin/t0kenbatch
 	@rm -f ./build/*.abi
 	@rm -f ./build/*.bin
+	@find ./contracts -type f -not -name "generate.go" -exec rm {} \;
