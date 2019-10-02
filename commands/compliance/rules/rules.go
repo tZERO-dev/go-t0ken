@@ -34,6 +34,7 @@ Available Rules:
   - restrictToBrokerOrCustodialAccount
   - restrictToContract
   - restrictToCustodianOrCustodialAccountOrBroker
+  - restrictToEscrow
   - restrictTransferFrom`,
 		Args:   cobra.ExactArgs(1),
 		PreRun: commands.ConnectWithKeyStore,
@@ -67,6 +68,8 @@ Available Rules:
 				addr, tx, _, err = rules.DeployRestrictToContract(cli.Conn.Opts, cli.Conn.Client)
 			case "restrictToCustodianOrCustodialAccountOrBroker":
 				addr, tx, _, err = rules.DeployRestrictToCustodianOrCustodialAccountOrBroker(cli.Conn.Opts, cli.Conn.Client)
+			case "restrictToEscrow":
+				addr, tx, _, err = rules.DeployRestrictToEscrow(cli.Conn.Opts, cli.Conn.Client)
 			case "restrictTransferFrom":
 				addr, tx, _, err = rules.DeployRestrictTransferFrom(cli.Conn.Opts, cli.Conn.Client)
 			}

@@ -20,14 +20,14 @@ var GetterCommands = []*cobra.Command{
 		Short:   "Outputs the ComplianceStorage ABI",
 		Example: "t0ken complianceStorage abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.T0kenComplianceABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.StorageABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
 		Short:   "Outputs the ComplianceStorage Binary",
 		Example: "t0ken complianceStorage bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.T0kenComplianceBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(compliance.StorageBin) },
 	},
 	&cobra.Command{
 		Use:   "key <params>...",
@@ -164,5 +164,6 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the ComplianceStorage contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 }

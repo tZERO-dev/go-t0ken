@@ -30,7 +30,7 @@ var (
 			symbol := args[1]
 
 			// Deploy the token using for the symbol/name/decimals
-			addr, tx, _, err := token.DeployDynamicSplittableT0ken(cli.Conn.Opts, cli.Conn.Client, name, symbol)
+			addr, tx, _, err := token.DeployT0kenSplittableDynamic(cli.Conn.Opts, cli.Conn.Client, name, symbol)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -38,28 +38,28 @@ var (
 	}
 
 	contractKey  = "token"
-	callSession  *token.DynamicSplittableT0kenCallerSession
-	transSession *token.DynamicSplittableT0kenTransactorSession
+	callSession  *token.T0kenSplittableDynamicCallerSession
+	transSession *token.T0kenSplittableDynamicTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return token.NewDynamicSplittableT0kenCaller(addr, caller)
+	return token.NewT0kenSplittableDynamicCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return token.NewDynamicSplittableT0kenTransactor(addr, transactor)
+	return token.NewT0kenSplittableDynamicTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*token.DynamicSplittableT0kenCaller)
-	callSession = &token.DynamicSplittableT0kenCallerSession{caller, callOpts}
+	caller := o.(*token.T0kenSplittableDynamicCaller)
+	callSession = &token.T0kenSplittableDynamicCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*token.DynamicSplittableT0kenTransactor)
-	transSession = &token.DynamicSplittableT0kenTransactorSession{transactor, transactOpts}
+	transactor := o.(*token.T0kenSplittableDynamicTransactor)
+	transSession = &token.T0kenSplittableDynamicTransactorSession{transactor, transactOpts}
 }
 
 func init() {

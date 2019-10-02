@@ -31,33 +31,6 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use: "setFeezeLevel <level>",
-		Short: `Sets the freeze-level for transfers
-0 - Shareholder check at registry and token 
-1 - Lineage check at the registry, shareholder at the token 
-2 - Lineage check at both the registry and token`,
-		Example: "t0ken compliance setFreezeLevel 2 --keystoreAddress admin",
-		Args:    cli.UintArgFunc("level", 0, 8),
-		PreRun:  connectTransactor,
-		Run: func(cmd *cobra.Command, args []string) {
-			level, _ := strconv.ParseInt(args[0], 10, 8)
-			cli.PrintTransactionFn(cmd)(transSession.SetFreezeLevel(int8(level)))
-		},
-	},
-	&cobra.Command{
-		Use:     "setFrozen <symbol> <address> <frozen>",
-		Short:   "Sets the <symbol> <address> frozen state to <frozen>",
-		Example: "t0ken compliance setFrozen TZROP 0x0f18bbc1ae1c5ab891a7feb06d65388ba6b4cd07 true --keystoreAddress admin",
-		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 1), cli.BoolArgFunc("frozen", 2)),
-		PreRun:  connectTransactor,
-		Run: func(cmd *cobra.Command, args []string) {
-			symbol := args[0]
-			addr := common.HexToAddress(args[1])
-			frozen, _ := strconv.ParseBool(args[1])
-			cli.PrintTransactionFn(cmd)(transSession.SetFrozen(symbol, addr, frozen))
-		},
-	},
-	&cobra.Command{
 		Use:     "setRules <token> <kind> [address args]",
 		Short:   "Sets the <token> <kind> rules to [address args]",
 		Example: "t0ken compliance setRules 0x5bd5b4e1a2c9b12812795e7217201b78c8c10b78 4 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress admin",
@@ -69,7 +42,7 @@ var SetterCommands = []*cobra.Command{
 			var err error
 			for i := 2; i < len(args); i++ {
 				if !common.IsHexAddress(args[i]) {
-					err = errors.New("Address args must be valid addrtesses")
+					err = errors.New("Address args must be valid addresses")
 				}
 				rules = append(rules, common.HexToAddress(args[i]))
 			}

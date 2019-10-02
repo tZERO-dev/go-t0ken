@@ -9,17 +9,17 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/contracts/compliance"
+	c "github.com/tzero-dev/go-t0ken/contracts/compliance"
 )
 
 var (
 	Command = &cobra.Command{
 		Use:   "compliance",
-		Short: "T0ken-Compliance utilities",
+		Short: "Compliance utilities",
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:     "deploy",
+		Use:     "deploy <registry> <storage>",
 		Short:   "Deploys a new t0ken-compliance contract",
 		Example: "t0ken compliance deploy 0x5bd5b4e1a2c9b12812795e7217201b78c8c10b78 0x0f18bbc1ae1c5ab891a7feb06d65388ba6b4cd07 --keystoreAddress owner",
 		Args:    cli.ChainArgs(cli.AddressArgFunc("registry", 0), cli.AddressArgFunc("complianceStorage", 1)),
@@ -29,7 +29,7 @@ var (
 			// Deploy the token-compliance using for the symbol/name/decimals
 			r := common.HexToAddress(args[0])
 			s := common.HexToAddress(args[1])
-			addr, tx, _, err := compliance.DeployT0kenCompliance(cli.Conn.Opts, cli.Conn.Client, r, s)
+			addr, tx, _, err := c.DeployCompliance(cli.Conn.Opts, cli.Conn.Client, r, s)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -37,28 +37,28 @@ var (
 	}
 
 	contractKey  = "compliance"
-	callSession  *compliance.T0kenComplianceCallerSession
-	transSession *compliance.T0kenComplianceTransactorSession
+	callSession  *c.ComplianceCallerSession
+	transSession *c.ComplianceTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return compliance.NewT0kenComplianceCaller(addr, caller)
+	return c.NewComplianceCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return compliance.NewT0kenComplianceTransactor(addr, transactor)
+	return c.NewComplianceTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*compliance.T0kenComplianceCaller)
-	callSession = &compliance.T0kenComplianceCallerSession{caller, callOpts}
+	caller := o.(*c.ComplianceCaller)
+	callSession = &c.ComplianceCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*compliance.T0kenComplianceTransactor)
-	transSession = &compliance.T0kenComplianceTransactorSession{transactor, transactOpts}
+	transactor := o.(*c.ComplianceTransactor)
+	transSession = &c.ComplianceTransactorSession{transactor, transactOpts}
 }
 
 func init() {

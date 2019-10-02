@@ -13,6 +13,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands/compliance/rules"
 	"github.com/tzero-dev/go-t0ken/commands/complianceStorage"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
+	"github.com/tzero-dev/go-t0ken/commands/escrow"
 	"github.com/tzero-dev/go-t0ken/commands/ether"
 	"github.com/tzero-dev/go-t0ken/commands/externalInvestor"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
@@ -119,6 +120,7 @@ func main() {
 	token.Command.AddCommand(token.AuditCommand)
 	token.Command.AddCommand(token.GetterCommands...)
 	token.Command.AddCommand(token.SetterCommands...)
+	token.Command.AddCommand(token.FilterCommands...)
 	rootCmd.AddCommand(token.Command)
 
 	migrateable.Command.AddCommand(migrateable.DeployCommand)
@@ -179,13 +181,21 @@ func main() {
 	investor.Command.AddCommand(investor.DeployCommand)
 	investor.Command.AddCommand(investor.GetterCommands...)
 	investor.Command.AddCommand(investor.SetterCommands...)
+	investor.Command.AddCommand(investor.FilterCommands...)
 	rootCmd.AddCommand(investor.Command)
 
 	// Registry, External-Investor
 	externalInvestor.Command.AddCommand(externalInvestor.DeployCommand)
 	externalInvestor.Command.AddCommand(externalInvestor.GetterCommands...)
 	externalInvestor.Command.AddCommand(externalInvestor.SetterCommands...)
+	externalInvestor.Command.AddCommand(externalInvestor.FilterCommands...)
 	rootCmd.AddCommand(externalInvestor.Command)
+
+	// Registry, External-Investor
+	escrow.Command.AddCommand(escrow.DeployCommand)
+	escrow.Command.AddCommand(escrow.GetterCommands...)
+	escrow.Command.AddCommand(escrow.SetterCommands...)
+	rootCmd.AddCommand(escrow.Command)
 
 	err := rootCmd.Execute()
 	if err != nil {

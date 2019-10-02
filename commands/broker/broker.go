@@ -21,11 +21,11 @@ var (
 	DeployCommand = &cobra.Command{
 		Use:     "deploy",
 		Short:   "Deploys a new broker-dealer registry contract",
-		Example: "t0ken broker deploy --keystoreAddress owner",
+		Example: "t0ken broker deploy <registry> --keystoreAddress owner",
 		Args:    cli.AddressArgFunc("registry", 0),
 		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
-			// Deploy the broker-dealer using for the symbol/name/decimals
+			// Deploy the broker-dealer registry, pointing to the registry
 			registryAddress := common.HexToAddress(args[0])
 			addr, tx, _, err := registry.DeployBrokerDealer(cli.Conn.Opts, cli.Conn.Client, registryAddress)
 			cli.CheckErr(cmd, err)

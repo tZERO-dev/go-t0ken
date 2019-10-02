@@ -54,6 +54,18 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
+		Use:     "accountKindExists <address>",
+		Short:   "Checks if the <address> exists for the given kind",
+		Example: "t0ken registry accountKindExists 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 4",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.UintArgFunc("kind", 1, 8)),
+		PreRun:  connectCaller,
+		Run: func(cmd *cobra.Command, args []string) {
+			addr := common.HexToAddress(args[0])
+			kind, _ := strconv.ParseInt(args[1], 10, 8)
+			cli.CheckGetter(cmd)(callSession.AccountKindExists(addr, uint8(kind)))
+		},
+	},
+	&cobra.Command{
 		Use:     "accountFrozen <address>",
 		Short:   "Checks if the <address> is frozen",
 		Example: "t0ken registry accountFrozen 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
@@ -234,5 +246,6 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the Registry contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 }

@@ -1,6 +1,10 @@
 package investor
 
 import (
+	"errors"
+	"fmt"
+	"strconv"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
 
@@ -70,6 +74,147 @@ var GetterCommands = []*cobra.Command{
 	},
 }
 
+//type Iterator interface {
+//	Error() error
+//	Close() error
+//	Next() bool
+//}
+//
+//type NewIterator func() (Iterator, error)
+//type IteratorNextFunc func(Iterator, error)
+//
+//func Iterate(i Iterator, callback IteratorNextFunc) {
+//	defer i.Close()
+//	for i.Next() {
+//		err := i.Error()
+//		if err != nil {
+//			break
+//		}
+//		callback(i, err)
+//	}
+//}
+
+func filterArgs(cmd *cobra.Command) ([]common.Address, []common.Address) {
+	investors, err := cli.AddressesFlag(cmd, "investors", false)
+	cli.CheckErr(cmd, err)
+	owners, err := cli.AddressesFlag(cmd, "owners", false)
+	cli.CheckErr(cmd, err)
+	return investors, owners
+}
+
+var FilterCommands = []*cobra.Command{
+	&cobra.Command{
+		Use:   "filterAdded",
+		Short: "Filters investor added events within the given block range",
+		Example: `t0ken investor filterAdded --start 8658083
+t0ken investor filterAdded --start 8658083 --end 8700000
+t0ken investor filterAdded --owners 0x0000d6AbC75370F48B42024371B07B4506885a55
+t0ken investor filterAdded --investors 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b,0xf02f537578d03f6AeCE28F249eaC19542D848F20`,
+		PreRun: connectFilterer,
+		Run: func(cmd *cobra.Command, args []string) {
+			investors, owners := filterArgs(cmd)
+			opts := cli.FilterOpts(cmd)
+			i, err := filterer.FilterInvestorAdded(&opts, investors, owners)
+			cli.CheckErr(cmd, err)
+
+			// Output matching events
+			defer i.Close()
+			fmt.Println("block,owner,investor")
+			for i.Next() {
+				cli.CheckErr(cmd, i.Error())
+				fmt.Printf("%d,%s,%s\n", i.Event.Raw.BlockNumber, i.Event.Owner.String(), i.Event.Investor.String())
+			}
+
+			//f, err := filterer.FilterInvestorAdded(cli.FilterOpts(cmd), investors, owners)
+			//cli.CheckErr(cmd, err)
+			//Iterate(f, func(o Iterator, err error) {
+			//	cli.CheckErr(cmd, err)
+			//	i := o.(*registry.InvestorInvestorAddedIterator)
+			//	cmd.Printf("%d, %s, %s\n", i.Event.Raw.BlockNumber, i.Event.Owner.String(), i.Event.Investor.String())
+			//})
+		},
+	},
+	&cobra.Command{
+		Use:   "filterRemoved",
+		Short: "Filters investor removed events within the given block range",
+		Example: `t0ken investor filterRemoved --start 8658083,
+t0ken investor filterRemoved --start 8658083 --end 8700000
+t0ken investor filterRemoved --owners 0x0000d6AbC75370F48B42024371B07B4506885a55
+t0ken investor filterRemoved --investors 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b,0xf02f537578d03f6AeCE28F249eaC19542D848F20`,
+		PreRun: connectFilterer,
+		Run: func(cmd *cobra.Command, args []string) {
+			investors, owners := filterArgs(cmd)
+			opts := cli.FilterOpts(cmd)
+			i, err := filterer.FilterInvestorRemoved(&opts, investors, owners)
+			cli.CheckErr(cmd, err)
+
+			// Output matching events
+			defer i.Close()
+			fmt.Println("block,owner,investor")
+			for i.Next() {
+				cli.CheckErr(cmd, i.Error())
+				fmt.Printf("%d,%s,%s\n", i.Event.Raw.BlockNumber, i.Event.Owner.String(), i.Event.Investor.String())
+			}
+		},
+	},
+	&cobra.Command{
+		Use:   "filterUpdated",
+		Short: "Filters investor updated events within the given block range",
+		Example: `t0ken investor filterUpdated --start 8658083
+t0ken investor filterUpdated --start 8658083 --end 8700000
+t0ken investor filterUpdated --owners 0x0000d6AbC75370F48B42024371B07B4506885a55
+t0ken investor filterUpdated --investors 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b,0xf02f537578d03f6AeCE28F249eaC19542D848F20`,
+		PreRun: connectFilterer,
+		Run: func(cmd *cobra.Command, args []string) {
+			investors, owners := filterArgs(cmd)
+			opts := cli.FilterOpts(cmd)
+			i, err := filterer.FilterInvestorUpdated(&opts, investors, owners)
+			cli.CheckErr(cmd, err)
+
+			// Output matching events
+			defer i.Close()
+			fmt.Println("block,owner,investor")
+			for i.Next() {
+				cli.CheckErr(cmd, i.Error())
+				fmt.Printf("%d,%s,%s\n", i.Event.Raw.BlockNumber, i.Event.Owner.String(), i.Event.Investor.String())
+			}
+		},
+	},
+	&cobra.Command{
+		Use:   "filterFrozen [frozen]",
+		Short: "Filters investor frozen events within the given block range",
+		Example: `t0ken investor filterFrozen true --start 8658083
+t0ken investor filterFrozen --start 8658083 --end 8700000
+t0ken investor filterFrozen --owners 0x0000d6AbC75370F48B42024371B07B4506885a55
+t0ken investor filterFrozen false --investors 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b,0xf02f537578d03f6AeCE28F249eaC19542D848F20`,
+		Args:   cobra.MaximumNArgs(1),
+		PreRun: connectFilterer,
+		Run: func(cmd *cobra.Command, args []string) {
+			var frozen []bool
+			if len(args) > 0 {
+				b, err := strconv.ParseBool(args[0])
+				if err != nil {
+					cli.CheckErr(cmd, errors.New("invalid value for [frozen] arg"))
+				}
+				frozen = append(frozen, b)
+			}
+
+			investors, owners := filterArgs(cmd)
+			opts := cli.FilterOpts(cmd)
+			i, err := filterer.FilterInvestorFrozen(&opts, investors, frozen, owners)
+			cli.CheckErr(cmd, err)
+
+			// Output matching events
+			defer i.Close()
+			fmt.Println("block,owner,investor,frozen")
+			for i.Next() {
+				cli.CheckErr(cmd, i.Error())
+				fmt.Printf("%d,%s,%s\n", i.Event.Raw.BlockNumber, i.Event.Owner.String(), i.Event.Investor.String(), i.Event.Frozen)
+			}
+		},
+	},
+}
+
 func init() {
 	// Add the Ownable, Lockable contract getter commands
 	GetterCommands = append(GetterCommands, ownable.NewGetterCommands(contractKey)...)
@@ -83,5 +228,17 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the Investor registry contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
+	}
+
+	for _, cmd := range FilterCommands {
+		// Allow providing contract 'address' flag
+		cmd.Flags().String("address", "", `address of the Investor registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().Uint64("start", 0, "start block of the filter")
+		cmd.Flags().Uint64("end", 0, "end block of the filter")
+
+		cmd.MarkFlagRequired("start")
+		cmd.Flags().StringSlice("investors", nil, "comma separated addresses to filter")
+		cmd.Flags().StringSlice("owners", nil, "comma separated addresses to filter")
 	}
 }
