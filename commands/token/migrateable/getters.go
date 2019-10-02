@@ -54,6 +54,7 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the token contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 
 	for _, cmd := range token.GetterCommands {
