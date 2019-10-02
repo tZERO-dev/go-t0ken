@@ -195,6 +195,7 @@ func main() {
 	escrow.Command.AddCommand(escrow.DeployCommand)
 	escrow.Command.AddCommand(escrow.GetterCommands...)
 	escrow.Command.AddCommand(escrow.SetterCommands...)
+	escrow.Command.AddCommand(escrow.FilterCommands...)
 	rootCmd.AddCommand(escrow.Command)
 
 	err := rootCmd.Execute()

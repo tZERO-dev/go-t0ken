@@ -16,10 +16,10 @@ import (
 )
 
 // EscrowABI is the input ABI used to generate the binding from.
-const EscrowABI = "[{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"holder\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"quantity\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\"}],\"name\":\"accept\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"holder\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"quantity\",\"type\":\"uint256\"}],\"name\":\"record\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"int256\",\"name\":\"index\",\"type\":\"int256\"}],\"name\":\"adminAt\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"add\",\"type\":\"bool\"}],\"name\":\"setAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"registry\",\"outputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"holder\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"quantity\",\"type\":\"uint256\"}],\"name\":\"reject\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"holders\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"count\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"ledger\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"admins\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"count\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"r\",\"type\":\"address\"}],\"name\":\"setRegistry\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"r\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"EscrowAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"EscrowRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const EscrowABI = "[{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"grantor\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"quantity\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"grantee\",\"type\":\"address\"}],\"name\":\"accept\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"grantor\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"quantity\",\"type\":\"uint256\"}],\"name\":\"record\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"int256\",\"name\":\"index\",\"type\":\"int256\"}],\"name\":\"adminAt\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"add\",\"type\":\"bool\"}],\"name\":\"setAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"registry\",\"outputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"grantor\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"quantity\",\"type\":\"uint256\"}],\"name\":\"reject\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"ledger\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"admins\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"count\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"r\",\"type\":\"address\"}],\"name\":\"setRegistry\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"r\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"grantor\",\"type\":\"address\"}],\"name\":\"EscrowAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"grantor\",\"type\":\"address\"}],\"name\":\"EscrowRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
 
 // EscrowBin is the compiled bytecode used for deploying new contracts.
-const EscrowBin = `6080604052600180546001600160a01b031916905534801561002057600080fd5b506040516112e93803806112e98339818101604052602081101561004357600080fd5b5051600080546001600160a01b03199081163317909155600580546001600160a01b0390931692909116919091179055611267806100826000396000f3fe608060405234801561001057600080fd5b50600436106100ea5760003560e01c80637b1039991161008c5780638da5cb5b116100665780638da5cb5b1461028a57806391fe9b6a14610292578063a5de361914610343578063a91ee0dc1461034b576100ea565b80637b10399914610232578063813bedf21461023a5780638188f71c14610270576100ea565b80632bdbc56f116100c85780632bdbc56f1461019d5780634b0bddd2146101d65780634fb2e45d14610204578063538ba4f91461022a576100ea565b8063101e7075146100ef578063172a93fb1461012d57806324d7806c14610163575b600080fd5b61012b6004803603608081101561010557600080fd5b506001600160a01b03813581169160208101358216916040820135916060013516610371565b005b61012b6004803603606081101561014357600080fd5b506001600160a01b03813581169160208101359091169060400135610383565b6101896004803603602081101561017957600080fd5b50356001600160a01b0316610677565b604080519115158252519081900360200190f35b6101ba600480360360208110156101b357600080fd5b50356106a6565b604080516001600160a01b039092168252519081900360200190f35b61012b600480360360408110156101ec57600080fd5b506001600160a01b03813516906020013515156106b9565b61012b6004803603602081101561021a57600080fd5b50356001600160a01b031661086f565b6101ba6109e1565b6101ba6109f0565b61012b6004803603606081101561025057600080fd5b506001600160a01b038135811691602081013590911690604001356109ff565b610278610a10565b60408051918252519081900360200190f35b6101ba610a16565b610278600480360360408110156102a857600080fd5b8101906020810181356401000000008111156102c357600080fd5b8201836020820111156102d557600080fd5b803590602001918460018302840111640100000000831117156102f757600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600092019190915250929550505090356001600160a01b03169150610a259050565b610278610a52565b61012b6004803603602081101561036157600080fd5b50356001600160a01b0316610a58565b61037d84848484610af0565b50505050565b61038c33610677565b6103dd576040805162461bcd60e51b815260206004820152601f60248201527f41646d696e20726571756972656420746f207265636f726420657363726f7700604482015290519081900360640190fd5b6060836001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b15801561041857600080fd5b505afa15801561042c573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052602081101561045557600080fd5b810190808051604051939291908464010000000082111561047557600080fd5b90830190602082018581111561048a57600080fd5b82516401000000008111828201881017156104a457600080fd5b82525081516020918201929091019080838360005b838110156104d15781810151838201526020016104b9565b50505050905090810190601f1680156104fe5780820380516001836020036101000a031916815260200191505b506040525050509050600061058b836009846040518082805190602001908083835b6020831061053f5780518252601f199092019160209182019101610520565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382019094206001600160a01b038b1660009081529152929092205492915050610f02565b90506000811180156105a957506105a960068563ffffffff610f6316565b156105f457604080516001600160a01b0380881682528616602082015281517f77ec0a1f539783369bfc02c19452ee9903f7f59cb8f191a0f0937e5e61e8efe5929181900390910190a15b806009836040518082805190602001908083835b602083106106275780518252601f199092019160209182019101610608565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382019094206001600160a01b0399909916600090815298905250509094209390935550505050565b600080546001600160a01b03838116911614806106a057506106a060028363ffffffff61100816565b92915050565b60006106a060028363ffffffff61103f16565b6000546001600160a01b03163314806106e257506001546000546001600160a01b039081169116145b610733576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b80156107d45761074a60028363ffffffff610f6316565b61079b576040805162461bcd60e51b815260206004820152601360248201527f556e61626c6520746f206164642061646d696e00000000000000000000000000604482015290519081900360640190fd5b6040516001600160a01b038316907f44d6d25963f097ad14f29f06854a01f575648a1ef82f30e562ccd3889717e33990600090a261086b565b6107e560028363ffffffff6110c516565b610836576040805162461bcd60e51b815260206004820152601660248201527f556e61626c6520746f2072656d6f76652061646d696e00000000000000000000604482015290519081900360640190fd5b6040516001600160a01b038316907fa3b62bc36326052d97ea62d63c3d60308ed4c3ea8ac079dd8499f1e9c4f80c0f90600090a25b5050565b6000546001600160a01b031633148061089857506001546000546001600160a01b039081169116145b6108e9576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156109365760405162461bcd60e51b815260040180806020018281038252602581526020018061120e6025913960400191505060405180910390fd5b6001600160a01b038116610991576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6005546001600160a01b031681565b610a0b83838385610af0565b505050565b60065481565b6000546001600160a01b031681565b81516020818401810180516009825292820194820194909420919093529091526000908152604090205481565b60025481565b6000546001600160a01b0316331480610a7d5750610a7d60023363ffffffff61100816565b610ace576040805162461bcd60e51b815260206004820152601960248201527f41646d696e206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b600580546001600160a01b0319166001600160a01b0392909216919091179055565b600554604080517f31aaa74a0000000000000000000000000000000000000000000000000000000081526001600160a01b03868116600483015291513393909216916331aaa74a91602480820192602092909190829003018186803b158015610b5857600080fd5b505afa158015610b6c573d6000803e3d6000fd5b505050506040513d6020811015610b8257600080fd5b50516001600160a01b031614610bdf576040805162461bcd60e51b815260206004820152601860248201527f486f6c646572277320706172656e742072657175697265640000000000000000604482015290519081900360640190fd5b6060846001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b158015610c1a57600080fd5b505afa158015610c2e573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526020811015610c5757600080fd5b8101908080516040519392919084640100000000821115610c7757600080fd5b908301906020820185811115610c8c57600080fd5b8251640100000000811182820188101715610ca657600080fd5b82525081516020918201929091019080838360005b83811015610cd3578181015183820152602001610cbb565b50505050905090810190601f168015610d005780820380516001836020036101000a031916815260200191505b5060405250505090506000610d8d846009846040518082805190602001908083835b60208310610d415780518252601f199092019160209182019101610d22565b51815160209384036101000a6000190180199092169116179052920194855250604080519485900382019094206001600160a01b038c16600090815291529290922054929150506111b0565b905080158015610da95750610da960068663ffffffff6110c516565b15610df457604080516001600160a01b0380891682528716602082015281517fef10ec58b248e4840da7c5adaaf9061b779ca8cb5f402c6007c71bd772771e5e929181900390910190a15b806009836040518082805190602001908083835b60208310610e275780518252601f199092019160209182019101610e08565b51815160209384036101000a60001901801990921691161790529201948552506040805194859003820185206001600160a01b038c81166000908152918452828220979097557fa9059cbb0000000000000000000000000000000000000000000000000000000086528987166004870152602486018b90529051958c169563a9059cbb95604480820196509394509092908390030190829087803b158015610ece57600080fd5b505af1158015610ee2573d6000803e3d6000fd5b505050506040513d6020811015610ef857600080fd5b5050505050505050565b600082820183811015610f5c576040805162461bcd60e51b815260206004820152601360248201527f526573756c747320696e206f766572666c6f7700000000000000000000000000604482015290519081900360640190fd5b9392505050565b60006001600160a01b038216610f7b575060006106a0565b6001600160a01b038216600090815260018401602052604081205460001901908112801590610faa5750835481125b15610fb95760009150506106a0565b5050815460019081018084556001600160a01b0383166000818152838601602090815260408083208590559382526002870190529190912080546001600160a01b031916909117905592915050565b6001600160a01b0381166000908152600183016020526040812054600019018181128015906110375750835481125b949350505050565b60008082121580156110515750825482125b6110a2576040805162461bcd60e51b815260206004820152601860248201527f496e646578206f757473696465206f6620626f756e64732e0000000000000000604482015290519081900360640190fd5b50600101600090815260029190910160205260409020546001600160a01b031690565b6001600160a01b038116600090815260018084016020526040822054908112806110ef5750835481135b156110fe5760009150506106a0565b835481121561116557835460009081526002850160208181526040808420546001600160a01b03168085526001890183528185208690558585529290915280832080546001600160a01b031990811690931790558654835290912080549091169055611184565b6000818152600285016020526040902080546001600160a01b03191690555b50506001600160a01b031660009081526001828101602052604082209190915581546000190190915590565b600082821115611207576040805162461bcd60e51b815260206004820152601460248201527f526573756c747320696e20756e646572666c6f77000000000000000000000000604482015290519081900360640190fd5b5090039056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a265627a7a72315820dfdd50b90bcb8cd84a529735b975b8488857ea0579de5f1f98f47859ff2261f164736f6c634300050b0032`
+const EscrowBin = `6080604052600180546001600160a01b031916905534801561002057600080fd5b506040516111853803806111858339818101604052602081101561004357600080fd5b5051600080546001600160a01b03199081163317909155600580546001600160a01b0390931692909116919091179055611103806100826000396000f3fe608060405234801561001057600080fd5b50600436106100df5760003560e01c8063538ba4f91161008c5780638da5cb5b116100665780638da5cb5b1461026557806396dcdbf01461026d578063a5de3619146102ad578063a91ee0dc146102b5576100df565b8063538ba4f91461021f5780637b10399914610227578063813bedf21461022f576100df565b80632bdbc56f116100bd5780632bdbc56f146101925780634b0bddd2146101cb5780634fb2e45d146101f9576100df565b8063101e7075146100e4578063172a93fb1461012257806324d7806c14610158575b600080fd5b610120600480360360808110156100fa57600080fd5b506001600160a01b038135811691602081013582169160408201359160600135166102db565b005b6101206004803603606081101561013857600080fd5b506001600160a01b038135811691602081013590911690604001356102ed565b61017e6004803603602081101561016e57600080fd5b50356001600160a01b0316610583565b604080519115158252519081900360200190f35b6101af600480360360208110156101a857600080fd5b50356105b2565b604080516001600160a01b039092168252519081900360200190f35b610120600480360360408110156101e157600080fd5b506001600160a01b03813516906020013515156105c5565b6101206004803603602081101561020f57600080fd5b50356001600160a01b031661077b565b6101af6108ed565b6101af6108fc565b6101206004803603606081101561024557600080fd5b506001600160a01b0381358116916020810135909116906040013561090b565b6101af61091c565b61029b6004803603604081101561028357600080fd5b506001600160a01b038135811691602001351661092b565b60408051918252519081900360200190f35b61029b610948565b610120600480360360208110156102cb57600080fd5b50356001600160a01b031661094e565b6102e7848484846109e6565b50505050565b6102f633610583565b610347576040805162461bcd60e51b815260206004820152601f60248201527f41646d696e20726571756972656420746f207265636f726420657363726f7700604482015290519081900360640190fd5b6001600160a01b0380841660009081526006602090815260408083209386168352929052908120548491610381828563ffffffff610d9e16565b9050811580156103915750600081115b1561055357846001600160a01b0316866001600160a01b0316876001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b1580156103e357600080fd5b505afa1580156103f7573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052602081101561042057600080fd5b810190808051604051939291908464010000000082111561044057600080fd5b90830190602082018581111561045557600080fd5b825164010000000081118282018810171561046f57600080fd5b82525081516020918201929091019080838360005b8381101561049c578181015183820152602001610484565b50505050905090810190601f1680156104c95780820380516001836020036101000a031916815260200191505b506040525050506040518082805190602001908083835b602083106104ff5780518252601f1990920191602091820191016104e0565b5181516020939093036101000a60001901801990911692169190911790526040519201829003822093507f9b64b4e41c9d5860b8271685f71d54a08315c0b04bf02aab5e4c75eaa74cc21c92506000919050a45b6001600160a01b039283166000908152600660209081526040808320979095168252959095529190932055505050565b600080546001600160a01b03838116911614806105ac57506105ac60028363ffffffff610dff16565b92915050565b60006105ac60028363ffffffff610e3616565b6000546001600160a01b03163314806105ee57506001546000546001600160a01b039081169116145b61063f576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b80156106e05761065660028363ffffffff610ebc16565b6106a7576040805162461bcd60e51b815260206004820152601360248201527f556e61626c6520746f206164642061646d696e00000000000000000000000000604482015290519081900360640190fd5b6040516001600160a01b038316907f44d6d25963f097ad14f29f06854a01f575648a1ef82f30e562ccd3889717e33990600090a2610777565b6106f160028363ffffffff610f6116565b610742576040805162461bcd60e51b815260206004820152601660248201527f556e61626c6520746f2072656d6f76652061646d696e00000000000000000000604482015290519081900360640190fd5b6040516001600160a01b038316907fa3b62bc36326052d97ea62d63c3d60308ed4c3ea8ac079dd8499f1e9c4f80c0f90600090a25b5050565b6000546001600160a01b03163314806107a457506001546000546001600160a01b039081169116145b6107f5576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156108425760405162461bcd60e51b81526004018080602001828103825260258152602001806110aa6025913960400191505060405180910390fd5b6001600160a01b03811661089d576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6005546001600160a01b031681565b610917838383856109e6565b505050565b6000546001600160a01b031681565b600660209081526000928352604080842090915290825290205481565b60025481565b6000546001600160a01b0316331480610973575061097360023363ffffffff610dff16565b6109c4576040805162461bcd60e51b815260206004820152601960248201527f41646d696e206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b600580546001600160a01b0319166001600160a01b0392909216919091179055565b600554604080517f31aaa74a0000000000000000000000000000000000000000000000000000000081526001600160a01b03868116600483015291513393909216916331aaa74a91602480820192602092909190829003018186803b158015610a4e57600080fd5b505afa158015610a62573d6000803e3d6000fd5b505050506040513d6020811015610a7857600080fd5b50516001600160a01b031614610ad5576040805162461bcd60e51b815260206004820152601960248201527f4772616e746f72277320706172656e7420726571756972656400000000000000604482015290519081900360640190fd5b836001600160a01b031663a9059cbb82846040518363ffffffff1660e01b815260040180836001600160a01b03166001600160a01b0316815260200182815260200192505050602060405180830381600087803b158015610b3557600080fd5b505af1158015610b49573d6000803e3d6000fd5b505050506040513d6020811015610b5f57600080fd5b50506001600160a01b0380851660009081526006602090815260408083209387168352929052908120548591610b9b828663ffffffff61104c16565b9050600082118015610bab575080155b15610d6d57856001600160a01b0316876001600160a01b0316886001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b158015610bfd57600080fd5b505afa158015610c11573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526020811015610c3a57600080fd5b8101908080516040519392919084640100000000821115610c5a57600080fd5b908301906020820185811115610c6f57600080fd5b8251640100000000811182820188101715610c8957600080fd5b82525081516020918201929091019080838360005b83811015610cb6578181015183820152602001610c9e565b50505050905090810190601f168015610ce35780820380516001836020036101000a031916815260200191505b506040525050506040518082805190602001908083835b60208310610d195780518252601f199092019160209182019101610cfa565b5181516020939093036101000a60001901801990911692169190911790526040519201829003822093507fd4903355a168bfba0a71e036316138be08ba1f745566878969512bb7554f2c3192506000919050a45b6001600160a01b03928316600090815260066020908152604080832098909516825296909652919094205550505050565b600082820183811015610df8576040805162461bcd60e51b815260206004820152601360248201527f526573756c747320696e206f766572666c6f7700000000000000000000000000604482015290519081900360640190fd5b9392505050565b6001600160a01b038116600090815260018301602052604081205460001901818112801590610e2e5750835481125b949350505050565b6000808212158015610e485750825482125b610e99576040805162461bcd60e51b815260206004820152601860248201527f496e646578206f757473696465206f6620626f756e64732e0000000000000000604482015290519081900360640190fd5b50600101600090815260029190910160205260409020546001600160a01b031690565b60006001600160a01b038216610ed4575060006105ac565b6001600160a01b038216600090815260018401602052604081205460001901908112801590610f035750835481125b15610f125760009150506105ac565b5050815460019081018084556001600160a01b0383166000818152838601602090815260408083208590559382526002870190529190912080546001600160a01b031916909117905592915050565b6001600160a01b03811660009081526001808401602052604082205490811280610f8b5750835481135b15610f9a5760009150506105ac565b835481121561100157835460009081526002850160208181526040808420546001600160a01b03168085526001890183528185208690558585529290915280832080546001600160a01b031990811690931790558654835290912080549091169055611020565b6000818152600285016020526040902080546001600160a01b03191690555b50506001600160a01b031660009081526001828101602052604082209190915581546000190190915590565b6000828211156110a3576040805162461bcd60e51b815260206004820152601460248201527f526573756c747320696e20756e646572666c6f77000000000000000000000000604482015290519081900360640190fd5b5090039056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a265627a7a72315820f1f46dfdc8014cb83fde83974eaf5ca5e94db9c628fc26d0b14b6034b88a44d964736f6c634300050b0032`
 
 // DeployEscrow deploys a new Ethereum contract, binding an instance of Escrow to it.
 func DeployEscrow(auth *bind.TransactOpts, backend bind.ContractBackend, r common.Address) (common.Address, *types.Transaction, *Escrow, error) {
@@ -254,32 +254,6 @@ func (_Escrow *EscrowCallerSession) Admins() (*big.Int, error) {
 	return _Escrow.Contract.Admins(&_Escrow.CallOpts)
 }
 
-// Holders is a free data retrieval call binding the contract method 0x8188f71c.
-//
-// Solidity: function holders() constant returns(count int256)
-func (_Escrow *EscrowCaller) Holders(opts *bind.CallOpts) (*big.Int, error) {
-	var (
-		ret0 = new(*big.Int)
-	)
-	out := ret0
-	err := _Escrow.contract.Call(opts, out, "holders")
-	return *ret0, err
-}
-
-// Holders is a free data retrieval call binding the contract method 0x8188f71c.
-//
-// Solidity: function holders() constant returns(count int256)
-func (_Escrow *EscrowSession) Holders() (*big.Int, error) {
-	return _Escrow.Contract.Holders(&_Escrow.CallOpts)
-}
-
-// Holders is a free data retrieval call binding the contract method 0x8188f71c.
-//
-// Solidity: function holders() constant returns(count int256)
-func (_Escrow *EscrowCallerSession) Holders() (*big.Int, error) {
-	return _Escrow.Contract.Holders(&_Escrow.CallOpts)
-}
-
 // IsAdmin is a free data retrieval call binding the contract method 0x24d7806c.
 //
 // Solidity: function isAdmin(addr address) constant returns(bool)
@@ -306,10 +280,10 @@ func (_Escrow *EscrowCallerSession) IsAdmin(addr common.Address) (bool, error) {
 	return _Escrow.Contract.IsAdmin(&_Escrow.CallOpts, addr)
 }
 
-// Ledger is a free data retrieval call binding the contract method 0x91fe9b6a.
+// Ledger is a free data retrieval call binding the contract method 0x96dcdbf0.
 //
-// Solidity: function ledger( string,  address) constant returns(uint256)
-func (_Escrow *EscrowCaller) Ledger(opts *bind.CallOpts, arg0 string, arg1 common.Address) (*big.Int, error) {
+// Solidity: function ledger( address,  address) constant returns(uint256)
+func (_Escrow *EscrowCaller) Ledger(opts *bind.CallOpts, arg0 common.Address, arg1 common.Address) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
@@ -318,17 +292,17 @@ func (_Escrow *EscrowCaller) Ledger(opts *bind.CallOpts, arg0 string, arg1 commo
 	return *ret0, err
 }
 
-// Ledger is a free data retrieval call binding the contract method 0x91fe9b6a.
+// Ledger is a free data retrieval call binding the contract method 0x96dcdbf0.
 //
-// Solidity: function ledger( string,  address) constant returns(uint256)
-func (_Escrow *EscrowSession) Ledger(arg0 string, arg1 common.Address) (*big.Int, error) {
+// Solidity: function ledger( address,  address) constant returns(uint256)
+func (_Escrow *EscrowSession) Ledger(arg0 common.Address, arg1 common.Address) (*big.Int, error) {
 	return _Escrow.Contract.Ledger(&_Escrow.CallOpts, arg0, arg1)
 }
 
-// Ledger is a free data retrieval call binding the contract method 0x91fe9b6a.
+// Ledger is a free data retrieval call binding the contract method 0x96dcdbf0.
 //
-// Solidity: function ledger( string,  address) constant returns(uint256)
-func (_Escrow *EscrowCallerSession) Ledger(arg0 string, arg1 common.Address) (*big.Int, error) {
+// Solidity: function ledger( address,  address) constant returns(uint256)
+func (_Escrow *EscrowCallerSession) Ledger(arg0 common.Address, arg1 common.Address) (*big.Int, error) {
 	return _Escrow.Contract.Ledger(&_Escrow.CallOpts, arg0, arg1)
 }
 
@@ -386,65 +360,65 @@ func (_Escrow *EscrowCallerSession) Registry() (common.Address, error) {
 
 // Accept is a paid mutator transaction binding the contract method 0x101e7075.
 //
-// Solidity: function accept(token address, holder address, quantity uint256, grantee address) returns()
-func (_Escrow *EscrowTransactor) Accept(opts *bind.TransactOpts, token common.Address, holder common.Address, quantity *big.Int, grantee common.Address) (*types.Transaction, error) {
-	return _Escrow.contract.Transact(opts, "accept", token, holder, quantity, grantee)
+// Solidity: function accept(token address, grantor address, quantity uint256, grantee address) returns()
+func (_Escrow *EscrowTransactor) Accept(opts *bind.TransactOpts, token common.Address, grantor common.Address, quantity *big.Int, grantee common.Address) (*types.Transaction, error) {
+	return _Escrow.contract.Transact(opts, "accept", token, grantor, quantity, grantee)
 }
 
 // Accept is a paid mutator transaction binding the contract method 0x101e7075.
 //
-// Solidity: function accept(token address, holder address, quantity uint256, grantee address) returns()
-func (_Escrow *EscrowSession) Accept(token common.Address, holder common.Address, quantity *big.Int, grantee common.Address) (*types.Transaction, error) {
-	return _Escrow.Contract.Accept(&_Escrow.TransactOpts, token, holder, quantity, grantee)
+// Solidity: function accept(token address, grantor address, quantity uint256, grantee address) returns()
+func (_Escrow *EscrowSession) Accept(token common.Address, grantor common.Address, quantity *big.Int, grantee common.Address) (*types.Transaction, error) {
+	return _Escrow.Contract.Accept(&_Escrow.TransactOpts, token, grantor, quantity, grantee)
 }
 
 // Accept is a paid mutator transaction binding the contract method 0x101e7075.
 //
-// Solidity: function accept(token address, holder address, quantity uint256, grantee address) returns()
-func (_Escrow *EscrowTransactorSession) Accept(token common.Address, holder common.Address, quantity *big.Int, grantee common.Address) (*types.Transaction, error) {
-	return _Escrow.Contract.Accept(&_Escrow.TransactOpts, token, holder, quantity, grantee)
+// Solidity: function accept(token address, grantor address, quantity uint256, grantee address) returns()
+func (_Escrow *EscrowTransactorSession) Accept(token common.Address, grantor common.Address, quantity *big.Int, grantee common.Address) (*types.Transaction, error) {
+	return _Escrow.Contract.Accept(&_Escrow.TransactOpts, token, grantor, quantity, grantee)
 }
 
 // Record is a paid mutator transaction binding the contract method 0x172a93fb.
 //
-// Solidity: function record(token address, holder address, quantity uint256) returns()
-func (_Escrow *EscrowTransactor) Record(opts *bind.TransactOpts, token common.Address, holder common.Address, quantity *big.Int) (*types.Transaction, error) {
-	return _Escrow.contract.Transact(opts, "record", token, holder, quantity)
+// Solidity: function record(token address, grantor address, quantity uint256) returns()
+func (_Escrow *EscrowTransactor) Record(opts *bind.TransactOpts, token common.Address, grantor common.Address, quantity *big.Int) (*types.Transaction, error) {
+	return _Escrow.contract.Transact(opts, "record", token, grantor, quantity)
 }
 
 // Record is a paid mutator transaction binding the contract method 0x172a93fb.
 //
-// Solidity: function record(token address, holder address, quantity uint256) returns()
-func (_Escrow *EscrowSession) Record(token common.Address, holder common.Address, quantity *big.Int) (*types.Transaction, error) {
-	return _Escrow.Contract.Record(&_Escrow.TransactOpts, token, holder, quantity)
+// Solidity: function record(token address, grantor address, quantity uint256) returns()
+func (_Escrow *EscrowSession) Record(token common.Address, grantor common.Address, quantity *big.Int) (*types.Transaction, error) {
+	return _Escrow.Contract.Record(&_Escrow.TransactOpts, token, grantor, quantity)
 }
 
 // Record is a paid mutator transaction binding the contract method 0x172a93fb.
 //
-// Solidity: function record(token address, holder address, quantity uint256) returns()
-func (_Escrow *EscrowTransactorSession) Record(token common.Address, holder common.Address, quantity *big.Int) (*types.Transaction, error) {
-	return _Escrow.Contract.Record(&_Escrow.TransactOpts, token, holder, quantity)
+// Solidity: function record(token address, grantor address, quantity uint256) returns()
+func (_Escrow *EscrowTransactorSession) Record(token common.Address, grantor common.Address, quantity *big.Int) (*types.Transaction, error) {
+	return _Escrow.Contract.Record(&_Escrow.TransactOpts, token, grantor, quantity)
 }
 
 // Reject is a paid mutator transaction binding the contract method 0x813bedf2.
 //
-// Solidity: function reject(token address, holder address, quantity uint256) returns()
-func (_Escrow *EscrowTransactor) Reject(opts *bind.TransactOpts, token common.Address, holder common.Address, quantity *big.Int) (*types.Transaction, error) {
-	return _Escrow.contract.Transact(opts, "reject", token, holder, quantity)
+// Solidity: function reject(token address, grantor address, quantity uint256) returns()
+func (_Escrow *EscrowTransactor) Reject(opts *bind.TransactOpts, token common.Address, grantor common.Address, quantity *big.Int) (*types.Transaction, error) {
+	return _Escrow.contract.Transact(opts, "reject", token, grantor, quantity)
 }
 
 // Reject is a paid mutator transaction binding the contract method 0x813bedf2.
 //
-// Solidity: function reject(token address, holder address, quantity uint256) returns()
-func (_Escrow *EscrowSession) Reject(token common.Address, holder common.Address, quantity *big.Int) (*types.Transaction, error) {
-	return _Escrow.Contract.Reject(&_Escrow.TransactOpts, token, holder, quantity)
+// Solidity: function reject(token address, grantor address, quantity uint256) returns()
+func (_Escrow *EscrowSession) Reject(token common.Address, grantor common.Address, quantity *big.Int) (*types.Transaction, error) {
+	return _Escrow.Contract.Reject(&_Escrow.TransactOpts, token, grantor, quantity)
 }
 
 // Reject is a paid mutator transaction binding the contract method 0x813bedf2.
 //
-// Solidity: function reject(token address, holder address, quantity uint256) returns()
-func (_Escrow *EscrowTransactorSession) Reject(token common.Address, holder common.Address, quantity *big.Int) (*types.Transaction, error) {
-	return _Escrow.Contract.Reject(&_Escrow.TransactOpts, token, holder, quantity)
+// Solidity: function reject(token address, grantor address, quantity uint256) returns()
+func (_Escrow *EscrowTransactorSession) Reject(token common.Address, grantor common.Address, quantity *big.Int) (*types.Transaction, error) {
+	return _Escrow.Contract.Reject(&_Escrow.TransactOpts, token, grantor, quantity)
 }
 
 // SetAdmin is a paid mutator transaction binding the contract method 0x4b0bddd2.
@@ -843,29 +817,56 @@ func (it *EscrowEscrowAddedIterator) Close() error {
 
 // EscrowEscrowAdded represents a EscrowAdded event raised by the Escrow contract.
 type EscrowEscrowAdded struct {
-	Token common.Address
-	Addr  common.Address
-	Raw   types.Log // Blockchain specific contextual infos
+	Symbol  common.Hash
+	Token   common.Address
+	Grantor common.Address
+	Raw     types.Log // Blockchain specific contextual infos
 }
 
-// FilterEscrowAdded is a free log retrieval operation binding the contract event 0x77ec0a1f539783369bfc02c19452ee9903f7f59cb8f191a0f0937e5e61e8efe5.
+// FilterEscrowAdded is a free log retrieval operation binding the contract event 0x9b64b4e41c9d5860b8271685f71d54a08315c0b04bf02aab5e4c75eaa74cc21c.
 //
-// Solidity: e EscrowAdded(token address, addr address)
-func (_Escrow *EscrowFilterer) FilterEscrowAdded(opts *bind.FilterOpts) (*EscrowEscrowAddedIterator, error) {
+// Solidity: e EscrowAdded(symbol indexed string, token indexed address, grantor indexed address)
+func (_Escrow *EscrowFilterer) FilterEscrowAdded(opts *bind.FilterOpts, symbol []string, token []common.Address, grantor []common.Address) (*EscrowEscrowAddedIterator, error) {
 
-	logs, sub, err := _Escrow.contract.FilterLogs(opts, "EscrowAdded")
+	var symbolRule []interface{}
+	for _, symbolItem := range symbol {
+		symbolRule = append(symbolRule, symbolItem)
+	}
+	var tokenRule []interface{}
+	for _, tokenItem := range token {
+		tokenRule = append(tokenRule, tokenItem)
+	}
+	var grantorRule []interface{}
+	for _, grantorItem := range grantor {
+		grantorRule = append(grantorRule, grantorItem)
+	}
+
+	logs, sub, err := _Escrow.contract.FilterLogs(opts, "EscrowAdded", symbolRule, tokenRule, grantorRule)
 	if err != nil {
 		return nil, err
 	}
 	return &EscrowEscrowAddedIterator{contract: _Escrow.contract, event: "EscrowAdded", logs: logs, sub: sub}, nil
 }
 
-// WatchEscrowAdded is a free log subscription operation binding the contract event 0x77ec0a1f539783369bfc02c19452ee9903f7f59cb8f191a0f0937e5e61e8efe5.
+// WatchEscrowAdded is a free log subscription operation binding the contract event 0x9b64b4e41c9d5860b8271685f71d54a08315c0b04bf02aab5e4c75eaa74cc21c.
 //
-// Solidity: e EscrowAdded(token address, addr address)
-func (_Escrow *EscrowFilterer) WatchEscrowAdded(opts *bind.WatchOpts, sink chan<- *EscrowEscrowAdded) (event.Subscription, error) {
+// Solidity: e EscrowAdded(symbol indexed string, token indexed address, grantor indexed address)
+func (_Escrow *EscrowFilterer) WatchEscrowAdded(opts *bind.WatchOpts, sink chan<- *EscrowEscrowAdded, symbol []string, token []common.Address, grantor []common.Address) (event.Subscription, error) {
 
-	logs, sub, err := _Escrow.contract.WatchLogs(opts, "EscrowAdded")
+	var symbolRule []interface{}
+	for _, symbolItem := range symbol {
+		symbolRule = append(symbolRule, symbolItem)
+	}
+	var tokenRule []interface{}
+	for _, tokenItem := range token {
+		tokenRule = append(tokenRule, tokenItem)
+	}
+	var grantorRule []interface{}
+	for _, grantorItem := range grantor {
+		grantorRule = append(grantorRule, grantorItem)
+	}
+
+	logs, sub, err := _Escrow.contract.WatchLogs(opts, "EscrowAdded", symbolRule, tokenRule, grantorRule)
 	if err != nil {
 		return nil, err
 	}
@@ -966,29 +967,56 @@ func (it *EscrowEscrowRemovedIterator) Close() error {
 
 // EscrowEscrowRemoved represents a EscrowRemoved event raised by the Escrow contract.
 type EscrowEscrowRemoved struct {
-	Token common.Address
-	Addr  common.Address
-	Raw   types.Log // Blockchain specific contextual infos
+	Symbol  common.Hash
+	Token   common.Address
+	Grantor common.Address
+	Raw     types.Log // Blockchain specific contextual infos
 }
 
-// FilterEscrowRemoved is a free log retrieval operation binding the contract event 0xef10ec58b248e4840da7c5adaaf9061b779ca8cb5f402c6007c71bd772771e5e.
+// FilterEscrowRemoved is a free log retrieval operation binding the contract event 0xd4903355a168bfba0a71e036316138be08ba1f745566878969512bb7554f2c31.
 //
-// Solidity: e EscrowRemoved(token address, addr address)
-func (_Escrow *EscrowFilterer) FilterEscrowRemoved(opts *bind.FilterOpts) (*EscrowEscrowRemovedIterator, error) {
+// Solidity: e EscrowRemoved(symbol indexed string, token indexed address, grantor indexed address)
+func (_Escrow *EscrowFilterer) FilterEscrowRemoved(opts *bind.FilterOpts, symbol []string, token []common.Address, grantor []common.Address) (*EscrowEscrowRemovedIterator, error) {
 
-	logs, sub, err := _Escrow.contract.FilterLogs(opts, "EscrowRemoved")
+	var symbolRule []interface{}
+	for _, symbolItem := range symbol {
+		symbolRule = append(symbolRule, symbolItem)
+	}
+	var tokenRule []interface{}
+	for _, tokenItem := range token {
+		tokenRule = append(tokenRule, tokenItem)
+	}
+	var grantorRule []interface{}
+	for _, grantorItem := range grantor {
+		grantorRule = append(grantorRule, grantorItem)
+	}
+
+	logs, sub, err := _Escrow.contract.FilterLogs(opts, "EscrowRemoved", symbolRule, tokenRule, grantorRule)
 	if err != nil {
 		return nil, err
 	}
 	return &EscrowEscrowRemovedIterator{contract: _Escrow.contract, event: "EscrowRemoved", logs: logs, sub: sub}, nil
 }
 
-// WatchEscrowRemoved is a free log subscription operation binding the contract event 0xef10ec58b248e4840da7c5adaaf9061b779ca8cb5f402c6007c71bd772771e5e.
+// WatchEscrowRemoved is a free log subscription operation binding the contract event 0xd4903355a168bfba0a71e036316138be08ba1f745566878969512bb7554f2c31.
 //
-// Solidity: e EscrowRemoved(token address, addr address)
-func (_Escrow *EscrowFilterer) WatchEscrowRemoved(opts *bind.WatchOpts, sink chan<- *EscrowEscrowRemoved) (event.Subscription, error) {
+// Solidity: e EscrowRemoved(symbol indexed string, token indexed address, grantor indexed address)
+func (_Escrow *EscrowFilterer) WatchEscrowRemoved(opts *bind.WatchOpts, sink chan<- *EscrowEscrowRemoved, symbol []string, token []common.Address, grantor []common.Address) (event.Subscription, error) {
 
-	logs, sub, err := _Escrow.contract.WatchLogs(opts, "EscrowRemoved")
+	var symbolRule []interface{}
+	for _, symbolItem := range symbol {
+		symbolRule = append(symbolRule, symbolItem)
+	}
+	var tokenRule []interface{}
+	for _, tokenItem := range token {
+		tokenRule = append(tokenRule, tokenItem)
+	}
+	var grantorRule []interface{}
+	for _, grantorItem := range grantor {
+		grantorRule = append(grantorRule, grantorItem)
+	}
+
+	logs, sub, err := _Escrow.contract.WatchLogs(opts, "EscrowRemoved", symbolRule, tokenRule, grantorRule)
 	if err != nil {
 		return nil, err
 	}

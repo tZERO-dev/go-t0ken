@@ -40,8 +40,11 @@ var (
 	}
 
 	AuditCommand = &cobra.Command{
-		Use:    "audit [kind]",
-		Short:  "Audit the accounts of <kind>, outputting CSV to <stdout>",
+		Use:   "audit [kind]",
+		Short: "Audit the accounts of <kind>, outputting CSV to <stdout>",
+		Example: `t0ken registry audit
+t0ken token audit 4,
+t0ken token audit 4 --block 8658083`,
 		Args:   cobra.MaximumNArgs(1),
 		PreRun: connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {

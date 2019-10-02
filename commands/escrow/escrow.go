@@ -35,12 +35,17 @@ var (
 	}
 
 	contractKey  = "escrow"
+	filterer     *escrow.EscrowFilterer
 	callSession  *escrow.EscrowCallerSession
 	transSession *escrow.EscrowTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
 	return escrow.NewEscrowCaller(addr, caller)
+}
+
+func filterSessionFn(addr common.Address, filter bind.ContractFilterer) (interface{}, error) {
+	return escrow.NewEscrowFilterer(addr, filter)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
@@ -51,6 +56,11 @@ func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
 	caller := o.(*escrow.EscrowCaller)
 	callSession = &escrow.EscrowCallerSession{caller, callOpts}
+}
+
+func connectFilterer(cmd *cobra.Command, args []string) {
+	f := commands.ConnectWithFiltererSessionFunc(cmd, args, contractKey, filterSessionFn)
+	filterer = f.(*escrow.EscrowFilterer)
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {

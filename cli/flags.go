@@ -44,6 +44,19 @@ func FlagOrConfigAddress(cmd *cobra.Command, flag, configKey string) (common.Add
 	return common.HexToAddress(s), err
 }
 
+// StringsFlag returns the strings for the given flag, returning an error when unset and required
+func StringsFlag(cmd *cobra.Command, flag string, required bool) ([]string, error) {
+	s, err := cmd.Flags().GetStringSlice(flag)
+	if err != nil && (required || !strings.HasPrefix(err.Error(), "flag accessed but not defined:")) {
+		return s, err
+	}
+	if len(s) == 0 {
+		return nil, nil
+	}
+	return s, nil
+}
+
+// AddressesFlag returns the addresses for the given flag, returning an error when unset and required
 func AddressesFlag(cmd *cobra.Command, flag string, required bool) ([]common.Address, error) {
 	var a []common.Address
 	s, err := cmd.Flags().GetStringSlice(flag)

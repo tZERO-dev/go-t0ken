@@ -44,8 +44,10 @@ var (
 	}
 
 	AuditCommand = &cobra.Command{
-		Use:    "audit",
-		Short:  "Audit the holders of the t0ken, outputting CSV to <stdout>",
+		Use:   "audit",
+		Short: "Audit the holders of the t0ken, outputting CSV to <stdout>",
+		Example: `t0ken token audit
+t0ken token audit --block 8658083`,
 		PreRun: connectCaller,
 		Run: func(cmd *cobra.Command, arts []string) {
 			if callSession.CallOpts.BlockNumber == nil {
