@@ -13,10 +13,10 @@ import (
 )
 
 // CloneableABI is the input ABI used to generate the binding from.
-const CloneableABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"clone\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"}]"
+const CloneableABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"clone\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"}]"
 
 // CloneableBin is the compiled bytecode used for deploying new contracts.
-const CloneableBin = `608060405234801561001057600080fd5b5060c58061001f6000396000f3fe608060405260043610601c5760003560e01c806309ed4607146021575b600080fd5b60276050565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6000803060481b7f5880730000000000000000000000000000000000000000803b80938091923cf3176000526020600034f09050803b608b57fe5b90509056fea265627a7a723058205224a22b57779098a848b24dbe051ab27e7a965687cec6107721da118e4ea2aa64736f6c634300050a0032`
+const CloneableBin = `608060405234801561001057600080fd5b5060c58061001f6000396000f3fe608060405260043610601c5760003560e01c806309ed4607146021575b600080fd5b60276050565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6000803060481b7f5880730000000000000000000000000000000000000000803b80938091923cf3176000526020600034f09050803b608b57fe5b90509056fea265627a7a723158203576f0c227664523f52a078c6632f1e7daeca396e8e9efbf95931b1a17733f3a64736f6c634300050b0032`
 
 // DeployCloneable deploys a new Ethereum contract, binding an instance of Cloneable to it.
 func DeployCloneable(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Cloneable, error) {
