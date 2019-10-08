@@ -94,33 +94,6 @@ type transactionReceiptBlock struct {
 }
 
 func receiptBlock(hash common.Hash) (*types.Block, error) {
-	//// Ensure the transaction is successful
-	//tr, err := Conn.TransactionReceipt(context.Background(), hash)
-	//if err != nil {
-	//	return nil, err
-	//} else if tr.Status != 1 {
-	//	return nil, fmt.Errorf("transaction failed with status:", tr.Status)
-	//}
-	//
-	//// Only attempting to get logs so we can natively get to the block number, since we can't with current Geth 1.8.
-	//// The issue is that not every transaction includes logs, so this is unreliable.
-	//// We can use a filter query, but without knowing the block range this could be intensive.
-	//if len(tr.Logs) == 0 {
-	//	return nil, errors.New("Receipt contains no logs to get block, awaiting on go-ethereum PR-17662 to remedy this")
-	//}
-	//h := tr.Logs[0].BlockHash
-	//return Conn.BlockByHash(context.Background(), h)
-
-	//// https://github.com/ethereum/go-ethereum/pull/17662#pullrequestreview-206299201
-	//// We should be able to use the above PR, which will hopefully be included in the 1.9.x release to get the block number.
-	//// But for now, issuing a raw query and parsing the bits we need will suffice.
-	//var r *transactionReceiptBlock
-	//err := Conn.RawCall(&r, "eth_getTransactionReceipt", hash)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//return Conn.BlockByHash(context.Background(), r.BlockHash)
-
 	ctx := context.Background()
 	r, err := Conn.TransactionReceipt(ctx, hash)
 	if err != nil {
@@ -128,65 +101,6 @@ func receiptBlock(hash common.Hash) (*types.Block, error) {
 	}
 	return Conn.BlockByHash(ctx, r.BlockHash)
 }
-
-//func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, confirmations int) error {
-//	// Wait for the transaction to be mined
-//	for {
-//		_, pending, err := Conn.TransactionByHash(context.Background(), tx)
-//		if err != nil {
-//			return err
-//		} else if !pending {
-//			break
-//		}
-//
-//		<-time.After(waitDuration)
-//		cmd.Print(".")
-//	}
-//
-//	// Ensure the transaction is successful
-//	tr, err := Conn.TransactionReceipt(context.Background(), tx)
-//	if err != nil {
-//		return err
-//	}
-//
-//	// Output the status and contract address
-//	cmd.Printf("       Status: %d\n", tr.Status)
-//	if bytes.Compare(tr.ContractAddress.Bytes(), zeroAddressBytes) != 0 {
-//		cmd.Printf("     Contract: %s\n", tr.ContractAddress.String())
-//	}
-//
-//	c := big.NewInt(int64(confirmations))
-//	total := int64(0)
-//	for {
-//		// Get latest block
-//		latest, err := Conn.HeaderByNumber(context.Background(), nil)
-//		if err != nil {
-//			return err
-//		}
-//
-//		// Output block info from receipt
-//		block, err := receiptBlock(tx)
-//		if err == nil {
-//			err = PrintBlock(cmd.OutOrStdout(), latest, block)
-//		}
-//		if err != nil {
-//			return err
-//		}
-//
-//		// Wait for the block to have the number of given confirmations
-//		n := latest.Number.Sub(latest.Number, block.Number())
-//		if n.Int64() != total {
-//			total = n.Int64()
-//			cmd.Printf("\n%d confirmations", total)
-//		}
-//		if n.Cmp(c) >= 0 {
-//			break
-//		}
-//		cmd.Print(".")
-//		<-time.After(waitDuration)
-//	}
-//	return nil
-//}
 
 func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	// Wait for the transaction to be mined
