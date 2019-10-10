@@ -34,6 +34,7 @@ Available Rules:
   - restrictToBrokerOrCustodialAccount
   - restrictToContract
   - restrictToCustodianOrCustodialAccountOrBroker
+  - restrictToDepositingAccount
   - restrictToEscrow
   - restrictTransferFrom`,
 		Args:   cobra.ExactArgs(1),
