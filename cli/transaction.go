@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -108,7 +109,7 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 	elapsed := 0
 	for {
 		_, pending, err := Conn.TransactionByHash(ctx, tx)
-		if err != nil {
+		if err != nil && err != ethereum.NotFound {
 			return err
 		} else if timeout > 0 && elapsed-timeout > 0 {
 			return errors.New("Exceederd timeout")
@@ -121,7 +122,11 @@ func WaitOnTransaction(cmd *cobra.Command, tx common.Hash, timeout int) error {
 
 		<-time.After(waitDuration)
 		elapsed += 1
-		cmd.Print(".")
+		if err == ethereum.NotFound {
+			cmd.Print("!")
+		} else {
+			cmd.Print(".")
+		}
 	}
 
 	// Ensure the transaction is successful
@@ -158,7 +163,7 @@ func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout 
 	elapsed := 0
 	for i := 0; len(confirmed) < n; i++ {
 		_, pending, err := Conn.TransactionByHash(ctx, transactions[i])
-		if err != nil {
+		if err != nil && err != ethereum.NotFound {
 			cmd.Printf("failed to retrieve transaction '%s', %s\n", transactions[i].String(), err)
 			n--
 			transactions[i] = transactions[n]
@@ -172,7 +177,11 @@ func WaitOnTransactions(cmd *cobra.Command, transactions []common.Hash, timeout 
 				return errors.New("exceederd timeout")
 			}
 			<-time.After(waitDuration)
-			cmd.Print(".")
+			if err == ethereum.NotFound {
+				cmd.Print("!")
+			} else {
+				cmd.Print(".")
+			}
 			i = 0
 		}
 	}

@@ -11,6 +11,7 @@
 //go:generate abigen --abi ../../../build/RestrictToBrokerOrCustodialAccount.abi --bin ../../../build/RestrictToBrokerOrCustodialAccount.bin --pkg rules --type RestrictToBrokerOrCustodialAccount --out restrictToBrokerOrCustodialAccount.go
 //go:generate abigen --abi ../../../build/RestrictToContract.abi --bin ../../../build/RestrictToContract.bin --pkg rules --type RestrictToContract --out restrictToContract.go
 //go:generate abigen --abi ../../../build/RestrictToCustodianOrCustodialAccountOrBroker.abi --bin ../../../build/RestrictToCustodianOrCustodialAccountOrBroker.bin --pkg rules --type RestrictToCustodianOrCustodialAccountOrBroker --out restrictToCustodianOrCustodialAccountOrBroker.go
+//go:generate abigen --abi ../../../build/RestrictToDepositingAccount.abi --bin ../../../build/RestrictToDepositingAccount.bin --pkg rules --type RestrictToDepositingAccount --out restrictToDepositingAccount.go
 //go:generate abigen --abi ../../../build/RestrictToEscrow.abi --bin ../../../build/RestrictToEscrow.bin --pkg rules --type RestrictToEscrow --out restrictToEscrow.go
 //go:generate abigen --abi ../../../build/RestrictTransferFrom.abi --bin ../../../build/RestrictTransferFrom.bin --pkg rules --type RestrictTransferFrom --out restrictTransferFrom.go
 package rules

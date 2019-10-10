@@ -68,6 +68,8 @@ Available Rules:
 				addr, tx, _, err = rules.DeployRestrictToContract(cli.Conn.Opts, cli.Conn.Client)
 			case "restrictToCustodianOrCustodialAccountOrBroker":
 				addr, tx, _, err = rules.DeployRestrictToCustodianOrCustodialAccountOrBroker(cli.Conn.Opts, cli.Conn.Client)
+			case "restrictToDepositingAccount":
+				addr, tx, _, err = rules.DeployRestrictToDepositingAccount(cli.Conn.Opts, cli.Conn.Client)
 			case "restrictToEscrow":
 				addr, tx, _, err = rules.DeployRestrictToEscrow(cli.Conn.Opts, cli.Conn.Client)
 			case "restrictTransferFrom":

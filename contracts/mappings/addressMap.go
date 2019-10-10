@@ -16,7 +16,7 @@ import (
 const AddressMapABI = "[]"
 
 // AddressMapBin is the compiled bytecode used for deploying new contracts.
-const AddressMapBin = `60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820abcf2c6d669d860ba7be3eb9db53a900563da398d60bd0439fd96caf5f18dd8b64736f6c634300050b0032`
+const AddressMapBin = `60556023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea265627a7a72315820dd2138c8cad670ccbfc98ec80e377693d97fed2cea6226252b6eb6444b304fed64736f6c634300050c0032`
 
 // DeployAddressMap deploys a new Ethereum contract, binding an instance of AddressMap to it.
 func DeployAddressMap(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *AddressMap, error) {
