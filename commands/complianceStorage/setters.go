@@ -33,7 +33,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setAddress <key> <value>",
 		Short:  "Sets the address at <key> to the <value>",
 		Args:   cli.ChainArgs(cli.HexArgLenFunc("key", 0, 16), cli.AddressArgFunc("value", 1)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value := common.HexToAddress(args[1])
@@ -44,7 +44,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteAddress <key>",
 		Short:  "Deletes the address for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteAddress(key))
@@ -55,7 +55,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setBool <key> <value>",
 		Short:  "Sets the bool at <key> to the <value>",
 		Args:   cli.ChainArgs(cli.HexArgLenFunc("key", 0, 16), cli.BoolArgFunc("value", 1)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value, _ := strconv.ParseBool(args[1])
@@ -66,7 +66,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteBool <key>",
 		Short:  "Deletes the bool for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteBool(key))
@@ -77,7 +77,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setBytes32 <key> <value>",
 		Short:  "Sets the bytes32 at <key> to the <value>",
 		Args:   cli.ChainArgs(cli.HexArgLenFunc("key", 0, 16), cli.HexArgLenFunc("value", 1, 16)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value, _ := cli.Bytes32FromArg(args[1])
@@ -88,7 +88,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteBytes32 <key>",
 		Short:  "Deletes the bytes32 for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteBytes32(key))
@@ -99,7 +99,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setBytes <key> <value>",
 		Short:  "Sets the bytes at <key> to the <value>",
 		Args:   cli.ChainArgs(cli.HexArgLenFunc("key", 0, 16), cli.HexArgFunc("value", 1)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value, _ := hex.DecodeString(args[0])
@@ -110,7 +110,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteBytes <key>",
 		Short:  "Deletes the bytes for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteBytes(key))
@@ -121,7 +121,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setint256 <key> <value>",
 		Short:  "Sets the int256 at <key> to the <value>",
 		Args:   cli.ChainArgs(cli.HexArgLenFunc("key", 0, 16), cli.BigIntArgFunc("value", 1)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value, _ := new(big.Int).SetString(args[1], 10)
@@ -132,7 +132,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteint256 <key>",
 		Short:  "Deletes the int256 for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteInt256(key))
@@ -143,7 +143,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setString <key> <value>",
 		Short:  "Sets the string at <key> to the <value>",
 		Args:   cli.ChainArgs(cobra.ExactArgs(2), cli.HexArgLenFunc("key", 0, 16)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value := args[1]
@@ -154,7 +154,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteString <key>",
 		Short:  "Deletes the string for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteString(key))
@@ -165,7 +165,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "setUint256 <key> <value>",
 		Short:  "Sets the uint256 at <key> to the <value>",
 		Args:   cli.ChainArgs(cli.HexArgLenFunc("key", 0, 16), cli.BigIntArgFunc("value", 1)),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			value, _ := new(big.Int).SetString(args[1], 10)
@@ -176,7 +176,7 @@ var SetterCommands = []*cobra.Command{
 		Use:    "deleteUint256 <key>",
 		Short:  "Deletes the uint256 for the <key>",
 		Args:   cli.HexArgLenFunc("key", 0, 16),
-		PreRun: connectCaller,
+		PreRun: connectTransactor,
 		Run: func(cmd *cobra.Command, args []string) {
 			key, _ := cli.Bytes32FromArg(args[0])
 			cli.PrintTransactionFn(cmd)(transSession.DeleteUint256(key))
