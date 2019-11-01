@@ -36,7 +36,6 @@ func getAddress(cmd *cobra.Command) (common.Address, string, bool, error) {
 // Connect creates a connection to the node
 func Connect(cmd *cobra.Command, args []string) {
 	var err error
-	cmd.Println(viper.GetString("Url"))
 	Conn, err = connection.New(viper.GetString("url"))
 	CheckErr(cmd, err)
 }
