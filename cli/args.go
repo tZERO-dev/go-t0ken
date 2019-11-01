@@ -222,7 +222,11 @@ func HexArgLenFunc(key string, index int, length int) func(*cobra.Command, []str
 
 // DateFromArg returns the parsed string as a date.
 func DateFromArg(s string) (time.Time, error) {
-	return time.Parse("2006-01-02", s)
+	t, err := time.Parse("2006-01-02", s)
+	if err != nil {
+		t, err = time.Parse(time.RFC3339, s)
+	}
+	return t, err
 }
 
 // DateArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a valid date.

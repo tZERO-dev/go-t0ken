@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/tzero-dev/go-t0ken/cli"
+	"github.com/tzero-dev/go-t0ken/commands/administrable"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
 	"github.com/tzero-dev/go-t0ken/commands/ownable"
 	"github.com/tzero-dev/go-t0ken/contracts/registry"
@@ -189,12 +190,13 @@ t0ken externalInvestor filterFrozen false --investors 0xf01fF29DCbEE147e9cA151a2
 
 func init() {
 	// Add the Ownable, Lockable contract getter commands
+	GetterCommands = append(GetterCommands, administrable.NewGetterCommands(contractKey)...)
 	GetterCommands = append(GetterCommands, ownable.NewGetterCommands(contractKey)...)
 	GetterCommands = append(GetterCommands, lockable.NewGetterCommands(contractKey)...)
 
 	for i, cmd := range GetterCommands {
 		// Skip ABI/Bin
-		if i < 2 {
+		if i < 3 {
 			continue
 		}
 

@@ -18,8 +18,9 @@ import (
 
 var SetterCommands = []*cobra.Command{
 	&cobra.Command{
-		Use:   "add <investor> <hash> <country> <accreditation>",
-		Short: "Adds the <investor> address with the given <hash>, 2 character <country> code, and <accreditation> UTC date",
+		Use: "add <investor> <hash> <country> <accreditation>",
+		Short: `Adds the <investor> address with the given <hash>, 2 character <country> code, and <accreditation> UTC date
+Accreditation can be in either format: '2006-01-02' or RFC3339(2006-01-02T15:04:05Z)`,
 		Example: `t0ken investor add \
 	0xf01ff29dcbee147e9ca151a281bfdf136f66a45b \
 	0xa1896382c22b03c562b0241324cfca19505cc5c78eb06751d9cee690e21ed6a1 \
@@ -48,8 +49,9 @@ var SetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "setAccreditation <investor> <accreditation>",
-		Short:   "Sets the <investor> <accreditation> UTC date.",
+		Use: "setAccreditation <investor> <accreditation>",
+		Short: `Sets the <investor> <accreditation> UTC date
+Accreditation can be in either format: '2006-01-02' or RFC3339(2006-01-02T15:04:05Z)`,
 		Example: "t0ken investor setAccreditation 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 2020-07-11 --keystoreAddress broker",
 		Args:    cli.ChainArgs(cli.AddressArgFunc("investor", 0), cli.DateArgFunc("accreditation", 1)),
 		PreRun:  connectTransactor,

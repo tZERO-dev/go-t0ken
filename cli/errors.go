@@ -1,13 +1,17 @@
 package cli
 
 import (
+	"errors"
 	"math/big"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
 )
+
+var errorSig = []byte{0x08, 0xc3, 0x79, 0xa0}
 
 // CheckErr prints the given error and exits, if the error is not nil.
 func CheckErr(cmd *cobra.Command, err error) {
@@ -20,6 +24,13 @@ func CheckErr(cmd *cobra.Command, err error) {
 // CheckGetter prints the given error and exits, if the error is not nil, otherwise the return value is printed.
 func CheckGetter(cmd *cobra.Command) func(interface{}, error) {
 	return func(o interface{}, err error) {
+		if err != nil {
+			s := err.Error()
+			if len(s) > 39 && s[34:38] == string(errorSig) {
+				i := strings.Index(s, " - Bytes: [")
+				err = errors.New(s[40:i])
+			}
+		}
 		CheckErr(cmd, err)
 		cmd.Println(o)
 	}

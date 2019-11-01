@@ -103,7 +103,7 @@ func init() {
 
 	for i, cmd := range GetterCommands {
 		// Skip ABI/Bin
-		if i < 2 {
+		if i < 3 {
 			continue
 		}
 
