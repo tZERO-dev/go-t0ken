@@ -11,6 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Error signature - first four bytes of `Error(string)` keccak256
 var errorSig = []byte{0x08, 0xc3, 0x79, 0xa0}
 
 // CheckErr prints the given error and exits, if the error is not nil.
@@ -27,6 +28,9 @@ func CheckGetter(cmd *cobra.Command) func(interface{}, error) {
 		if err != nil {
 			s := err.Error()
 			if len(s) > 39 && s[34:38] == string(errorSig) {
+				// Line 85 of github.com/ethereum/go-ethereum/accounts/abi/abi.go, for the `Unpack` function has the following error format string:
+				//   `abi: improperly formatted output: %s - Bytes: [%+v]`
+				// We're looking for the `%s` value, which is the error message
 				i := strings.Index(s, " - Bytes: [")
 				err = errors.New(s[40:i])
 			}
