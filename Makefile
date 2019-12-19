@@ -1,7 +1,7 @@
 # tZERO Go-T0ken Makefile
 #
 
-TIME    = $(shell date '+%A %W %Y %X')
+TIME    = $(shell date '+%A %b %Y %X')
 COMMIT  = $(shell git rev-parse --short=10 HEAD)
 TARGETS = "darwin/amd64,linux/amd64,windows/amd64"
 
