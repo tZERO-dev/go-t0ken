@@ -2,15 +2,15 @@ package commands
 
 import (
 	"runtime"
-	"time"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	CLIVersion   string = "0.0.5"
-	T0kenVersion string = "1.1.0"
+	CLIVersion   string = "0.2.0"
+	T0kenVersion string = "1.2.0"
 	GitCommit    string = "experimental"
+	BuildTime    string = "n/a"
 )
 
 var Version = &cobra.Command{
@@ -29,7 +29,7 @@ var Version = &cobra.Command{
 			T0kenVersion,
 			runtime.Version(),
 			GitCommit,
-			time.Now().Format(time.ANSIC),
+			BuildTime,
 			runtime.GOOS, runtime.GOARCH)
 	},
 }

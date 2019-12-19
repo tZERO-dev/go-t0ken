@@ -16,18 +16,18 @@ import (
 )
 
 // RestrictABI is the input ABI used to generate the binding from.
-const RestrictABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"isRestricted\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"restricted\",\"type\":\"bool\"}],\"name\":\"setRestricted\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"administrable\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"toKind\",\"type\":\"uint8\"},{\"name\":\"tokens\",\"type\":\"uint256\"},{\"name\":\"store\",\"type\":\"address\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"a\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const RestrictABI = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initiator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"contractICompliance\",\"name\":\"compliance\",\"type\":\"address\"},{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initiator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"test\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"s\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // RestrictBin is the compiled bytecode used for deploying new contracts.
-const RestrictBin = `60806040526000805460a060020a60ff021916905534801561002057600080fd5b506040516020806107618339810180604052602081101561004057600080fd5b505160008054600160a060020a0319908116331790915560018054600160a060020a03909316929091169190911790556106e28061007f6000396000f3fe608060405234801561001057600080fd5b506004361061009a576000357c0100000000000000000000000000000000000000000000000000000000900480634fb2e45d116100785780634fb2e45d146100e4578063834b1ab0146101175780638da5cb5b14610148578063b762c76d146101505761009a565b80631f5e8f4c1461009f57806324daddc5146100bb57806341c0e1b5146100dc575b600080fd5b6100a76101aa565b604080519115158252519081900360200190f35b6100da600480360360208110156100d157600080fd5b503515156101cb565b005b6100da610309565b6100da600480360360208110156100fa57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff166103aa565b61011f61059d565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b61011f6105b9565b6100da600480360360c081101561016657600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135821691604082013581169160ff6060820135169160808201359160a00135166105d5565b60005474010000000000000000000000000000000000000000900460ff1681565b600154604080517f24d7806c000000000000000000000000000000000000000000000000000000008152336004820152905173ffffffffffffffffffffffffffffffffffffffff909216916324d7806c91602480820192602092909190829003018186803b15801561023c57600080fd5b505afa158015610250573d6000803e3d6000fd5b505050506040513d602081101561026657600080fd5b505115156102bf576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252602a81526020018061068d602a913960400191505060405180910390fd5b6000805491151574010000000000000000000000000000000000000000027fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff909216919091179055565b60005473ffffffffffffffffffffffffffffffffffffffff16331461038f57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b60005473ffffffffffffffffffffffffffffffffffffffff16331461043057604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff828116911614156104a4576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260258152602001806106686025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff8116151561052857604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff8381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60015473ffffffffffffffffffffffffffffffffffffffff1681565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60005474010000000000000000000000000000000000000000900460ff161561065f57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f5265737472696374696f6e2069732063757272656e746c7920656e61626c6564604482015290519081900360640190fd5b50505050505056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e65724f6e6c7920616e2061646d696e2063616e20736574207468652072657374726963746564207374617465a165627a7a723058208b0d10614075b7f18b9e892a212f6aa5d04c0c89fa20a5fec366c6de57ed7a620029`
+const RestrictBin = `600180546001600160a01b031916905560c0604052600860808190527f526573747269637400000000000000000000000000000000000000000000000060a090815261004e9160029190610066565b50600080546001600160a01b03191633179055610101565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100a757805160ff19168380011785556100d4565b828001600101855582156100d4579182015b828111156100d45782518255916020019190600101906100b9565b506100e09291506100e4565b5090565b6100fe91905b808211156100e057600081556001016100ea565b90565b610afb806101106000396000f3fe608060405234801561001057600080fd5b506004361061007d5760003560e01c80634fb2e45d1161005b5780634fb2e45d14610155578063538ba4f91461017b578063803fcd431461019f5780638da5cb5b146101e55761007d565b806306fdde03146100825780630b6dedfd146100ff57806341c0e1b51461014b575b600080fd5b61008a6101ed565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100c45781810151838201526020016100ac565b50505050905090810190601f1680156100f15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61008a600480360360c081101561011557600080fd5b506001600160a01b0381358116916020810135821691604082013581169160608101358216916080820135169060a00135610278565b610153610575565b005b6101536004803603602081101561016b57600080fd5b50356001600160a01b03166105fd565b610183610787565b604080516001600160a01b039092168252519081900360200190f35b610153600480360360a08110156101b557600080fd5b506001600160a01b0381358116916020810135821691604082013581169160608101359091169060800135610796565b610183610a26565b6002805460408051602060018416156101000260001901909316849004601f810184900484028201840190925281815292918301828280156102705780601f1061024557610100808354040283529160200191610270565b820191906000526020600020905b81548152906001019060200180831161025357829003601f168201915b505050505081565b60606000866001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b1580156102b557600080fd5b505afa1580156102c9573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405260208110156102f257600080fd5b810190808051604051939291908464010000000082111561031257600080fd5b90830190602082018581111561032757600080fd5b825164010000000081118282018810171561034157600080fd5b82525081516020918201929091019080838360005b8381101561036e578181015183820152602001610356565b50505050905090810190601f16801561039b5780820380516001836020036101000a031916815260200191505b5060405250505060405160200180807f52657374726963742e697352657374726963746564000000000000000000000081525060150182805190602001908083835b602083106103fc5780518252601f1990920191602091820191016103dd565b6001836020036101000a038019825116818451168082178552505050505050905001915050604051602081830303815290604052805190602001209050876001600160a01b031663975057e76040518163ffffffff1660e01b815260040160206040518083038186803b15801561047257600080fd5b505afa158015610486573d6000803e3d6000fd5b505050506040513d602081101561049c57600080fd5b5051604080517f7ae1cfca0000000000000000000000000000000000000000000000000000000081526004810184905290516001600160a01b0390921691637ae1cfca91602480820192602092909190829003018186803b15801561050057600080fd5b505afa158015610514573d6000803e3d6000fd5b505050506040513d602081101561052a57600080fd5b50511561056a576040518060400160405280602081526020017f5265737472696374696f6e2069732063757272656e746c7920656e61626c656481525091505b509695505050505050565b6000546001600160a01b031633148061059e57506001546000546001600160a01b039081169116145b6105ef576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b0316ff5b6000546001600160a01b031633148061062657506001546000546001600160a01b039081169116145b610677576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156106c45760405162461bcd60e51b8152600401808060200182810382526025815260200180610aa26025913960400191505060405180910390fd5b6001600160a01b03811661071f576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6000856001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b1580156107d157600080fd5b505afa1580156107e5573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052602081101561080e57600080fd5b810190808051604051939291908464010000000082111561082e57600080fd5b90830190602082018581111561084357600080fd5b825164010000000081118282018810171561085d57600080fd5b82525081516020918201929091019080838360005b8381101561088a578181015183820152602001610872565b50505050905090810190601f1680156108b75780820380516001836020036101000a031916815260200191505b5060405250505060405160200180807f52657374726963742e697352657374726963746564000000000000000000000081525060150182805190602001908083835b602083106109185780518252601f1990920191602091820191016108f9565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405160208183030381529060405280519060200120905061095d610a35565b6001600160a01b0316637ae1cfca826040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b1580156109a057600080fd5b505afa1580156109b4573d6000803e3d6000fd5b505050506040513d60208110156109ca57600080fd5b505115610a1e576040805162461bcd60e51b815260206004820181905260248201527f5265737472696374696f6e2069732063757272656e746c7920656e61626c6564604482015290519081900360640190fd5b505050505050565b6000546001600160a01b031681565b6000336001600160a01b031663975057e76040518163ffffffff1660e01b815260040160206040518083038186803b158015610a7057600080fd5b505afa158015610a84573d6000803e3d6000fd5b505050506040513d6020811015610a9a57600080fd5b505190509056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572a265627a7a72315820ce665e0ac790910d1f0adbe26ff52c6e56dbdf4b250b166835bc9bc99467ae2064736f6c634300050c0032`
 
 // DeployRestrict deploys a new Ethereum contract, binding an instance of Restrict to it.
-func DeployRestrict(auth *bind.TransactOpts, backend bind.ContractBackend, a common.Address) (common.Address, *types.Transaction, *Restrict, error) {
+func DeployRestrict(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Restrict, error) {
 	parsed, err := abi.JSON(strings.NewReader(RestrictABI))
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
-	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(RestrictBin), backend, a)
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(RestrictBin), backend)
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
@@ -176,56 +176,56 @@ func (_Restrict *RestrictTransactorRaw) Transact(opts *bind.TransactOpts, method
 	return _Restrict.Contract.contract.Transact(opts, method, params...)
 }
 
-// Administrable is a free data retrieval call binding the contract method 0x834b1ab0.
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
 //
-// Solidity: function administrable() constant returns(address)
-func (_Restrict *RestrictCaller) Administrable(opts *bind.CallOpts) (common.Address, error) {
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Restrict *RestrictCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
 	var (
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Restrict.contract.Call(opts, out, "administrable")
+	err := _Restrict.contract.Call(opts, out, "ZERO_ADDRESS")
 	return *ret0, err
 }
 
-// Administrable is a free data retrieval call binding the contract method 0x834b1ab0.
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
 //
-// Solidity: function administrable() constant returns(address)
-func (_Restrict *RestrictSession) Administrable() (common.Address, error) {
-	return _Restrict.Contract.Administrable(&_Restrict.CallOpts)
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Restrict *RestrictSession) ZEROADDRESS() (common.Address, error) {
+	return _Restrict.Contract.ZEROADDRESS(&_Restrict.CallOpts)
 }
 
-// Administrable is a free data retrieval call binding the contract method 0x834b1ab0.
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
 //
-// Solidity: function administrable() constant returns(address)
-func (_Restrict *RestrictCallerSession) Administrable() (common.Address, error) {
-	return _Restrict.Contract.Administrable(&_Restrict.CallOpts)
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Restrict *RestrictCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _Restrict.Contract.ZEROADDRESS(&_Restrict.CallOpts)
 }
 
-// IsRestricted is a free data retrieval call binding the contract method 0x1f5e8f4c.
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
 //
-// Solidity: function isRestricted() constant returns(bool)
-func (_Restrict *RestrictCaller) IsRestricted(opts *bind.CallOpts) (bool, error) {
+// Solidity: function name() constant returns(string)
+func (_Restrict *RestrictCaller) Name(opts *bind.CallOpts) (string, error) {
 	var (
-		ret0 = new(bool)
+		ret0 = new(string)
 	)
 	out := ret0
-	err := _Restrict.contract.Call(opts, out, "isRestricted")
+	err := _Restrict.contract.Call(opts, out, "name")
 	return *ret0, err
 }
 
-// IsRestricted is a free data retrieval call binding the contract method 0x1f5e8f4c.
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
 //
-// Solidity: function isRestricted() constant returns(bool)
-func (_Restrict *RestrictSession) IsRestricted() (bool, error) {
-	return _Restrict.Contract.IsRestricted(&_Restrict.CallOpts)
+// Solidity: function name() constant returns(string)
+func (_Restrict *RestrictSession) Name() (string, error) {
+	return _Restrict.Contract.Name(&_Restrict.CallOpts)
 }
 
-// IsRestricted is a free data retrieval call binding the contract method 0x1f5e8f4c.
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
 //
-// Solidity: function isRestricted() constant returns(bool)
-func (_Restrict *RestrictCallerSession) IsRestricted() (bool, error) {
-	return _Restrict.Contract.IsRestricted(&_Restrict.CallOpts)
+// Solidity: function name() constant returns(string)
+func (_Restrict *RestrictCallerSession) Name() (string, error) {
+	return _Restrict.Contract.Name(&_Restrict.CallOpts)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
@@ -254,25 +254,51 @@ func (_Restrict *RestrictCallerSession) Owner() (common.Address, error) {
 	return _Restrict.Contract.Owner(&_Restrict.CallOpts)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_Restrict *RestrictTransactor) Check(opts *bind.TransactOpts, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _Restrict.contract.Transact(opts, "check", initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_Restrict *RestrictCaller) Test(opts *bind.CallOpts, compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _Restrict.contract.Call(opts, out, "test", compliance, token, initiator, from, to, tokens)
+	return *ret0, err
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_Restrict *RestrictSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _Restrict.Contract.Check(&_Restrict.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_Restrict *RestrictSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	return _Restrict.Contract.Test(&_Restrict.CallOpts, compliance, token, initiator, from, to, tokens)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_Restrict *RestrictTransactorSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _Restrict.Contract.Check(&_Restrict.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_Restrict *RestrictCallerSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	return _Restrict.Contract.Test(&_Restrict.CallOpts, compliance, token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_Restrict *RestrictTransactor) Check(opts *bind.TransactOpts, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _Restrict.contract.Transact(opts, "check", token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_Restrict *RestrictSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _Restrict.Contract.Check(&_Restrict.TransactOpts, token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_Restrict *RestrictTransactorSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _Restrict.Contract.Check(&_Restrict.TransactOpts, token, initiator, from, to, tokens)
 }
 
 // Kill is a paid mutator transaction binding the contract method 0x41c0e1b5.
@@ -294,27 +320,6 @@ func (_Restrict *RestrictSession) Kill() (*types.Transaction, error) {
 // Solidity: function kill() returns()
 func (_Restrict *RestrictTransactorSession) Kill() (*types.Transaction, error) {
 	return _Restrict.Contract.Kill(&_Restrict.TransactOpts)
-}
-
-// SetRestricted is a paid mutator transaction binding the contract method 0x24daddc5.
-//
-// Solidity: function setRestricted(restricted bool) returns()
-func (_Restrict *RestrictTransactor) SetRestricted(opts *bind.TransactOpts, restricted bool) (*types.Transaction, error) {
-	return _Restrict.contract.Transact(opts, "setRestricted", restricted)
-}
-
-// SetRestricted is a paid mutator transaction binding the contract method 0x24daddc5.
-//
-// Solidity: function setRestricted(restricted bool) returns()
-func (_Restrict *RestrictSession) SetRestricted(restricted bool) (*types.Transaction, error) {
-	return _Restrict.Contract.SetRestricted(&_Restrict.TransactOpts, restricted)
-}
-
-// SetRestricted is a paid mutator transaction binding the contract method 0x24daddc5.
-//
-// Solidity: function setRestricted(restricted bool) returns()
-func (_Restrict *RestrictTransactorSession) SetRestricted(restricted bool) (*types.Transaction, error) {
-	return _Restrict.Contract.SetRestricted(&_Restrict.TransactOpts, restricted)
 }
 
 // TransferOwner is a paid mutator transaction binding the contract method 0x4fb2e45d.

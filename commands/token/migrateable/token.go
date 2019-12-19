@@ -1,6 +1,8 @@
-package compliance
+package migrateable
 
 import (
+	"strconv"
+
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
@@ -9,54 +11,58 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/contracts/compliance"
+	"github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var (
 	Command = &cobra.Command{
-		Use:   "compliance",
-		Short: "T0ken-Compliance utilities",
+		Use:   "token-migrateable",
+		Short: "Migrateable-T0ken utilities",
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:     "deploy",
-		Short:   "Deploys a new t0ken-compliance contract",
-		Example: "t0ken compliance deploy --keystoreAddress owner",
-		Args:    cobra.NoArgs,
+		Use:     "deploy <name> <symbol> <decimals>",
+		Short:   "Deploys a new migrateable-t0ken contract",
+		Example: "t0ken token-migrateable deploy --keystoreAddress owner",
+		Args:    cli.ChainArgs(cobra.ExactArgs(3), cli.UintArgFunc("decimals", 2, 8)),
 		PreRun:  commands.ConnectWithKeyStore,
-		// TODO: refactor these deploy funcs into something...
 		Run: func(cmd *cobra.Command, args []string) {
-			// Deploy the token-compliance using for the symbol/name/decimals
-			addr, tx, _, err := compliance.DeployT0kenCompliance(cli.Conn.Opts, cli.Conn.Client)
+			// Get the token data args
+			name := args[0]
+			symbol := args[1]
+			decimals, err := strconv.ParseInt(args[2], 10, 8)
+
+			// Deploy the token using for the symbol/name/decimals
+			addr, tx, _, err := token.DeployT0kenMigrateable(cli.Conn.Opts, cli.Conn.Client, name, symbol, uint8(decimals))
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
 		},
 	}
 
-	contractKey  = "t0kenCompliance"
-	callSession  *compliance.T0kenComplianceCallerSession
-	transSession *compliance.T0kenComplianceTransactorSession
+	contractKey  = "token"
+	callSession  *token.T0kenMigrateableCallerSession
+	transSession *token.T0kenMigrateableTransactorSession
 )
 
 func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface{}, error) {
-	return compliance.NewT0kenComplianceCaller(addr, caller)
+	return token.NewT0kenMigrateableCaller(addr, caller)
 }
 
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
-	return compliance.NewT0kenComplianceTransactor(addr, transactor)
+	return token.NewT0kenMigrateableTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
 	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*compliance.T0kenComplianceCaller)
-	callSession = &compliance.T0kenComplianceCallerSession{caller, callOpts}
+	caller := o.(*token.T0kenMigrateableCaller)
+	callSession = &token.T0kenMigrateableCallerSession{caller, callOpts}
 }
 
 func connectTransactor(cmd *cobra.Command, args []string) {
 	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*compliance.T0kenComplianceTransactor)
-	transSession = &compliance.T0kenComplianceTransactorSession{transactor, transactOpts}
+	transactor := o.(*token.T0kenMigrateableTransactor)
+	transSession = &token.T0kenMigrateableTransactorSession{transactor, transactOpts}
 }
 
 func init() {

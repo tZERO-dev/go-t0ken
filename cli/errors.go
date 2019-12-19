@@ -1,13 +1,18 @@
 package cli
 
 import (
+	"errors"
 	"math/big"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
 )
+
+// Error signature - first four bytes of `Error(string)` keccak256
+var errorSig = []byte{0x08, 0xc3, 0x79, 0xa0}
 
 // CheckErr prints the given error and exits, if the error is not nil.
 func CheckErr(cmd *cobra.Command, err error) {
@@ -20,6 +25,16 @@ func CheckErr(cmd *cobra.Command, err error) {
 // CheckGetter prints the given error and exits, if the error is not nil, otherwise the return value is printed.
 func CheckGetter(cmd *cobra.Command) func(interface{}, error) {
 	return func(o interface{}, err error) {
+		if err != nil {
+			s := err.Error()
+			if len(s) > 39 && s[34:38] == string(errorSig) {
+				// Line 85 of github.com/ethereum/go-ethereum/accounts/abi/abi.go, for the `Unpack` function has the following error format string:
+				//   `abi: improperly formatted output: %s - Bytes: [%+v]`
+				// We're looking for the `%s` value, which is the error message
+				i := strings.Index(s, " - Bytes: [")
+				err = errors.New(s[40:i])
+			}
+		}
 		CheckErr(cmd, err)
 		cmd.Println(o)
 	}
@@ -67,10 +82,18 @@ func CheckCountryGetter(cmd *cobra.Command) func([2]byte, error) {
 	}
 }
 
-// CheckHashGetter prints the hex of the given hash.
-func CheckHashGetter(cmd *cobra.Command) func([32]byte, error) {
-	return func(hash [32]byte, err error) {
+// CheckBytes32Getter prints the return hex
+func CheckBytes32Getter(cmd *cobra.Command) func([32]byte, error) {
+	return func(b [32]byte, err error) {
 		CheckErr(cmd, err)
-		cmd.Printf("0x%x\n", hash[:])
+		cmd.Printf("0x%x\n", b[:])
+	}
+}
+
+// CheckBytes32Getter prints the return hex
+func CheckBytesGetter(cmd *cobra.Command) func([]byte, error) {
+	return func(b []byte, err error) {
+		CheckErr(cmd, err)
+		cmd.Printf("0x%x\n", b)
 	}
 }

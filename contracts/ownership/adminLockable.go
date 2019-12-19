@@ -16,10 +16,10 @@ import (
 )
 
 // AdminLockableABI is the input ABI used to generate the binding from.
-const AdminLockableABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"removeAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"locked\",\"type\":\"bool\"}],\"name\":\"setLocked\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isAdmin\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"addAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isLocked\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"admins\",\"outputs\":[{\"name\":\"count\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const AdminLockableABI = "[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"admin\",\"type\":\"address\"}],\"name\":\"AdminRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"int256\",\"name\":\"index\",\"type\":\"int256\"}],\"name\":\"adminAt\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"admins\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"count\",\"type\":\"int256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"}],\"name\":\"isAdmin\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isLocked\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"addr\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"add\",\"type\":\"bool\"}],\"name\":\"setAdmin\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bool\",\"name\":\"locked\",\"type\":\"bool\"}],\"name\":\"setLocked\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // AdminLockableBin is the compiled bytecode used for deploying new contracts.
-const AdminLockableBin = `608060405234801561001057600080fd5b5060008054600160a060020a031916331790556004805460ff19169055610ab58061003c6000396000f3fe608060405234801561001057600080fd5b50600436106100a5576000357c010000000000000000000000000000000000000000000000000000000090048063704802751161007857806370480275146101785780638da5cb5b146101ab578063a4e2d634146101dc578063a5de3619146101e4576100a5565b80631785f53c146100aa578063211e28b6146100df57806324d7806c146100fe5780634fb2e45d14610145575b600080fd5b6100dd600480360360208110156100c057600080fd5b503573ffffffffffffffffffffffffffffffffffffffff166101fe565b005b6100dd600480360360208110156100f557600080fd5b50351515610346565b6101316004803603602081101561011457600080fd5b503573ffffffffffffffffffffffffffffffffffffffff1661045a565b604080519115158252519081900360200190f35b6100dd6004803603602081101561015b57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610496565b6100dd6004803603602081101561018e57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff1661067e565b6101b36107c6565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6101316107e2565b6101ec6107eb565b60408051918252519081900360200190f35b60005473ffffffffffffffffffffffffffffffffffffffff16331461028457604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b61029560018263ffffffff6107f116565b151561030257604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601660248201527f556e61626c6520746f2072656d6f76652061646d696e00000000000000000000604482015290519081900360640190fd5b60405173ffffffffffffffffffffffffffffffffffffffff8216907fa3b62bc36326052d97ea62d63c3d60308ed4c3ea8ac079dd8499f1e9c4f80c0f90600090a250565b60005473ffffffffffffffffffffffffffffffffffffffff16331480610378575061037860013363ffffffff61091d16565b15156103e557604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f41646d696e206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60045460ff1615158115151415610447576040517f08c379a0000000000000000000000000000000000000000000000000000000008152600401808060200182810382526028815260200180610a626028913960400191505060405180910390fd5b6004805460ff1916911515919091179055565b6000805473ffffffffffffffffffffffffffffffffffffffff83811691161480610490575061049060018363ffffffff61091d16565b92915050565b60005473ffffffffffffffffffffffffffffffffffffffff16331461051c57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff82811691161415610590576040517f08c379a0000000000000000000000000000000000000000000000000000000008152600401808060200182810382526025815260200180610a3d6025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff8116151561061457604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff83811673ffffffffffffffffffffffffffffffffffffffff19831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60005473ffffffffffffffffffffffffffffffffffffffff16331461070457604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b61071560018263ffffffff61096116565b151561078257604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601360248201527f556e61626c6520746f206164642061646d696e00000000000000000000000000604482015290519081900360640190fd5b60405173ffffffffffffffffffffffffffffffffffffffff8216907f44d6d25963f097ad14f29f06854a01f575648a1ef82f30e562ccd3889717e33990600090a250565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60045460ff1681565b60015481565b73ffffffffffffffffffffffffffffffffffffffff8116600090815260018084016020526040822054908112806108285750835481135b15610837576000915050610490565b83548112156108b8578354600090815260028501602081815260408084205473ffffffffffffffffffffffffffffffffffffffff1680855260018901835281852086905585855292909152808320805473ffffffffffffffffffffffffffffffffffffffff19908116909317905586548352909120805490911690556108e4565b60008181526002850160205260409020805473ffffffffffffffffffffffffffffffffffffffff191690555b505073ffffffffffffffffffffffffffffffffffffffff1660009081526001828101602052604082209190915581546000190190915590565b73ffffffffffffffffffffffffffffffffffffffff81166000908152600183016020526040812054600019018181128015906109595750835481125b949350505050565b600073ffffffffffffffffffffffffffffffffffffffff8216151561098857506000610490565b73ffffffffffffffffffffffffffffffffffffffff82166000908152600184016020526040812054600019019081128015906109c45750835481125b156109d3576000915050610490565b50508154600190810180845573ffffffffffffffffffffffffffffffffffffffff831660008181528386016020908152604080832085905593825260028701905291909120805473ffffffffffffffffffffffffffffffffffffffff191690911790559291505056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572436f6e747261637420616c726561647920696e20726571756573746564206c6f636b207374617465a165627a7a7230582008597d3f24bd2f0e739fa774b6acad047909fc8cf4697a2c85ec29c2eefb8c2f0029`
+const AdminLockableBin = `6080604052600180546001600160a01b031916905534801561002057600080fd5b50600080546001600160a01b031916331790556005805460ff1916905561092d8061004c6000396000f3fe608060405234801561001057600080fd5b50600436106100a35760003560e01c80634fb2e45d116100765780638da5cb5b1161005b5780638da5cb5b14610198578063a4e2d634146101a0578063a5de3619146101a8576100a3565b80634fb2e45d1461016a578063538ba4f914610190576100a3565b8063211e28b6146100a857806324d7806c146100c95780632bdbc56f146101035780634b0bddd21461013c575b600080fd5b6100c7600480360360208110156100be57600080fd5b503515156101c2565b005b6100ef600480360360208110156100df57600080fd5b50356001600160a01b0316610293565b604080519115158252519081900360200190f35b6101206004803603602081101561011957600080fd5b50356102c2565b604080516001600160a01b039092168252519081900360200190f35b6100c76004803603604081101561015257600080fd5b506001600160a01b03813516906020013515156102d5565b6100c76004803603602081101561018057600080fd5b50356001600160a01b031661048b565b61012061060a565b610120610619565b6100ef610628565b6101b0610631565b60408051918252519081900360200190f35b6000546001600160a01b03163314806101e757506101e760023363ffffffff61063716565b610238576040805162461bcd60e51b815260206004820152601960248201527f41646d696e206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60055460ff16151581151514156102805760405162461bcd60e51b81526004018080602001828103825260288152602001806108d16028913960400191505060405180910390fd5b6005805460ff1916911515919091179055565b600080546001600160a01b03838116911614806102bc57506102bc60028363ffffffff61063716565b92915050565b60006102bc60028363ffffffff61066e16565b6000546001600160a01b03163314806102fe57506001546000546001600160a01b039081169116145b61034f576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b80156103f05761036660028363ffffffff6106f416565b6103b7576040805162461bcd60e51b815260206004820152601360248201527f556e61626c6520746f206164642061646d696e00000000000000000000000000604482015290519081900360640190fd5b6040516001600160a01b038316907f44d6d25963f097ad14f29f06854a01f575648a1ef82f30e562ccd3889717e33990600090a2610487565b61040160028363ffffffff6107a616565b610452576040805162461bcd60e51b815260206004820152601660248201527f556e61626c6520746f2072656d6f76652061646d696e00000000000000000000604482015290519081900360640190fd5b6040516001600160a01b038316907fa3b62bc36326052d97ea62d63c3d60308ed4c3ea8ac079dd8499f1e9c4f80c0f90600090a25b5050565b6000546001600160a01b03163314806104b457506001546000546001600160a01b039081169116145b610505576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156105525760405162461bcd60e51b81526004018080602001828103825260258152602001806108ac6025913960400191505060405180910390fd5b6001600160a01b0381166105ad576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b0383811673ffffffffffffffffffffffffffffffffffffffff19831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6000546001600160a01b031681565b60055460ff1681565b60025481565b6001600160a01b0381166000908152600183016020526040812054600019018181128015906106665750835481125b949350505050565b60008082121580156106805750825482125b6106d1576040805162461bcd60e51b815260206004820152601860248201527f496e646578206f757473696465206f6620626f756e64732e0000000000000000604482015290519081900360640190fd5b50600101600090815260029190910160205260409020546001600160a01b031690565b60006001600160a01b03821661070c575060006102bc565b6001600160a01b03821660009081526001840160205260408120546000190190811280159061073b5750835481125b1561074a5760009150506102bc565b5050815460019081018084556001600160a01b03831660008181528386016020908152604080832085905593825260028701905291909120805473ffffffffffffffffffffffffffffffffffffffff1916909117905592915050565b6001600160a01b038116600090815260018084016020526040822054908112806107d05750835481135b156107df5760009150506102bc565b835481121561085357835460009081526002850160208181526040808420546001600160a01b031680855260018901835281852086905585855292909152808320805473ffffffffffffffffffffffffffffffffffffffff199081169093179055865483529091208054909116905561087f565b60008181526002850160205260409020805473ffffffffffffffffffffffffffffffffffffffff191690555b50506001600160a01b03166000908152600182810160205260408220919091558154600019019091559056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572436f6e747261637420616c726561647920696e20726571756573746564206c6f636b207374617465a265627a7a72315820b60e13eb91c876cd9cf401e2b330ed0499e1f6ccad364b4d716058a04391692664736f6c634300050c0032`
 
 // DeployAdminLockable deploys a new Ethereum contract, binding an instance of AdminLockable to it.
 func DeployAdminLockable(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *AdminLockable, error) {
@@ -176,6 +176,58 @@ func (_AdminLockable *AdminLockableTransactorRaw) Transact(opts *bind.TransactOp
 	return _AdminLockable.Contract.contract.Transact(opts, method, params...)
 }
 
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_AdminLockable *AdminLockableCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _AdminLockable.contract.Call(opts, out, "ZERO_ADDRESS")
+	return *ret0, err
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_AdminLockable *AdminLockableSession) ZEROADDRESS() (common.Address, error) {
+	return _AdminLockable.Contract.ZEROADDRESS(&_AdminLockable.CallOpts)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_AdminLockable *AdminLockableCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _AdminLockable.Contract.ZEROADDRESS(&_AdminLockable.CallOpts)
+}
+
+// AdminAt is a free data retrieval call binding the contract method 0x2bdbc56f.
+//
+// Solidity: function adminAt(index int256) constant returns(address)
+func (_AdminLockable *AdminLockableCaller) AdminAt(opts *bind.CallOpts, index *big.Int) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _AdminLockable.contract.Call(opts, out, "adminAt", index)
+	return *ret0, err
+}
+
+// AdminAt is a free data retrieval call binding the contract method 0x2bdbc56f.
+//
+// Solidity: function adminAt(index int256) constant returns(address)
+func (_AdminLockable *AdminLockableSession) AdminAt(index *big.Int) (common.Address, error) {
+	return _AdminLockable.Contract.AdminAt(&_AdminLockable.CallOpts, index)
+}
+
+// AdminAt is a free data retrieval call binding the contract method 0x2bdbc56f.
+//
+// Solidity: function adminAt(index int256) constant returns(address)
+func (_AdminLockable *AdminLockableCallerSession) AdminAt(index *big.Int) (common.Address, error) {
+	return _AdminLockable.Contract.AdminAt(&_AdminLockable.CallOpts, index)
+}
+
 // Admins is a free data retrieval call binding the contract method 0xa5de3619.
 //
 // Solidity: function admins() constant returns(count int256)
@@ -280,46 +332,25 @@ func (_AdminLockable *AdminLockableCallerSession) Owner() (common.Address, error
 	return _AdminLockable.Contract.Owner(&_AdminLockable.CallOpts)
 }
 
-// AddAdmin is a paid mutator transaction binding the contract method 0x70480275.
+// SetAdmin is a paid mutator transaction binding the contract method 0x4b0bddd2.
 //
-// Solidity: function addAdmin(admin address) returns()
-func (_AdminLockable *AdminLockableTransactor) AddAdmin(opts *bind.TransactOpts, admin common.Address) (*types.Transaction, error) {
-	return _AdminLockable.contract.Transact(opts, "addAdmin", admin)
+// Solidity: function setAdmin(addr address, add bool) returns()
+func (_AdminLockable *AdminLockableTransactor) SetAdmin(opts *bind.TransactOpts, addr common.Address, add bool) (*types.Transaction, error) {
+	return _AdminLockable.contract.Transact(opts, "setAdmin", addr, add)
 }
 
-// AddAdmin is a paid mutator transaction binding the contract method 0x70480275.
+// SetAdmin is a paid mutator transaction binding the contract method 0x4b0bddd2.
 //
-// Solidity: function addAdmin(admin address) returns()
-func (_AdminLockable *AdminLockableSession) AddAdmin(admin common.Address) (*types.Transaction, error) {
-	return _AdminLockable.Contract.AddAdmin(&_AdminLockable.TransactOpts, admin)
+// Solidity: function setAdmin(addr address, add bool) returns()
+func (_AdminLockable *AdminLockableSession) SetAdmin(addr common.Address, add bool) (*types.Transaction, error) {
+	return _AdminLockable.Contract.SetAdmin(&_AdminLockable.TransactOpts, addr, add)
 }
 
-// AddAdmin is a paid mutator transaction binding the contract method 0x70480275.
+// SetAdmin is a paid mutator transaction binding the contract method 0x4b0bddd2.
 //
-// Solidity: function addAdmin(admin address) returns()
-func (_AdminLockable *AdminLockableTransactorSession) AddAdmin(admin common.Address) (*types.Transaction, error) {
-	return _AdminLockable.Contract.AddAdmin(&_AdminLockable.TransactOpts, admin)
-}
-
-// RemoveAdmin is a paid mutator transaction binding the contract method 0x1785f53c.
-//
-// Solidity: function removeAdmin(admin address) returns()
-func (_AdminLockable *AdminLockableTransactor) RemoveAdmin(opts *bind.TransactOpts, admin common.Address) (*types.Transaction, error) {
-	return _AdminLockable.contract.Transact(opts, "removeAdmin", admin)
-}
-
-// RemoveAdmin is a paid mutator transaction binding the contract method 0x1785f53c.
-//
-// Solidity: function removeAdmin(admin address) returns()
-func (_AdminLockable *AdminLockableSession) RemoveAdmin(admin common.Address) (*types.Transaction, error) {
-	return _AdminLockable.Contract.RemoveAdmin(&_AdminLockable.TransactOpts, admin)
-}
-
-// RemoveAdmin is a paid mutator transaction binding the contract method 0x1785f53c.
-//
-// Solidity: function removeAdmin(admin address) returns()
-func (_AdminLockable *AdminLockableTransactorSession) RemoveAdmin(admin common.Address) (*types.Transaction, error) {
-	return _AdminLockable.Contract.RemoveAdmin(&_AdminLockable.TransactOpts, admin)
+// Solidity: function setAdmin(addr address, add bool) returns()
+func (_AdminLockable *AdminLockableTransactorSession) SetAdmin(addr common.Address, add bool) (*types.Transaction, error) {
+	return _AdminLockable.Contract.SetAdmin(&_AdminLockable.TransactOpts, addr, add)
 }
 
 // SetLocked is a paid mutator transaction binding the contract method 0x211e28b6.

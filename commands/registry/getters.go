@@ -1,4 +1,4 @@
-package storage
+package registry
 
 import (
 	"fmt"
@@ -19,22 +19,22 @@ import (
 var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "abi",
-		Short:   "Outputs the Storage ABI",
+		Short:   "Outputs the Registry ABI",
 		Example: "t0ken investor abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.RegistryABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
-		Short:   "Outputs the Storage Binary",
+		Short:   "Outputs the Registry Binary",
 		Example: "t0ken investor bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.StorageBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.RegistryBin) },
 	},
 	&cobra.Command{
 		Use:     "accountAt <index>",
 		Short:   "Gets account at the given <index>",
-		Example: "t0ken storage accountAt 5",
+		Example: "t0ken registry accountAt 5",
 		Args:    cli.BigIntArgFunc("index", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -45,7 +45,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "accountExists <address>",
 		Short:   "Checks if the <address> exists",
-		Example: "t0ken storage accountExists 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry accountExists 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -54,9 +54,21 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
+		Use:     "accountKindExists <address>",
+		Short:   "Checks if the <address> exists for the given kind",
+		Example: "t0ken registry accountKindExists 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 4",
+		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.UintArgFunc("kind", 1, 8)),
+		PreRun:  connectCaller,
+		Run: func(cmd *cobra.Command, args []string) {
+			addr := common.HexToAddress(args[0])
+			kind, _ := strconv.ParseInt(args[1], 10, 8)
+			cli.CheckGetter(cmd)(callSession.AccountKindExists(addr, uint8(kind)))
+		},
+	},
+	&cobra.Command{
 		Use:     "accountFrozen <address>",
 		Short:   "Checks if the <address> is frozen",
-		Example: "t0ken storage accountFrozen 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry accountFrozen 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -67,7 +79,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "accountGet <address>",
 		Short:   "Gets the account for the given <address>",
-		Example: "t0ken storage accountGet 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry accountGet 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -78,7 +90,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "accountIndexOf <address>",
 		Short:   "Gets the index of the <address>",
-		Example: "t0ken storage indexOf 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry indexOf 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -89,7 +101,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "accountKind <address>",
 		Short:   "Gets the kind for the <address>",
-		Example: "t0ken storage accountKind 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry accountKind 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -100,7 +112,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "accountParent <address>",
 		Short:   "Gets the parent of the <address>",
-		Example: "t0ken storage accountParent 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry accountParent 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.AddressArgFunc("address", 0),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -111,7 +123,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "accounts",
 		Short:   "Gets the total number of accounts",
-		Example: "t0ken storage accounts",
+		Example: "t0ken registry accounts",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -121,7 +133,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "data <address> <index>",
 		Short:   "Gets the data for the <address> at the given <index>",
-		Example: "t0ken storage data 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 1",
+		Example: "t0ken registry data 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b 1",
 		Args:    cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.UintArgFunc("index", 1, 8)),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -145,7 +157,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "permissionExists <kind> <address>",
 		Short:   "Checks if <kind> permission exists for the <address>",
-		Example: "t0ken storage permissionExists 4 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry permissionExists 4 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.AddressArgFunc("address", 1)),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -157,7 +169,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "permissionIndexOf <kind> <address>",
 		Short:   "Checks if <kind> permission exists for the <address>",
-		Example: "t0ken storage permissionIndexOf 4 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
+		Example: "t0ken registry permissionIndexOf 4 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
 		Args:    cli.ChainArgs(cli.UintArgFunc("kind", 0, 8), cli.AddressArgFunc("address", 1)),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -169,7 +181,7 @@ var GetterCommands = []*cobra.Command{
 	&cobra.Command{
 		Use:     "permissions <kind>",
 		Short:   "Gets the total number of permissions for the <kind>",
-		Example: "t0ken storage permissions 4",
+		Example: "t0ken registry permissions 4",
 		Args:    cli.UintArgFunc("kind", 0, 8),
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
@@ -179,17 +191,18 @@ var GetterCommands = []*cobra.Command{
 	},
 }
 
-func accountGetStr(kind uint8, frozen bool, parent common.Address, err error) (interface{}, error) {
+func accountGetStr(kind uint8, frozen bool, parent common.Address, hash [32]byte, err error) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
 
 	return fmt.Sprintf(`   kind: %d
  frozen: %t
- parent: %s`, kind, frozen, parent.String()), err
+ parent: %s
+   hash: %x`, kind, frozen, parent.String(), hash), err
 }
 
-func accountStr(addr common.Address, kind uint8, frozen bool, parent common.Address, err error) (interface{}, error) {
+func accountStr(addr common.Address, kind uint8, frozen bool, parent common.Address, hash [32]byte, err error) (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +210,8 @@ func accountStr(addr common.Address, kind uint8, frozen bool, parent common.Addr
 	return fmt.Sprintf(` address: %s
     kind: %d
   frozen: %t
-  parent: %s`, addr.String(), kind, frozen, parent.String()), err
+  parent: %s
+    hash: %x`, addr.String(), kind, frozen, parent.String(), hash), err
 }
 
 func dataStr(data [32]byte, err error) (interface{}, error) {
@@ -231,6 +245,7 @@ func init() {
 		}
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the Storage contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the Registry contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 }

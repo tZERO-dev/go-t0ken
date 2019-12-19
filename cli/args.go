@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/big"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -32,14 +33,29 @@ func ChainArgs(funcs ...func(cmd *cobra.Command, args []string) error) func(*cob
 func GetArgAddress(index int, args []string) (common.Address, error) {
 	var addr common.Address
 	if len(args) < index+1 {
-		return addr, fmt.Errorf("requires address arg")
+		return addr, fmt.Errorf("missing address arg")
 	}
 
 	if !common.IsHexAddress(args[index]) {
 		return addr, errors.New("invalid address for <address> arg")
 	}
 	return common.HexToAddress(args[index]), nil
+}
 
+// GetArgAddresses returns the addresses for the argument at the specified index.
+func GetArgAddresses(index int, args []string) ([]common.Address, error) {
+	var a []common.Address
+	if len(args) < index+1 {
+		return a, fmt.Errorf("missing addresses arg")
+	}
+
+	for _, s := range strings.Split(args[0], ",") {
+		if !common.IsHexAddress(s) {
+			return a, errors.New("Address args must be valid comma separated addresses")
+		}
+		a = append(a, common.HexToAddress(s))
+	}
+	return a, nil
 }
 
 // IsAddress checks if the given string is a valid address.
@@ -89,14 +105,14 @@ func UintArgFunc(key string, index, bitSize int) func(*cobra.Command, []string) 
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is an int.
+// IntArgFunc returns a cobra.Command Arg function to validate the given argument index is an int.
 func IntArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		return IsIntArg(key, args, index)
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Int.
+// BigIntArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Int.
 func BigIntArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if len(args) < index+1 {
@@ -110,7 +126,7 @@ func BigIntArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Float.
+// BigFloatArgFunc returns a cobra.Command Arg function to validate the given argument index is a big.Float.
 func BigFloatArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if len(args) < index+1 {
@@ -124,7 +140,7 @@ func BigFloatArgFunc(key string, index int) func(*cobra.Command, []string) error
 	}
 }
 
-// BoolArgFunc returns a cobra.Command Arg function to validate the given argument index is a common.Address.
+// AddressArgFunc returns a cobra.Command Arg function to validate the given argument index is a common.Address.
 func AddressArgFunc(key string, index int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		return IsAddressArg(key, args, index)
@@ -166,8 +182,30 @@ func CountryCodeArgFunc(key string, index int) func(*cobra.Command, []string) er
 	}
 }
 
-// HexArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string of the given length.
-func HexArgFunc(key string, index int, length int) func(*cobra.Command, []string) error {
+// Bytes32FromArg returns the bytes32 for the argument at the specified index.
+func Bytes32FromArg(s string) ([32]byte, error) {
+	var b [32]byte
+	h, err := hexutil.Decode(s)
+	if err == nil {
+		copy(b[:], h)
+	}
+	return b, err
+}
+
+// HexArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string
+func HexArgFunc(key string, index int) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		if len(args) < index+1 {
+			return fmt.Errorf("requires <%s> arg", key)
+		}
+
+		_, err := hexutil.Decode(args[index])
+		return err
+	}
+}
+
+// HexArgLenFunc returns a cobra.Command Arg function that validates the argument at the given index is a hex string of the given length.
+func HexArgLenFunc(key string, index int, length int) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if len(args) < index+1 {
 			return fmt.Errorf("requires <%s> arg", key)
@@ -184,7 +222,11 @@ func HexArgFunc(key string, index int, length int) func(*cobra.Command, []string
 
 // DateFromArg returns the parsed string as a date.
 func DateFromArg(s string) (time.Time, error) {
-	return time.Parse("2006-01-02", s)
+	t, err := time.Parse("2006-01-02", s)
+	if err != nil {
+		t, err = time.Parse(time.RFC3339, s)
+	}
+	return t, err
 }
 
 // DateArgFunc returns a cobra.Command Arg function that validates the argument at the given index is a valid date.

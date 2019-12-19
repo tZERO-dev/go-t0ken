@@ -16,10 +16,10 @@ import (
 )
 
 // RestrictToBrokerOrCustodialAccountABI is the input ABI used to generate the binding from.
-const RestrictToBrokerOrCustodialAccountABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"toKind\",\"type\":\"uint8\"},{\"name\":\"tokens\",\"type\":\"uint256\"},{\"name\":\"store\",\"type\":\"address\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const RestrictToBrokerOrCustodialAccountABI = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initiator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"contractICompliance\",\"name\":\"compliance\",\"type\":\"address\"},{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initiator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"test\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"s\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // RestrictToBrokerOrCustodialAccountBin is the compiled bytecode used for deploying new contracts.
-const RestrictToBrokerOrCustodialAccountBin = `608060405260008054600160a060020a031916331790556104ec806100256000396000f3fe608060405234801561001057600080fd5b5060043610610068577c0100000000000000000000000000000000000000000000000000000000600035046341c0e1b5811461006d5780634fb2e45d146100775780638da5cb5b146100aa578063b762c76d146100db575b600080fd5b610075610135565b005b6100756004803603602081101561008d57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff166101d6565b6100b26103c9565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b610075600480360360c08110156100f157600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135821691604082013581169160ff6060820135169160808201359160a00135166103e5565b60005473ffffffffffffffffffffffffffffffffffffffff1633146101bb57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b60005473ffffffffffffffffffffffffffffffffffffffff16331461025c57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff828116911614156102d0576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252602581526020018061045a6025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff8116151561035457604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff8381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60ff8316600214806103fa575060ff83166003145b1515610451576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252604281526020018061047f6042913960600191505060405180910390fd5b50505050505056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e657254686520746f2061646472657373206d75737420626520656974686572206120637573746f6469616c2d6163636f756e74206f722062726f6b65722d6465616c6572a165627a7a72305820b65c45eedb13776e5fc41da084b5c6eb7099637b1c4d61fe620cb422b35b38110029`
+const RestrictToBrokerOrCustodialAccountBin = `600180546001600160a01b031916905560e0604052602760808181529061090b60a03980516100369160029160209091019061004e565b50600080546001600160a01b031916331790556100e9565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061008f57805160ff19168380011785556100bc565b828001600101855582156100bc579182015b828111156100bc5782518255916020019190600101906100a1565b506100c89291506100cc565b5090565b6100e691905b808211156100c857600081556001016100d2565b90565b610813806100f86000396000f3fe608060405234801561001057600080fd5b506004361061007d5760003560e01c80634fb2e45d1161005b5780634fb2e45d14610155578063538ba4f91461017b578063803fcd431461019f5780638da5cb5b146101e55761007d565b806306fdde03146100825780630b6dedfd146100ff57806341c0e1b51461014b575b600080fd5b61008a6101ed565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100c45781810151838201526020016100ac565b50505050905090810190601f1680156100f15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61008a600480360360c081101561011557600080fd5b506001600160a01b0381358116916020810135821691604082013581169160608101358216916080820135169060a00135610278565b6101536103b2565b005b6101536004803603602081101561016b57600080fd5b50356001600160a01b031661043a565b6101836105c4565b604080516001600160a01b039092168252519081900360200190f35b610153600480360360a08110156101b557600080fd5b506001600160a01b03813581169160208101358216916040820135811691606081013590911690608001356105d3565b6101836106b8565b6002805460408051602060018416156101000260001901909316849004601f810184900484028201840190925281815292918301828280156102705780601f1061024557610100808354040283529160200191610270565b820191906000526020600020905b81548152906001019060200180831161025357829003601f168201915b505050505081565b60606000876001600160a01b0316637b1039996040518163ffffffff1660e01b815260040160206040518083038186803b1580156102b557600080fd5b505afa1580156102c9573d6000803e3d6000fd5b505050506040513d60208110156102df57600080fd5b5051604080517f351a97f80000000000000000000000000000000000000000000000000000000081526001600160a01b0387811660048301529151919092169163351a97f8916024808301926020929190829003018186803b15801561034457600080fd5b505afa158015610358573d6000803e3d6000fd5b505050506040513d602081101561036e57600080fd5b5051905060ff811660021480610387575060ff81166003145b6103a7576040518060800160405280604481526020016107596044913991505b509695505050505050565b6000546001600160a01b03163314806103db57506001546000546001600160a01b039081169116145b61042c576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b0316ff5b6000546001600160a01b031633148061046357506001546000546001600160a01b039081169116145b6104b4576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156105015760405162461bcd60e51b81526004018080602001828103825260258152602001806107346025913960400191505060405180910390fd5b6001600160a01b03811661055c576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b60006105dd6106c7565b6001600160a01b031663351a97f8846040518263ffffffff1660e01b815260040180826001600160a01b03166001600160a01b0316815260200191505060206040518083038186803b15801561063257600080fd5b505afa158015610646573d6000803e3d6000fd5b505050506040513d602081101561065c57600080fd5b5051905060ff811660021480610675575060ff81166003145b6106b05760405162461bcd60e51b815260040180806020018281038252604281526020018061079d6042913960600191505060405180910390fd5b505050505050565b6000546001600160a01b031681565b6000336001600160a01b0316637b1039996040518163ffffffff1660e01b815260040160206040518083038186803b15801561070257600080fd5b505afa158015610716573d6000803e3d6000fd5b505050506040513d602081101561072c57600080fd5b505190509056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e65725468652027746f272061646472657373206d75737420626520656974686572206120637573746f6469616c2d6163636f756e74206f722062726f6b65722d6465616c657254686520746f2061646472657373206d75737420626520656974686572206120637573746f6469616c2d6163636f756e74206f722062726f6b65722d6465616c6572a265627a7a72315820bafdd231015c3e7444469478f8586fb6c259cf46663d0f3eed10183d3f5e58da64736f6c634300050c0032526573747269637420546f2042726f6b6572206f7220437573746f6469616c2d4163636f756e74`
 
 // DeployRestrictToBrokerOrCustodialAccount deploys a new Ethereum contract, binding an instance of RestrictToBrokerOrCustodialAccount to it.
 func DeployRestrictToBrokerOrCustodialAccount(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *RestrictToBrokerOrCustodialAccount, error) {
@@ -176,6 +176,58 @@ func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountTra
 	return _RestrictToBrokerOrCustodialAccount.Contract.contract.Transact(opts, method, params...)
 }
 
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _RestrictToBrokerOrCustodialAccount.contract.Call(opts, out, "ZERO_ADDRESS")
+	return *ret0, err
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountSession) ZEROADDRESS() (common.Address, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.ZEROADDRESS(&_RestrictToBrokerOrCustodialAccount.CallOpts)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.ZEROADDRESS(&_RestrictToBrokerOrCustodialAccount.CallOpts)
+}
+
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
+//
+// Solidity: function name() constant returns(string)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCaller) Name(opts *bind.CallOpts) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _RestrictToBrokerOrCustodialAccount.contract.Call(opts, out, "name")
+	return *ret0, err
+}
+
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
+//
+// Solidity: function name() constant returns(string)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountSession) Name() (string, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.Name(&_RestrictToBrokerOrCustodialAccount.CallOpts)
+}
+
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
+//
+// Solidity: function name() constant returns(string)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCallerSession) Name() (string, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.Name(&_RestrictToBrokerOrCustodialAccount.CallOpts)
+}
+
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
 //
 // Solidity: function owner() constant returns(address)
@@ -202,25 +254,51 @@ func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCal
 	return _RestrictToBrokerOrCustodialAccount.Contract.Owner(&_RestrictToBrokerOrCustodialAccount.CallOpts)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountTransactor) Check(opts *bind.TransactOpts, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _RestrictToBrokerOrCustodialAccount.contract.Transact(opts, "check", initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCaller) Test(opts *bind.CallOpts, compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _RestrictToBrokerOrCustodialAccount.contract.Call(opts, out, "test", compliance, token, initiator, from, to, tokens)
+	return *ret0, err
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _RestrictToBrokerOrCustodialAccount.Contract.Check(&_RestrictToBrokerOrCustodialAccount.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.Test(&_RestrictToBrokerOrCustodialAccount.CallOpts, compliance, token, initiator, from, to, tokens)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountTransactorSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _RestrictToBrokerOrCustodialAccount.Contract.Check(&_RestrictToBrokerOrCustodialAccount.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountCallerSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.Test(&_RestrictToBrokerOrCustodialAccount.CallOpts, compliance, token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountTransactor) Check(opts *bind.TransactOpts, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _RestrictToBrokerOrCustodialAccount.contract.Transact(opts, "check", token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.Check(&_RestrictToBrokerOrCustodialAccount.TransactOpts, token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_RestrictToBrokerOrCustodialAccount *RestrictToBrokerOrCustodialAccountTransactorSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _RestrictToBrokerOrCustodialAccount.Contract.Check(&_RestrictToBrokerOrCustodialAccount.TransactOpts, token, initiator, from, to, tokens)
 }
 
 // Kill is a paid mutator transaction binding the contract method 0x41c0e1b5.

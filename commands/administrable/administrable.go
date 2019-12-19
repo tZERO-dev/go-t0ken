@@ -1,6 +1,9 @@
 package administrable
 
 import (
+	"math/big"
+	"strconv"
+
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/spf13/cobra"
@@ -47,6 +50,16 @@ func NewGetterCommands(contractConfigKey string) []*cobra.Command {
 				cli.CheckGetter(cmd)(session.IsAdmin(addr))
 			},
 		},
+		&cobra.Command{
+			Use:    "adminAt <index>",
+			Short:  "Gets the admin address at the given <index>",
+			Args:   cli.IntArgFunc("index", 0),
+			PreRun: connect,
+			Run: func(cmd *cobra.Command, args []string) {
+				index, _ := new(big.Int).SetString(args[0], 10)
+				cli.CheckAddressGetter(cmd)(session.AdminAt(index))
+			},
+		},
 	}
 }
 
@@ -61,23 +74,14 @@ func NewSetterCommands(contractConfigKey string) []*cobra.Command {
 
 	return []*cobra.Command{
 		&cobra.Command{
-			Use:    "addAdmin <address>",
-			Short:  "Adds the given <address> as an admin",
-			Args:   cli.AddressArgFunc("address", 0),
+			Use:    "setAdmin <address> <isAdmin>",
+			Short:  "Adds/removes the given <address> as an admin",
+			Args:   cli.ChainArgs(cli.AddressArgFunc("address", 0), cli.BoolArgFunc("isAdmin", 1)),
 			PreRun: connect,
 			Run: func(cmd *cobra.Command, args []string) {
 				addr := common.HexToAddress(args[0])
-				cli.PrintTransactionFn(cmd)(session.AddAdmin(addr))
-			},
-		},
-		&cobra.Command{
-			Use:    "removeAdmin <address>",
-			Short:  "Removes the given <address> as an admin",
-			Args:   cli.AddressArgFunc("address", 0),
-			PreRun: connect,
-			Run: func(cmd *cobra.Command, args []string) {
-				addr := common.HexToAddress(args[0])
-				cli.PrintTransactionFn(cmd)(session.RemoveAdmin(addr))
+				isAdmin, _ := strconv.ParseBool(args[1])
+				cli.PrintTransactionFn(cmd)(session.SetAdmin(addr, isAdmin))
 			},
 		},
 	}

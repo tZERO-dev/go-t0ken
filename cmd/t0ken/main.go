@@ -10,14 +10,20 @@ import (
 	"github.com/tzero-dev/go-t0ken/commands"
 	"github.com/tzero-dev/go-t0ken/commands/broker"
 	"github.com/tzero-dev/go-t0ken/commands/compliance"
+	"github.com/tzero-dev/go-t0ken/commands/compliance/rules"
+	"github.com/tzero-dev/go-t0ken/commands/complianceStorage"
 	"github.com/tzero-dev/go-t0ken/commands/custodian"
+	"github.com/tzero-dev/go-t0ken/commands/escrow"
 	"github.com/tzero-dev/go-t0ken/commands/ether"
 	"github.com/tzero-dev/go-t0ken/commands/externalInvestor"
 	"github.com/tzero-dev/go-t0ken/commands/gas"
 	"github.com/tzero-dev/go-t0ken/commands/investor"
 	"github.com/tzero-dev/go-t0ken/commands/nonce"
-	"github.com/tzero-dev/go-t0ken/commands/storage"
+	"github.com/tzero-dev/go-t0ken/commands/registry"
 	"github.com/tzero-dev/go-t0ken/commands/token"
+	"github.com/tzero-dev/go-t0ken/commands/token/dynamicSplittable"
+	"github.com/tzero-dev/go-t0ken/commands/token/migrateable"
+	"github.com/tzero-dev/go-t0ken/commands/token/splittable"
 	"github.com/tzero-dev/go-t0ken/commands/transaction"
 )
 
@@ -77,6 +83,9 @@ func initConfig() {
 	if configFile != "" {
 		viper.SetConfigFile(configFile)
 	}
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+		return
+	}
 	err := viper.ReadInConfig()
 	if err != nil {
 		fmt.Printf("Failed to read config: %s - %s\n", configFile, err)
@@ -85,6 +94,7 @@ func initConfig() {
 }
 
 func main() {
+	rootCmd.SetOut(os.Stdout)
 	rootCmd.AddCommand(commands.Version)
 	rootCmd.AddCommand(completionCmd)
 
@@ -113,7 +123,32 @@ func main() {
 	token.Command.AddCommand(token.AuditCommand)
 	token.Command.AddCommand(token.GetterCommands...)
 	token.Command.AddCommand(token.SetterCommands...)
+	token.Command.AddCommand(token.FilterCommands...)
 	rootCmd.AddCommand(token.Command)
+
+	migrateable.Command.AddCommand(migrateable.DeployCommand)
+	migrateable.Command.AddCommand(token.AuditCommand)
+	migrateable.Command.AddCommand(migrateable.GetterCommands...)
+	migrateable.Command.AddCommand(migrateable.SetterCommands...)
+	rootCmd.AddCommand(migrateable.Command)
+
+	splittable.Command.AddCommand(splittable.DeployCommand)
+	splittable.Command.AddCommand(token.AuditCommand)
+	splittable.Command.AddCommand(splittable.GetterCommands...)
+	splittable.Command.AddCommand(splittable.SetterCommands...)
+	rootCmd.AddCommand(splittable.Command)
+
+	dynamicSplittable.Command.AddCommand(dynamicSplittable.DeployCommand)
+	dynamicSplittable.Command.AddCommand(token.AuditCommand)
+	dynamicSplittable.Command.AddCommand(dynamicSplittable.GetterCommands...)
+	dynamicSplittable.Command.AddCommand(dynamicSplittable.SetterCommands...)
+	rootCmd.AddCommand(dynamicSplittable.Command)
+
+	// ComplianceStorage
+	complianceStorage.Command.AddCommand(complianceStorage.DeployCommand)
+	complianceStorage.Command.AddCommand(complianceStorage.GetterCommands...)
+	complianceStorage.Command.AddCommand(complianceStorage.SetterCommands...)
+	rootCmd.AddCommand(complianceStorage.Command)
 
 	// Token-Compliance
 	compliance.Command.AddCommand(compliance.DeployCommand)
@@ -121,12 +156,17 @@ func main() {
 	compliance.Command.AddCommand(compliance.SetterCommands...)
 	rootCmd.AddCommand(compliance.Command)
 
-	// Registry, Storage
-	storage.Command.AddCommand(storage.DeployCommand)
-	storage.Command.AddCommand(storage.AuditCommand)
-	storage.Command.AddCommand(storage.GetterCommands...)
-	storage.Command.AddCommand(storage.SetterCommands...)
-	rootCmd.AddCommand(storage.Command)
+	// Rules
+	rules.Command.AddCommand(rules.DeployCommand)
+	rules.Command.AddCommand(rules.GetterCommands...)
+	rootCmd.AddCommand(rules.Command)
+
+	// Registry
+	registry.Command.AddCommand(registry.DeployCommand)
+	registry.Command.AddCommand(registry.AuditCommand)
+	registry.Command.AddCommand(registry.GetterCommands...)
+	registry.Command.AddCommand(registry.SetterCommands...)
+	rootCmd.AddCommand(registry.Command)
 
 	// Registry, Custodian
 	custodian.Command.AddCommand(custodian.DeployCommand)
@@ -144,13 +184,22 @@ func main() {
 	investor.Command.AddCommand(investor.DeployCommand)
 	investor.Command.AddCommand(investor.GetterCommands...)
 	investor.Command.AddCommand(investor.SetterCommands...)
+	investor.Command.AddCommand(investor.FilterCommands...)
 	rootCmd.AddCommand(investor.Command)
 
 	// Registry, External-Investor
 	externalInvestor.Command.AddCommand(externalInvestor.DeployCommand)
 	externalInvestor.Command.AddCommand(externalInvestor.GetterCommands...)
 	externalInvestor.Command.AddCommand(externalInvestor.SetterCommands...)
+	externalInvestor.Command.AddCommand(externalInvestor.FilterCommands...)
 	rootCmd.AddCommand(externalInvestor.Command)
+
+	// Registry, External-Investor
+	escrow.Command.AddCommand(escrow.DeployCommand)
+	escrow.Command.AddCommand(escrow.GetterCommands...)
+	escrow.Command.AddCommand(escrow.SetterCommands...)
+	escrow.Command.AddCommand(escrow.FilterCommands...)
+	rootCmd.AddCommand(escrow.Command)
 
 	err := rootCmd.Execute()
 	if err != nil {

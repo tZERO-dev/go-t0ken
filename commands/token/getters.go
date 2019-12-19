@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -9,7 +10,7 @@ import (
 	"github.com/tzero-dev/go-t0ken/cli"
 	"github.com/tzero-dev/go-t0ken/commands/lockable"
 	"github.com/tzero-dev/go-t0ken/commands/ownable"
-	"github.com/tzero-dev/go-t0ken/contracts/token/erc20"
+	t "github.com/tzero-dev/go-t0ken/contracts/token"
 )
 
 var GetterCommands = []*cobra.Command{
@@ -18,14 +19,14 @@ var GetterCommands = []*cobra.Command{
 		Short:   "Outputs the T0ken ABI",
 		Example: "t0ken investor abi",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(erc20.T0kenABI) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(t.T0kenABI) },
 	},
 	&cobra.Command{
 		Use:     "bin",
 		Short:   "Outputs the T0ken Binary",
 		Example: "t0ken investor bin",
 		Args:    cobra.NoArgs,
-		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(erc20.T0kenBin) },
+		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(t.T0kenBin) },
 	},
 	&cobra.Command{
 		Use:     "allowance <owner> <spender>",
@@ -51,17 +52,6 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "cancellations <address>",
-		Short:   "Gets the replacement address of the given <address>, or a zero-address when it has not been cancelled",
-		Example: "t0ken token cancellations 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
-		Args:    cli.ChainArgs(cobra.MaximumNArgs(1), cli.AddressArgFunc("address", 0)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			cli.CheckAddressGetter(cmd)(callSession.Cancellations(addr))
-		},
-	},
-	&cobra.Command{
 		Use:     "compliance",
 		Short:   "Gets the compliance contract address for the t0ken",
 		Example: "t0ken token compliance",
@@ -79,17 +69,6 @@ var GetterCommands = []*cobra.Command{
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
 			cli.CheckGetter(cmd)(callSession.Decimals())
-		},
-	},
-	&cobra.Command{
-		Use:     "getSuperseded <address>",
-		Short:   "Gets the superseded address of the given <address>",
-		Example: "t0ken token getSuperseded 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
-		Args:    cli.ChainArgs(cobra.MaximumNArgs(1), cli.AddressArgFunc("address", 0)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			cli.CheckAddressGetter(cmd)(callSession.GetSuperseded(addr))
 		},
 	},
 	&cobra.Command{
@@ -115,17 +94,6 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "isSuperseded <address>",
-		Short:   "Checks if the <address> is superseded by another",
-		Example: "t0ken token isSuperseded 0xf01ff29dcbee147e9ca151a281bfdf136f66a45b",
-		Args:    cli.ChainArgs(cobra.MaximumNArgs(1), cli.AddressArgFunc("address", 0)),
-		PreRun:  connectCaller,
-		Run: func(cmd *cobra.Command, args []string) {
-			addr := common.HexToAddress(args[0])
-			cli.CheckGetter(cmd)(callSession.IsSuperseded(addr))
-		},
-	},
-	&cobra.Command{
 		Use:     "issuer",
 		Short:   "Gets the issuer of the t0ken",
 		Example: "t0ken token issuer",
@@ -136,13 +104,13 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "issuingFinished",
-		Short:   "Returns if issuing has been finished",
-		Example: "t0ken token issuingFinished",
+		Use:     "issuanceFinished",
+		Short:   "Returns if issuance has been finished",
+		Example: "t0ken token issuanceFinished",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckGetter(cmd)(callSession.IssuingFinished())
+			cli.CheckGetter(cmd)(callSession.IssuanceFinished())
 		},
 	},
 	&cobra.Command{
@@ -156,13 +124,13 @@ var GetterCommands = []*cobra.Command{
 		},
 	},
 	&cobra.Command{
-		Use:     "shareholders",
-		Short:   "Gets the total number of shareholders",
-		Example: "t0ken token shareholders",
+		Use:     "holders",
+		Short:   "Gets the total number of holders",
+		Example: "t0ken token holders",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckGetter(cmd)(callSession.Shareholders())
+			cli.CheckGetter(cmd)(callSession.Holders())
 		},
 	},
 	&cobra.Command{
@@ -187,6 +155,36 @@ var GetterCommands = []*cobra.Command{
 	},
 }
 
+var FilterCommands = []*cobra.Command{
+	&cobra.Command{
+		Use:   "filterTransfer",
+		Short: "Filters transfer events within the given block range",
+		Example: `t0ken token filterTransfer --start 8658083
+t0ken token filterTransfer --start 8658083 --end 8700000
+t0ken token filterTransfer --from 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b
+t0ken token filterTransfer --to 0xf01fF29DCbEE147e9cA151a281bFdf136f66A45b,0xf02f537578d03f6AeCE28F249eaC19542D848F20`,
+		PreRun: connectFilterer,
+		Run: func(cmd *cobra.Command, args []string) {
+			from, err := cli.AddressesFlag(cmd, "from", false)
+			cli.CheckErr(cmd, err)
+			to, err := cli.AddressesFlag(cmd, "to", false)
+			cli.CheckErr(cmd, err)
+
+			opts := cli.FilterOpts(cmd)
+			i, err := filterer.FilterTransfer(&opts, from, to)
+			cli.CheckErr(cmd, err)
+
+			// Output matching events
+			defer i.Close()
+			fmt.Println("block,from,to,value")
+			for i.Next() {
+				cli.CheckErr(cmd, i.Error())
+				fmt.Printf("%d,%s,%s,%s\n", i.Event.Raw.BlockNumber, i.Event.From.String(), i.Event.To.String(), i.Event.Value)
+			}
+		},
+	},
+}
+
 func init() {
 	// Add the Lockable, Ownable contract getter commands
 	GetterCommands = append(GetterCommands, lockable.NewGetterCommands(contractKey)...)
@@ -199,6 +197,18 @@ func init() {
 		}
 
 		// Allow providing contract 'address' flag
-		cmd.Flags().String("address", "", `address of the BrokerDealer registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().String("address", "", `address of the token contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
+
+	for _, cmd := range FilterCommands {
+		// Allow providing contract 'address' flag
+		cmd.Flags().String("address", "", `address of the Investor registry contract (default "[`+contractKey+`] value from config")`)
+		cmd.Flags().Uint64("start", 0, "start block of the filter")
+		cmd.Flags().Uint64("end", 0, "end block of the filter")
+
+		cmd.MarkFlagRequired("start")
+	}
+	FilterCommands[0].Flags().StringSlice("from", nil, "comma separated addresses to filter")
+	FilterCommands[0].Flags().StringSlice("to", nil, "comma separated addresses to filter")
 }

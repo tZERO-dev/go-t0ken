@@ -15,18 +15,18 @@ import (
 )
 
 // CustodianABI is the input ABI used to generate the binding from.
-const CustodianABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"custodian\",\"type\":\"address\"}],\"name\":\"add\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"locked\",\"type\":\"bool\"}],\"name\":\"setLocked\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"custodian\",\"type\":\"address\"}],\"name\":\"remove\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"s\",\"type\":\"address\"}],\"name\":\"setStorage\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"store\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isLocked\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"custodian\",\"type\":\"address\"},{\"name\":\"frozen\",\"type\":\"bool\"}],\"name\":\"setFrozen\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"custodian\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"CustodianAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"custodian\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"CustodianRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"custodian\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"frozen\",\"type\":\"bool\"},{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"CustodianFrozen\",\"type\":\"event\"}]"
+const CustodianABI = "[{\"inputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"r\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"custodian\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"CustodianAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"custodian\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"bool\",\"name\":\"frozen\",\"type\":\"bool\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"CustodianFrozen\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"custodian\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"CustodianRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"custodian\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"}],\"name\":\"add\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isLocked\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"registry\",\"outputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"custodian\",\"type\":\"address\"}],\"name\":\"remove\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"custodian\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"frozen\",\"type\":\"bool\"}],\"name\":\"setFrozen\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bool\",\"name\":\"locked\",\"type\":\"bool\"}],\"name\":\"setLocked\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIRegistry\",\"name\":\"r\",\"type\":\"address\"}],\"name\":\"setRegistry\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // CustodianBin is the compiled bytecode used for deploying new contracts.
-const CustodianBin = `60806040526000805460a060020a60ff0219600160a060020a03199091163317169055610d98806100316000396000f3fe608060405234801561001057600080fd5b50600436106100db576000357c0100000000000000000000000000000000000000000000000000000000900480638da5cb5b11610093578063975057e711610078578063975057e714610206578063a4e2d6341461020e578063ac869cd81461022a576100db565b80638da5cb5b146101a25780639137c1a7146101d3576100db565b806329092d0e116100c457806329092d0e1461013457806341c0e1b5146101675780634fb2e45d1461016f576100db565b80630a3b0a4f146100e0578063211e28b614610115575b600080fd5b610113600480360360208110156100f657600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610265565b005b6101136004803603602081101561012b57600080fd5b5035151561045d565b6101136004803603602081101561014a57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff166105a8565b61011361078b565b6101136004803603602081101561018557600080fd5b503573ffffffffffffffffffffffffffffffffffffffff1661082c565b6101aa610a14565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b610113600480360360208110156101e957600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610a30565b6101aa610af2565b610216610b0e565b604080519115158252519081900360200190f35b6101136004803603604081101561024057600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81351690602001351515610b2f565b60018054604080517f9d44ac4f00000000000000000000000000000000000000000000000000000000815260048101939093523360248401525173ffffffffffffffffffffffffffffffffffffffff90911691639d44ac4f916044808301926020929190829003018186803b1580156102dd57600080fd5b505afa1580156102f1573d6000803e3d6000fd5b505050506040513d602081101561030757600080fd5b5051151561037657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601260248201527f4d697373696e67207065726d697373696f6e0000000000000000000000000000604482015290519081900360640190fd5b60018054604080517f116c92b700000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff858116600483015260248201949094526000604482018190523360648301529151939092169263116c92b792608480820193929182900301818387803b1580156103ff57600080fd5b505af1158015610413573d6000803e3d6000fd5b505060405133925073ffffffffffffffffffffffffffffffffffffffff841691507f2c79891dd909910a9ed2116eb868a4783a4abeb6da7c8dc217cd5b198b329b5d90600090a350565b60005473ffffffffffffffffffffffffffffffffffffffff1633146104e357604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005460ff74010000000000000000000000000000000000000000909104161515811515141561055e576040517f08c379a0000000000000000000000000000000000000000000000000000000008152600401808060200182810382526028815260200180610d456028913960400191505060405180910390fd5b6000805491151574010000000000000000000000000000000000000000027fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff909216919091179055565b60018054604080517f9d44ac4f00000000000000000000000000000000000000000000000000000000815260048101939093523360248401525173ffffffffffffffffffffffffffffffffffffffff90911691639d44ac4f916044808301926020929190829003018186803b15801561062057600080fd5b505afa158015610634573d6000803e3d6000fd5b505050506040513d602081101561064a57600080fd5b505115156106b957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601260248201527f4d697373696e67207065726d697373696f6e0000000000000000000000000000604482015290519081900360640190fd5b600154604080517fc4740a9500000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff84811660048301529151919092169163c4740a9591602480830192600092919082900301818387803b15801561072d57600080fd5b505af1158015610741573d6000803e3d6000fd5b505060405133925073ffffffffffffffffffffffffffffffffffffffff841691507f1c0cdcc74010449d4477f9576aaf31cee9e18d2611031462fcd5bf5329dec88e90600090a350565b60005473ffffffffffffffffffffffffffffffffffffffff16331461081157604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b60005473ffffffffffffffffffffffffffffffffffffffff1633146108b257604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff82811691161415610926576040517f08c379a0000000000000000000000000000000000000000000000000000000008152600401808060200182810382526025815260200180610d206025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff811615156109aa57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff83811673ffffffffffffffffffffffffffffffffffffffff19831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b60005473ffffffffffffffffffffffffffffffffffffffff163314610ab657604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6001805473ffffffffffffffffffffffffffffffffffffffff191673ffffffffffffffffffffffffffffffffffffffff92909216919091179055565b60015473ffffffffffffffffffffffffffffffffffffffff1681565b60005474010000000000000000000000000000000000000000900460ff1681565b60018054604080517f9d44ac4f00000000000000000000000000000000000000000000000000000000815260048101939093523360248401525173ffffffffffffffffffffffffffffffffffffffff90911691639d44ac4f916044808301926020929190829003018186803b158015610ba757600080fd5b505afa158015610bbb573d6000803e3d6000fd5b505050506040513d6020811015610bd157600080fd5b50511515610c4057604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601260248201527f4d697373696e67207065726d697373696f6e0000000000000000000000000000604482015290519081900360640190fd5b600154604080517fcbe5404f00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff858116600483015284151560248301529151919092169163cbe5404f91604480830192600092919082900301818387803b158015610cbc57600080fd5b505af1158015610cd0573d6000803e3d6000fd5b5050604051339250831515915073ffffffffffffffffffffffffffffffffffffffff8516907f41c9c2bee97c3cc15014e3280012a23b12872bc0485aebfb86d0a0ea9c3afc9c90600090a4505056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572436f6e747261637420616c726561647920696e20726571756573746564206c6f636b207374617465a165627a7a7230582047064e20bcb115ad706c30c615ac3ac1df96ac9f7268ffa9fdb3c74313a02f6a0029`
+const CustodianBin = `6080604052600180546001600160a01b031916905534801561002057600080fd5b50604051610bb0380380610bb08339818101604052602081101561004357600080fd5b5051600080546001600160a01b031990811633179091556001805460ff60a01b19169055600280546001600160a01b0390931692909116919091179055610b218061008f6000396000f3fe608060405234801561001057600080fd5b50600436106100c95760003560e01c8063538ba4f911610081578063a4e2d6341161005b578063a4e2d634146101a3578063a91ee0dc146101bf578063ac869cd8146101e5576100c9565b8063538ba4f91461016f5780637b103999146101935780638da5cb5b1461019b576100c9565b80632d580ef6116100b25780632d580ef61461011557806341c0e1b5146101415780634fb2e45d14610149576100c9565b8063211e28b6146100ce57806329092d0e146100ef575b600080fd5b6100ed600480360360208110156100e457600080fd5b50351515610213565b005b6100ed6004803603602081101561010557600080fd5b50356001600160a01b0316610316565b6100ed6004803603604081101561012b57600080fd5b506001600160a01b038135169060200135610492565b6100ed610629565b6100ed6004803603602081101561015f57600080fd5b50356001600160a01b03166106b1565b610177610830565b604080516001600160a01b039092168252519081900360200190f35b61017761083f565b61017761084e565b6101ab61085d565b604080519115158252519081900360200190f35b6100ed600480360360208110156101d557600080fd5b50356001600160a01b031661086d565b6100ed600480360360408110156101fb57600080fd5b506001600160a01b0381351690602001351515610916565b6000546001600160a01b031633148061023c57506001546000546001600160a01b039081169116145b61028d576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60015460ff600160a01b90910416151581151514156102dd5760405162461bcd60e51b8152600401808060200182810382526028815260200180610ac56028913960400191505060405180910390fd5b60018054911515600160a01b027fffffffffffffffffffffff00ffffffffffffffffffffffffffffffffffffffff909216919091179055565b60025460408051639d44ac4f60e01b81526001600482015233602482015290516001600160a01b0390921691639d44ac4f91604480820192602092909190829003018186803b15801561036857600080fd5b505afa15801561037c573d6000803e3d6000fd5b505050506040513d602081101561039257600080fd5b50516103da576040805162461bcd60e51b815260206004820152601260248201527126b4b9b9b4b733903832b936b4b9b9b4b7b760711b604482015290519081900360640190fd5b600254604080517fc4740a950000000000000000000000000000000000000000000000000000000081526001600160a01b0384811660048301529151919092169163c4740a9591602480830192600092919082900301818387803b15801561044157600080fd5b505af1158015610455573d6000803e3d6000fd5b50506040513392506001600160a01b03841691507f1c0cdcc74010449d4477f9576aaf31cee9e18d2611031462fcd5bf5329dec88e90600090a350565b60025460408051639d44ac4f60e01b81526001600482015233602482015290516001600160a01b0390921691639d44ac4f91604480820192602092909190829003018186803b1580156104e457600080fd5b505afa1580156104f8573d6000803e3d6000fd5b505050506040513d602081101561050e57600080fd5b5051610556576040805162461bcd60e51b815260206004820152601260248201527126b4b9b9b4b733903832b936b4b9b9b4b7b760711b604482015290519081900360640190fd5b600254604080517fe8d74d1f0000000000000000000000000000000000000000000000000000000081526001600160a01b038581166004830152600160248301526000604483018190526064830181905260848301869052925193169263e8d74d1f9260a48084019391929182900301818387803b1580156105d757600080fd5b505af11580156105eb573d6000803e3d6000fd5b50506040513392506001600160a01b03851691507f2c79891dd909910a9ed2116eb868a4783a4abeb6da7c8dc217cd5b198b329b5d90600090a35050565b6000546001600160a01b031633148061065257506001546000546001600160a01b039081169116145b6106a3576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b0316ff5b6000546001600160a01b03163314806106da57506001546000546001600160a01b039081169116145b61072b576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156107785760405162461bcd60e51b8152600401808060200182810382526025815260200180610aa06025913960400191505060405180910390fd5b6001600160a01b0381166107d3576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b0383811673ffffffffffffffffffffffffffffffffffffffff19831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6002546001600160a01b031681565b6000546001600160a01b031681565b600154600160a01b900460ff1681565b6000546001600160a01b031633148061089657506001546000546001600160a01b039081169116145b6108e7576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6002805473ffffffffffffffffffffffffffffffffffffffff19166001600160a01b0392909216919091179055565b60025460408051639d44ac4f60e01b81526001600482015233602482015290516001600160a01b0390921691639d44ac4f91604480820192602092909190829003018186803b15801561096857600080fd5b505afa15801561097c573d6000803e3d6000fd5b505050506040513d602081101561099257600080fd5b50516109da576040805162461bcd60e51b815260206004820152601260248201527126b4b9b9b4b733903832b936b4b9b9b4b7b760711b604482015290519081900360640190fd5b600254604080517fcbe5404f0000000000000000000000000000000000000000000000000000000081526001600160a01b03858116600483015284151560248301529151919092169163cbe5404f91604480830192600092919082900301818387803b158015610a4957600080fd5b505af1158015610a5d573d6000803e3d6000fd5b505060405133925083151591506001600160a01b038516907f41c9c2bee97c3cc15014e3280012a23b12872bc0485aebfb86d0a0ea9c3afc9c90600090a4505056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572436f6e747261637420616c726561647920696e20726571756573746564206c6f636b207374617465a265627a7a72315820f600fe903f644e29484edd7692bf03d80edcfc171fbfda7252f9abb5ce503e2a64736f6c634300050c0032`
 
 // DeployCustodian deploys a new Ethereum contract, binding an instance of Custodian to it.
-func DeployCustodian(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *Custodian, error) {
+func DeployCustodian(auth *bind.TransactOpts, backend bind.ContractBackend, r common.Address) (common.Address, *types.Transaction, *Custodian, error) {
 	parsed, err := abi.JSON(strings.NewReader(CustodianABI))
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
-	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(CustodianBin), backend)
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(CustodianBin), backend, r)
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
@@ -175,6 +175,32 @@ func (_Custodian *CustodianTransactorRaw) Transact(opts *bind.TransactOpts, meth
 	return _Custodian.Contract.contract.Transact(opts, method, params...)
 }
 
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Custodian *CustodianCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Custodian.contract.Call(opts, out, "ZERO_ADDRESS")
+	return *ret0, err
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Custodian *CustodianSession) ZEROADDRESS() (common.Address, error) {
+	return _Custodian.Contract.ZEROADDRESS(&_Custodian.CallOpts)
+}
+
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
+//
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_Custodian *CustodianCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _Custodian.Contract.ZEROADDRESS(&_Custodian.CallOpts)
+}
+
 // IsLocked is a free data retrieval call binding the contract method 0xa4e2d634.
 //
 // Solidity: function isLocked() constant returns(bool)
@@ -227,51 +253,51 @@ func (_Custodian *CustodianCallerSession) Owner() (common.Address, error) {
 	return _Custodian.Contract.Owner(&_Custodian.CallOpts)
 }
 
-// Store is a free data retrieval call binding the contract method 0x975057e7.
+// Registry is a free data retrieval call binding the contract method 0x7b103999.
 //
-// Solidity: function store() constant returns(address)
-func (_Custodian *CustodianCaller) Store(opts *bind.CallOpts) (common.Address, error) {
+// Solidity: function registry() constant returns(address)
+func (_Custodian *CustodianCaller) Registry(opts *bind.CallOpts) (common.Address, error) {
 	var (
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Custodian.contract.Call(opts, out, "store")
+	err := _Custodian.contract.Call(opts, out, "registry")
 	return *ret0, err
 }
 
-// Store is a free data retrieval call binding the contract method 0x975057e7.
+// Registry is a free data retrieval call binding the contract method 0x7b103999.
 //
-// Solidity: function store() constant returns(address)
-func (_Custodian *CustodianSession) Store() (common.Address, error) {
-	return _Custodian.Contract.Store(&_Custodian.CallOpts)
+// Solidity: function registry() constant returns(address)
+func (_Custodian *CustodianSession) Registry() (common.Address, error) {
+	return _Custodian.Contract.Registry(&_Custodian.CallOpts)
 }
 
-// Store is a free data retrieval call binding the contract method 0x975057e7.
+// Registry is a free data retrieval call binding the contract method 0x7b103999.
 //
-// Solidity: function store() constant returns(address)
-func (_Custodian *CustodianCallerSession) Store() (common.Address, error) {
-	return _Custodian.Contract.Store(&_Custodian.CallOpts)
+// Solidity: function registry() constant returns(address)
+func (_Custodian *CustodianCallerSession) Registry() (common.Address, error) {
+	return _Custodian.Contract.Registry(&_Custodian.CallOpts)
 }
 
-// Add is a paid mutator transaction binding the contract method 0x0a3b0a4f.
+// Add is a paid mutator transaction binding the contract method 0x2d580ef6.
 //
-// Solidity: function add(custodian address) returns()
-func (_Custodian *CustodianTransactor) Add(opts *bind.TransactOpts, custodian common.Address) (*types.Transaction, error) {
-	return _Custodian.contract.Transact(opts, "add", custodian)
+// Solidity: function add(custodian address, hash bytes32) returns()
+func (_Custodian *CustodianTransactor) Add(opts *bind.TransactOpts, custodian common.Address, hash [32]byte) (*types.Transaction, error) {
+	return _Custodian.contract.Transact(opts, "add", custodian, hash)
 }
 
-// Add is a paid mutator transaction binding the contract method 0x0a3b0a4f.
+// Add is a paid mutator transaction binding the contract method 0x2d580ef6.
 //
-// Solidity: function add(custodian address) returns()
-func (_Custodian *CustodianSession) Add(custodian common.Address) (*types.Transaction, error) {
-	return _Custodian.Contract.Add(&_Custodian.TransactOpts, custodian)
+// Solidity: function add(custodian address, hash bytes32) returns()
+func (_Custodian *CustodianSession) Add(custodian common.Address, hash [32]byte) (*types.Transaction, error) {
+	return _Custodian.Contract.Add(&_Custodian.TransactOpts, custodian, hash)
 }
 
-// Add is a paid mutator transaction binding the contract method 0x0a3b0a4f.
+// Add is a paid mutator transaction binding the contract method 0x2d580ef6.
 //
-// Solidity: function add(custodian address) returns()
-func (_Custodian *CustodianTransactorSession) Add(custodian common.Address) (*types.Transaction, error) {
-	return _Custodian.Contract.Add(&_Custodian.TransactOpts, custodian)
+// Solidity: function add(custodian address, hash bytes32) returns()
+func (_Custodian *CustodianTransactorSession) Add(custodian common.Address, hash [32]byte) (*types.Transaction, error) {
+	return _Custodian.Contract.Add(&_Custodian.TransactOpts, custodian, hash)
 }
 
 // Kill is a paid mutator transaction binding the contract method 0x41c0e1b5.
@@ -358,25 +384,25 @@ func (_Custodian *CustodianTransactorSession) SetLocked(locked bool) (*types.Tra
 	return _Custodian.Contract.SetLocked(&_Custodian.TransactOpts, locked)
 }
 
-// SetStorage is a paid mutator transaction binding the contract method 0x9137c1a7.
+// SetRegistry is a paid mutator transaction binding the contract method 0xa91ee0dc.
 //
-// Solidity: function setStorage(s address) returns()
-func (_Custodian *CustodianTransactor) SetStorage(opts *bind.TransactOpts, s common.Address) (*types.Transaction, error) {
-	return _Custodian.contract.Transact(opts, "setStorage", s)
+// Solidity: function setRegistry(r address) returns()
+func (_Custodian *CustodianTransactor) SetRegistry(opts *bind.TransactOpts, r common.Address) (*types.Transaction, error) {
+	return _Custodian.contract.Transact(opts, "setRegistry", r)
 }
 
-// SetStorage is a paid mutator transaction binding the contract method 0x9137c1a7.
+// SetRegistry is a paid mutator transaction binding the contract method 0xa91ee0dc.
 //
-// Solidity: function setStorage(s address) returns()
-func (_Custodian *CustodianSession) SetStorage(s common.Address) (*types.Transaction, error) {
-	return _Custodian.Contract.SetStorage(&_Custodian.TransactOpts, s)
+// Solidity: function setRegistry(r address) returns()
+func (_Custodian *CustodianSession) SetRegistry(r common.Address) (*types.Transaction, error) {
+	return _Custodian.Contract.SetRegistry(&_Custodian.TransactOpts, r)
 }
 
-// SetStorage is a paid mutator transaction binding the contract method 0x9137c1a7.
+// SetRegistry is a paid mutator transaction binding the contract method 0xa91ee0dc.
 //
-// Solidity: function setStorage(s address) returns()
-func (_Custodian *CustodianTransactorSession) SetStorage(s common.Address) (*types.Transaction, error) {
-	return _Custodian.Contract.SetStorage(&_Custodian.TransactOpts, s)
+// Solidity: function setRegistry(r address) returns()
+func (_Custodian *CustodianTransactorSession) SetRegistry(r common.Address) (*types.Transaction, error) {
+	return _Custodian.Contract.SetRegistry(&_Custodian.TransactOpts, r)
 }
 
 // TransferOwner is a paid mutator transaction binding the contract method 0x4fb2e45d.

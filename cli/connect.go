@@ -2,7 +2,6 @@ package cli
 
 import (
 	"errors"
-	//"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/console"

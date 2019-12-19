@@ -16,10 +16,10 @@ import (
 )
 
 // RestrictFromAffiliateABI is the input ABI used to generate the binding from.
-const RestrictFromAffiliateABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"affiliates\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"addr\",\"type\":\"address\"},{\"name\":\"status\",\"type\":\"bool\"}],\"name\":\"setAffiliate\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"initiator\",\"type\":\"address\"},{\"name\":\"from\",\"type\":\"address\"},{\"name\":\"to\",\"type\":\"address\"},{\"name\":\"toKind\",\"type\":\"uint8\"},{\"name\":\"tokens\",\"type\":\"uint256\"},{\"name\":\"store\",\"type\":\"address\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"}]"
+const RestrictFromAffiliateABI = "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"oldOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnerTransferred\",\"type\":\"event\"},{\"constant\":true,\"inputs\":[],\"name\":\"ZERO_ADDRESS\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initiator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"check\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"kill\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"addresspayable\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"contractICompliance\",\"name\":\"compliance\",\"type\":\"address\"},{\"internalType\":\"contractIT0ken\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"initiator\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"tokens\",\"type\":\"uint256\"}],\"name\":\"test\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"s\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"addresspayable\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // RestrictFromAffiliateBin is the compiled bytecode used for deploying new contracts.
-const RestrictFromAffiliateBin = `608060405260008054600160a060020a03191633179055610679806100256000396000f3fe608060405234801561001057600080fd5b506004361061008f576000357c0100000000000000000000000000000000000000000000000000000000900480638863ebbb1161006d5780638863ebbb146101185780638da5cb5b14610153578063b762c76d146101845761008f565b806341c0e1b5146100945780634f51e2941461009e5780634fb2e45d146100e5575b600080fd5b61009c6101de565b005b6100d1600480360360208110156100b457600080fd5b503573ffffffffffffffffffffffffffffffffffffffff1661027f565b604080519115158252519081900360200190f35b61009c600480360360208110156100fb57600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610294565b61009c6004803603604081101561012e57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81351690602001351515610487565b61015b610545565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b61009c600480360360c081101561019a57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135821691604082013581169160ff6060820135169160808201359160a0013516610561565b60005473ffffffffffffffffffffffffffffffffffffffff16331461026457604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff16ff5b60016020526000908152604090205460ff1681565b60005473ffffffffffffffffffffffffffffffffffffffff16331461031a57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b60005473ffffffffffffffffffffffffffffffffffffffff8281169116141561038e576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260258152602001806105e96025913960400191505060405180910390fd5b73ffffffffffffffffffffffffffffffffffffffff8116151561041257604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b6000805473ffffffffffffffffffffffffffffffffffffffff8381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b60005473ffffffffffffffffffffffffffffffffffffffff16331461050d57604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b73ffffffffffffffffffffffffffffffffffffffff919091166000908152600160205260409020805460ff1916911515919091179055565b60005473ffffffffffffffffffffffffffffffffffffffff1681565b73ffffffffffffffffffffffffffffffffffffffff851660009081526001602052604090205460ff16156105e0576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252604081526020018061060e6040913960400191505060405180910390fd5b50505050505056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e65725468652066726f6d206164647265737320697320616e20616666696c6961746520616e64206e6f7420616c6c6f77656420746f2073656e6420746f6b656e732ea165627a7a72305820581692f7e59a333eb41b86638b61d7503ac54246d96b963cb8b79ac167bc82640029`
+const RestrictFromAffiliateBin = `600180546001600160a01b031916905560c0604052601760808190527f52657374726963742046726f6d20416666696c6961746500000000000000000060a090815261004e9160029190610066565b50600080546001600160a01b03191633179055610101565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106100a757805160ff19168380011785556100d4565b828001600101855582156100d4579182015b828111156100d45782518255916020019190600101906100b9565b506100e09291506100e4565b5090565b6100fe91905b808211156100e057600081556001016100ea565b90565b610b11806101106000396000f3fe608060405234801561001057600080fd5b506004361061007d5760003560e01c80634fb2e45d1161005b5780634fb2e45d14610155578063538ba4f91461017b578063803fcd431461019f5780638da5cb5b146101e55761007d565b806306fdde03146100825780630b6dedfd146100ff57806341c0e1b51461014b575b600080fd5b61008a6101ed565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100c45781810151838201526020016100ac565b50505050905090810190601f1680156100f15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b61008a600480360360c081101561011557600080fd5b506001600160a01b0381358116916020810135821691604082013581169160608101358216916080820135169060a00135610278565b610153610558565b005b6101536004803603602081101561016b57600080fd5b50356001600160a01b03166105e0565b61018361076a565b604080516001600160a01b039092168252519081900360200190f35b610153600480360360a08110156101b557600080fd5b506001600160a01b0381358116916020810135821691604082013581169160608101359091169060800135610779565b6101836109f3565b6002805460408051602060018416156101000260001901909316849004601f810184900484028201840190925281815292918301828280156102705780601f1061024557610100808354040283529160200191610270565b820191906000526020600020905b81548152906001019060200180831161025357829003601f168201915b505050505081565b60606000866001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b1580156102b557600080fd5b505afa1580156102c9573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405260208110156102f257600080fd5b810190808051604051939291908464010000000082111561031257600080fd5b90830190602082018581111561032757600080fd5b825164010000000081118282018810171561034157600080fd5b82525081516020918201929091019080838360005b8381101561036e578181015183820152602001610356565b50505050905090810190601f16801561039b5780820380516001836020036101000a031916815260200191505b50604052505050856040516020018080610a946021913960210183805190602001908083835b602083106103e05780518252601f1990920191602091820191016103c1565b6001836020036101000a038019825116818451168082178552505050505050905001826001600160a01b03166001600160a01b031660601b815260140192505050604051602081830303815290604052805190602001209050876001600160a01b031663975057e76040518163ffffffff1660e01b815260040160206040518083038186803b15801561047257600080fd5b505afa158015610486573d6000803e3d6000fd5b505050506040513d602081101561049c57600080fd5b5051604080517f7ae1cfca0000000000000000000000000000000000000000000000000000000081526004810184905290516001600160a01b0390921691637ae1cfca91602480820192602092909190829003018186803b15801561050057600080fd5b505afa158015610514573d6000803e3d6000fd5b505050506040513d602081101561052a57600080fd5b50511561054d57604051806060016040528060288152602001610ab56028913991505b509695505050505050565b6000546001600160a01b031633148061058157506001546000546001600160a01b039081169116145b6105d2576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b0316ff5b6000546001600160a01b031633148061060957506001546000546001600160a01b039081169116145b61065a576040805162461bcd60e51b815260206004820152601960248201527f4f776e6572206163636f756e7420697320726571756972656400000000000000604482015290519081900360640190fd5b6000546001600160a01b03828116911614156106a75760405162461bcd60e51b8152600401808060200182810382526025815260200180610a6f6025913960400191505060405180910390fd5b6001600160a01b038116610702576040805162461bcd60e51b815260206004820181905260248201527f4e6577204f776e65722063616e6e6f74206265207a65726f2061646472657373604482015290519081900360640190fd5b600080546001600160a01b038381167fffffffffffffffffffffffff0000000000000000000000000000000000000000831681178455604051919092169283917f8934ce4adea8d9ce0d714d2c22b86790e41b7731c84b926fbbdc1d40ff6533c99190a35050565b6001546001600160a01b031681565b6000856001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b1580156107b457600080fd5b505afa1580156107c8573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405260208110156107f157600080fd5b810190808051604051939291908464010000000082111561081157600080fd5b90830190602082018581111561082657600080fd5b825164010000000081118282018810171561084057600080fd5b82525081516020918201929091019080838360005b8381101561086d578181015183820152602001610855565b50505050905090810190601f16801561089a5780820380516001836020036101000a031916815260200191505b50604052505050846040516020018080610a946021913960210183805190602001908083835b602083106108df5780518252601f1990920191602091820191016108c0565b6001836020036101000a038019825116818451168082178552505050505050905001826001600160a01b03166001600160a01b031660601b815260140192505050604051602081830303815290604052805190602001209050610940610a02565b6001600160a01b0316637ae1cfca826040518263ffffffff1660e01b81526004018082815260200191505060206040518083038186803b15801561098357600080fd5b505afa158015610997573d6000803e3d6000fd5b505050506040513d60208110156109ad57600080fd5b5051156109eb5760405162461bcd60e51b8152600401808060200182810382526028815260200180610ab56028913960400191505060405180910390fd5b505050505050565b6000546001600160a01b031681565b6000336001600160a01b031663975057e76040518163ffffffff1660e01b815260040160206040518083038186803b158015610a3d57600080fd5b505afa158015610a51573d6000803e3d6000fd5b505050506040513d6020811015610a6757600080fd5b505190509056fe4e6577204f776e65722063616e6e6f74206265207468652063757272656e74206f776e6572526573747269637446726f6d416666696c696174652e6973416666696c696174655472616e73666572732066726f6d20616666696c6961746573206172652072657374726963746564a265627a7a72315820656041e401efee4cac2cce9752d6ed18a1ffce18d8c903d8aa1cd2af3b03e4bb64736f6c634300050c0032`
 
 // DeployRestrictFromAffiliate deploys a new Ethereum contract, binding an instance of RestrictFromAffiliate to it.
 func DeployRestrictFromAffiliate(auth *bind.TransactOpts, backend bind.ContractBackend) (common.Address, *types.Transaction, *RestrictFromAffiliate, error) {
@@ -176,30 +176,56 @@ func (_RestrictFromAffiliate *RestrictFromAffiliateTransactorRaw) Transact(opts 
 	return _RestrictFromAffiliate.Contract.contract.Transact(opts, method, params...)
 }
 
-// Affiliates is a free data retrieval call binding the contract method 0x4f51e294.
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
 //
-// Solidity: function affiliates( address) constant returns(bool)
-func (_RestrictFromAffiliate *RestrictFromAffiliateCaller) Affiliates(opts *bind.CallOpts, arg0 common.Address) (bool, error) {
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_RestrictFromAffiliate *RestrictFromAffiliateCaller) ZEROADDRESS(opts *bind.CallOpts) (common.Address, error) {
 	var (
-		ret0 = new(bool)
+		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _RestrictFromAffiliate.contract.Call(opts, out, "affiliates", arg0)
+	err := _RestrictFromAffiliate.contract.Call(opts, out, "ZERO_ADDRESS")
 	return *ret0, err
 }
 
-// Affiliates is a free data retrieval call binding the contract method 0x4f51e294.
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
 //
-// Solidity: function affiliates( address) constant returns(bool)
-func (_RestrictFromAffiliate *RestrictFromAffiliateSession) Affiliates(arg0 common.Address) (bool, error) {
-	return _RestrictFromAffiliate.Contract.Affiliates(&_RestrictFromAffiliate.CallOpts, arg0)
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_RestrictFromAffiliate *RestrictFromAffiliateSession) ZEROADDRESS() (common.Address, error) {
+	return _RestrictFromAffiliate.Contract.ZEROADDRESS(&_RestrictFromAffiliate.CallOpts)
 }
 
-// Affiliates is a free data retrieval call binding the contract method 0x4f51e294.
+// ZEROADDRESS is a free data retrieval call binding the contract method 0x538ba4f9.
 //
-// Solidity: function affiliates( address) constant returns(bool)
-func (_RestrictFromAffiliate *RestrictFromAffiliateCallerSession) Affiliates(arg0 common.Address) (bool, error) {
-	return _RestrictFromAffiliate.Contract.Affiliates(&_RestrictFromAffiliate.CallOpts, arg0)
+// Solidity: function ZERO_ADDRESS() constant returns(address)
+func (_RestrictFromAffiliate *RestrictFromAffiliateCallerSession) ZEROADDRESS() (common.Address, error) {
+	return _RestrictFromAffiliate.Contract.ZEROADDRESS(&_RestrictFromAffiliate.CallOpts)
+}
+
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
+//
+// Solidity: function name() constant returns(string)
+func (_RestrictFromAffiliate *RestrictFromAffiliateCaller) Name(opts *bind.CallOpts) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _RestrictFromAffiliate.contract.Call(opts, out, "name")
+	return *ret0, err
+}
+
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
+//
+// Solidity: function name() constant returns(string)
+func (_RestrictFromAffiliate *RestrictFromAffiliateSession) Name() (string, error) {
+	return _RestrictFromAffiliate.Contract.Name(&_RestrictFromAffiliate.CallOpts)
+}
+
+// Name is a free data retrieval call binding the contract method 0x06fdde03.
+//
+// Solidity: function name() constant returns(string)
+func (_RestrictFromAffiliate *RestrictFromAffiliateCallerSession) Name() (string, error) {
+	return _RestrictFromAffiliate.Contract.Name(&_RestrictFromAffiliate.CallOpts)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
@@ -228,25 +254,51 @@ func (_RestrictFromAffiliate *RestrictFromAffiliateCallerSession) Owner() (commo
 	return _RestrictFromAffiliate.Contract.Owner(&_RestrictFromAffiliate.CallOpts)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_RestrictFromAffiliate *RestrictFromAffiliateTransactor) Check(opts *bind.TransactOpts, initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _RestrictFromAffiliate.contract.Transact(opts, "check", initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_RestrictFromAffiliate *RestrictFromAffiliateCaller) Test(opts *bind.CallOpts, compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	var (
+		ret0 = new(string)
+	)
+	out := ret0
+	err := _RestrictFromAffiliate.contract.Call(opts, out, "test", compliance, token, initiator, from, to, tokens)
+	return *ret0, err
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_RestrictFromAffiliate *RestrictFromAffiliateSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _RestrictFromAffiliate.Contract.Check(&_RestrictFromAffiliate.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_RestrictFromAffiliate *RestrictFromAffiliateSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	return _RestrictFromAffiliate.Contract.Test(&_RestrictFromAffiliate.CallOpts, compliance, token, initiator, from, to, tokens)
 }
 
-// Check is a paid mutator transaction binding the contract method 0xb762c76d.
+// Test is a free data retrieval call binding the contract method 0x0b6dedfd.
 //
-// Solidity: function check(initiator address, from address, to address, toKind uint8, tokens uint256, store address) returns()
-func (_RestrictFromAffiliate *RestrictFromAffiliateTransactorSession) Check(initiator common.Address, from common.Address, to common.Address, toKind uint8, tokens *big.Int, store common.Address) (*types.Transaction, error) {
-	return _RestrictFromAffiliate.Contract.Check(&_RestrictFromAffiliate.TransactOpts, initiator, from, to, toKind, tokens, store)
+// Solidity: function test(compliance address, token address, initiator address, from address, to address, tokens uint256) constant returns(s string)
+func (_RestrictFromAffiliate *RestrictFromAffiliateCallerSession) Test(compliance common.Address, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (string, error) {
+	return _RestrictFromAffiliate.Contract.Test(&_RestrictFromAffiliate.CallOpts, compliance, token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_RestrictFromAffiliate *RestrictFromAffiliateTransactor) Check(opts *bind.TransactOpts, token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _RestrictFromAffiliate.contract.Transact(opts, "check", token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_RestrictFromAffiliate *RestrictFromAffiliateSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _RestrictFromAffiliate.Contract.Check(&_RestrictFromAffiliate.TransactOpts, token, initiator, from, to, tokens)
+}
+
+// Check is a paid mutator transaction binding the contract method 0x803fcd43.
+//
+// Solidity: function check(token address, initiator address, from address, to address, tokens uint256) returns()
+func (_RestrictFromAffiliate *RestrictFromAffiliateTransactorSession) Check(token common.Address, initiator common.Address, from common.Address, to common.Address, tokens *big.Int) (*types.Transaction, error) {
+	return _RestrictFromAffiliate.Contract.Check(&_RestrictFromAffiliate.TransactOpts, token, initiator, from, to, tokens)
 }
 
 // Kill is a paid mutator transaction binding the contract method 0x41c0e1b5.
@@ -268,27 +320,6 @@ func (_RestrictFromAffiliate *RestrictFromAffiliateSession) Kill() (*types.Trans
 // Solidity: function kill() returns()
 func (_RestrictFromAffiliate *RestrictFromAffiliateTransactorSession) Kill() (*types.Transaction, error) {
 	return _RestrictFromAffiliate.Contract.Kill(&_RestrictFromAffiliate.TransactOpts)
-}
-
-// SetAffiliate is a paid mutator transaction binding the contract method 0x8863ebbb.
-//
-// Solidity: function setAffiliate(addr address, status bool) returns()
-func (_RestrictFromAffiliate *RestrictFromAffiliateTransactor) SetAffiliate(opts *bind.TransactOpts, addr common.Address, status bool) (*types.Transaction, error) {
-	return _RestrictFromAffiliate.contract.Transact(opts, "setAffiliate", addr, status)
-}
-
-// SetAffiliate is a paid mutator transaction binding the contract method 0x8863ebbb.
-//
-// Solidity: function setAffiliate(addr address, status bool) returns()
-func (_RestrictFromAffiliate *RestrictFromAffiliateSession) SetAffiliate(addr common.Address, status bool) (*types.Transaction, error) {
-	return _RestrictFromAffiliate.Contract.SetAffiliate(&_RestrictFromAffiliate.TransactOpts, addr, status)
-}
-
-// SetAffiliate is a paid mutator transaction binding the contract method 0x8863ebbb.
-//
-// Solidity: function setAffiliate(addr address, status bool) returns()
-func (_RestrictFromAffiliate *RestrictFromAffiliateTransactorSession) SetAffiliate(addr common.Address, status bool) (*types.Transaction, error) {
-	return _RestrictFromAffiliate.Contract.SetAffiliate(&_RestrictFromAffiliate.TransactOpts, addr, status)
 }
 
 // TransferOwner is a paid mutator transaction binding the contract method 0x4fb2e45d.

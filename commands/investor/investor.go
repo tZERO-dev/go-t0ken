@@ -19,14 +19,15 @@ var (
 	}
 
 	DeployCommand = &cobra.Command{
-		Use:     "deploy",
+		Use:     "deploy <registry>",
 		Short:   "Deploys a new investor contract",
-		Example: "t0ken investor deploy --keystoreAddress owner",
-		Args:    cobra.NoArgs,
+		Example: "t0ken investor deploy 0x397e7b9c15ff22ba67ec6e78f46f1e21540bcb36 --keystoreAddress owner",
+		Args:    cli.AddressArgFunc("registry", 0),
 		PreRun:  commands.ConnectWithKeyStore,
 		Run: func(cmd *cobra.Command, args []string) {
-			// Deploy the investor registry using for the symbol/name/decimals
-			addr, tx, _, err := registry.DeployInvestor(cli.Conn.Opts, cli.Conn.Client)
+			// Deploy the investor registry, pointing to the registry
+			registryAddress := common.HexToAddress(args[0])
+			addr, tx, _, err := registry.DeployInvestor(cli.Conn.Opts, cli.Conn.Client, registryAddress)
 			cli.CheckErr(cmd, err)
 			cmd.Println("   Contract:", addr.String())
 			cli.PrintTransactionFn(cmd)(tx, nil)
@@ -34,6 +35,7 @@ var (
 	}
 
 	contractKey  = "investorRegistry"
+	filterer     *registry.InvestorFilterer
 	callSession  *registry.InvestorCallerSession
 	transSession *registry.InvestorTransactorSession
 )
@@ -42,19 +44,28 @@ func callerSessionFn(addr common.Address, caller bind.ContractCaller) (interface
 	return registry.NewInvestorCaller(addr, caller)
 }
 
+func filterSessionFn(addr common.Address, filter bind.ContractFilterer) (interface{}, error) {
+	return registry.NewInvestorFilterer(addr, filter)
+}
+
 func transactorSessionFn(addr common.Address, transactor bind.ContractTransactor) (interface{}, error) {
 	return registry.NewInvestorTransactor(addr, transactor)
 }
 
 func connectCaller(cmd *cobra.Command, args []string) {
-	o, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
-	caller := o.(*registry.InvestorCaller)
+	c, callOpts := commands.ConnectWithCallerSessionFunc(cmd, args, contractKey, callerSessionFn)
+	caller := c.(*registry.InvestorCaller)
 	callSession = &registry.InvestorCallerSession{caller, callOpts}
 }
 
+func connectFilterer(cmd *cobra.Command, args []string) {
+	f := commands.ConnectWithFiltererSessionFunc(cmd, args, contractKey, filterSessionFn)
+	filterer = f.(*registry.InvestorFilterer)
+}
+
 func connectTransactor(cmd *cobra.Command, args []string) {
-	o, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
-	transactor := o.(*registry.InvestorTransactor)
+	t, transactOpts := commands.ConnectWithTransactorSessionFunc(cmd, args, contractKey, transactorSessionFn)
+	transactor := t.(*registry.InvestorTransactor)
 	transSession = &registry.InvestorTransactorSession{transactor, transactOpts}
 }
 

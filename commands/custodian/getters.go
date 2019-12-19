@@ -19,19 +19,19 @@ var GetterCommands = []*cobra.Command{
 	},
 	&cobra.Command{
 		Use:     "bin",
-		Short:   "Outputs the Storage Binary",
+		Short:   "Outputs the Registry Binary",
 		Example: "t0ken custodian bin",
 		Args:    cobra.NoArgs,
 		Run:     func(cmd *cobra.Command, args []string) { cmd.Println(registry.CustodianBin) },
 	},
 	&cobra.Command{
-		Use:     "storage",
-		Short:   "Gets the Storage contract address",
-		Example: "t0ken custodian storage",
+		Use:     "registry",
+		Short:   "Gets the Registry contract address",
+		Example: "t0ken custodian registry",
 		Args:    cobra.NoArgs,
 		PreRun:  connectCaller,
 		Run: func(cmd *cobra.Command, args []string) {
-			cli.CheckAddressGetter(cmd)(callSession.Store())
+			cli.CheckAddressGetter(cmd)(callSession.Registry())
 		},
 	},
 }
@@ -49,5 +49,6 @@ func init() {
 
 		// Allow providing contract 'address' flag
 		cmd.Flags().String("address", "", `address of the Custodian registry contract (default "[`+contractKey+`] value from config")`)
+		cli.BlockFlag(cmd)
 	}
 }
